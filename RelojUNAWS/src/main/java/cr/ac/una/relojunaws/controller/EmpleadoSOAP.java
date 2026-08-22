@@ -25,4 +25,7 @@ public interface EmpleadoSOAP {
             @WebParam(name = "loginRequest") LoginRequestDTO loginRequest
     );
 
+    // TODO: Insertar anotaciones de SOAP
+    SOAPResponse<EmpleadoDTO> getEmpleado(String id);
+
 }

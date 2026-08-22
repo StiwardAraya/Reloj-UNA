@@ -36,4 +36,10 @@ public class EmpleadoController implements EmpleadoSOAP {
         }
     }
 
+    @Override
+    public SOAPResponse<EmpleadoDTO> getEmpleado(String id) {
+        // TODO: Implementar solicitud al servicio
+        return null; // <- eliminar una vez implementada la funcionalidad
+    }
+
 }

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" fx:id="root" onKeyPressed="#onKeyPressedLogin" prefHeight="550.0" prefWidth="800.0" styleClass="bg-gray-100" stylesheets="@css/UtilStyles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.LoginController">
+   <children>
+      <VBox layoutX="154.0" layoutY="76.0" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="50.0">
+         <styleClass>
+            <String fx:value="shadow-md" />
+            <String fx:value="bg-white" />
+            <String fx:value="rad-md" />
+            <String fx:value="gap-2" />
+            <String fx:value="p-2" />
+         </styleClass>
+         <children>
+            <HBox VBox.vgrow="ALWAYS">
+               <styleClass>
+                  <String fx:value="p-1" />
+                  <String fx:value="align-left" />
+                  <String fx:value="gap-2" />
+               </styleClass>
+               <children>
+                  <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/user-icon-48.png" />
+                     </image>
+                  </ImageView>
+                  <VBox styleClass="align-left">
+                     <children>
+                        <Label fx:id="lblIniciarSesion" text="Iniciar Sesión">
+                           <styleClass>
+                              <String fx:value="h2" />
+                              <String fx:value="font-bold" />
+                           </styleClass>
+                        </Label>
+                        <Label fx:id="lblAdministradores" text="Ingrese sus credenciales para continuar como administrador">
+                           <styleClass>
+                              <String fx:value="h4" />
+                              <String fx:value="text-gray-500" />
+                           </styleClass>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Separator prefWidth="200.0">
+               <VBox.margin>
+                  <Insets bottom="30.0" />
+               </VBox.margin>
+            </Separator>
+            <HBox VBox.vgrow="ALWAYS">
+               <styleClass>
+                  <String fx:value="gap-5" />
+                  <String fx:value="align-center" />
+               </styleClass>
+               <children>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/folio-icon-blue-40.png" />
+                     </image>
+                  </ImageView>
+                  <MFXTextField fx:id="txtFolio" floatingText="Folio" maxWidth="500.0" styleClass="required-field" HBox.hgrow="ALWAYS" />
+               </children>
+               <padding>
+                  <Insets left="40.0" right="40.0" />
+               </padding>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="96.0" VBox.vgrow="ALWAYS">
+               <styleClass>
+                  <String fx:value="gap-5" />
+                  <String fx:value="align-center" />
+               </styleClass>
+               <padding>
+                  <Insets left="40.0" right="40.0" />
+               </padding>
+               <children>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/key-icon-blue-40.png" />
+                     </image>
+                  </ImageView>
+                  <MFXPasswordField fx:id="txtClave" floatingText="Contraseña" maxWidth="500.0" styleClass="required-field" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox styleClass="align-right" VBox.vgrow="ALWAYS">
+               <children>
+                  <Hyperlink fx:id="linkRecuperacion" styleClass="text-lg" text="¿Has olvidado tu contraseña?" />
+               </children>
+               <padding>
+                  <Insets right="40.0" />
+               </padding>
+            </HBox>
+            <HBox styleClass="align-right" VBox.vgrow="ALWAYS">
+               <padding>
+                  <Insets left="40.0" right="40.0" />
+               </padding>
+               <children>
+                  <MFXButton fx:id="btnIngresar" maxWidth="1.7976931348623157E308" onAction="#onActionBtnIngresar" prefHeight="47.0" prefWidth="504.0" styleClass="primary" text="Ingresar" HBox.hgrow="ALWAYS" />
+               </children>
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <stylesheets>
+            <URL value="@css/MFXOverrides.css" />
+            <URL value="@css/Styles.css" />
+         </stylesheets>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -1,0 +1,75 @@
+.tab-modern {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.tab-modern .tab:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.tab-modern .tab-label {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.tab-modern .tab-header-area {
+    -fx-background-color: #F9FAFB;
+    -fx-padding: 0 10 0 10;
+}
+
+.tab-modern .tab {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 10 16 10 16;
+    -fx-cursor: hand;
+}
+
+.tab-modern .tab-label {
+    -fx-text-fill: #6B7280;
+    -fx-font-weight: 500;
+}
+
+.tab-modern .tab:selected {
+    -fx-background-color: white;
+    -fx-background-radius: 8 8 0 0;
+}
+
+.tab-modern .tab:selected .tab-label {
+    -fx-text-fill: #111827;
+    -fx-font-weight: 600;
+}
+
+.tab-modern .tab-content-area {
+    -fx-background-color: white;
+    -fx-padding: 16;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 1 0 0 0;
+}
+
+.tab-modern .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.tab-modern .tab:hover {
+    -fx-background-color: #F3F4F6;
+}
+
+/* Variante underline */
+.tab-underline .tab {
+    -fx-background-color: transparent;
+    -fx-padding: 12 20 12 20;
+}
+
+.tab-underline .tab:selected {
+    -fx-border-color: transparent transparent #3B82F6 transparent;
+    -fx-border-width: 0 0 3 0;
+}
+
+.tab-underline .tab-label {
+    -fx-text-fill: #6B7280;
+}
+
+.tab-underline .tab:selected .tab-label {
+    -fx-text-fill: #3B82F6;
+}

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane id="AnchorPane" fx:id="root" stylesheets="@css/UtilStyles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="cr.ac.una.relojuna.controller.MainMenuController">
+   <children>
+      <VBox stylesheets="@css/Styles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <styleClass>
+            <String fx:value="align-top" />
+            <String fx:value="p-3" />
+            <String fx:value="gap-2" />
+            <String fx:value="bg-blue-900" />
+         </styleClass>
+         <children>
+            <HBox>
+               <children>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/circle-icon-24.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lblMiEmpresa" text="Mi Empresa">
+                     <styleClass>
+                        <String fx:value="text-white" />
+                        <String fx:value="text-4xl" />
+                        <String fx:value="font-bold" />
+                     </styleClass>
+                  </Label>
+               </children>
+               <styleClass>
+                  <String fx:value="align-left" />
+                  <String fx:value="gap-2" />
+               </styleClass>
+            </HBox>
+            <Separator prefWidth="200.0" />
+            <HBox>
+               <children>
+                  <Button fx:id="btnDashboard" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onActionBtnDashboard" text="Dashboard" HBox.hgrow="ALWAYS">
+                     <styleClass>
+                        <String fx:value="p-2" />
+                        <String fx:value="bg-blue-900" />
+                        <String fx:value="text-white" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-xl" />
+                        <String fx:value="cursor-hand" />
+                        <String fx:value="align-left" />
+                        <String fx:value="rad-sm" />
+                        <String fx:value="btn-main-menu" />
+                     </styleClass>
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/home-icon-24.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <styleClass>
+                  <String fx:value="align-center" />
+                  <String fx:value="p-1" />
+               </styleClass>
+            </HBox>
+            <HBox layoutX="22.0" layoutY="80.0">
+               <children>
+                  <Button fx:id="btnEmpleados" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onActionBtnEmpleados" text="Empleados" HBox.hgrow="ALWAYS">
+                     <styleClass>
+                        <String fx:value="p-2" />
+                        <String fx:value="bg-blue-900" />
+                        <String fx:value="text-white" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-xl" />
+                        <String fx:value="cursor-hand" />
+                        <String fx:value="align-left" />
+                        <String fx:value="rad-sm" />
+                        <String fx:value="btn-main-menu" />
+                     </styleClass>
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/user-gear-icon-24.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <styleClass>
+                  <String fx:value="align-center" />
+                  <String fx:value="p-1" />
+               </styleClass>
+            </HBox>
+            <HBox layoutX="22.0" layoutY="134.0">
+               <children>
+                  <Button fx:id="btnMarcas" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onActionBtnMarcas" text="Marcas" HBox.hgrow="ALWAYS">
+                     <styleClass>
+                        <String fx:value="p-2" />
+                        <String fx:value="bg-blue-900" />
+                        <String fx:value="text-white" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-xl" />
+                        <String fx:value="cursor-hand" />
+                        <String fx:value="align-left" />
+                        <String fx:value="rad-sm" />
+                        <String fx:value="btn-main-menu" />
+                     </styleClass>
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/file-clock-icon-24.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <styleClass>
+                  <String fx:value="align-center" />
+                  <String fx:value="p-1" />
+               </styleClass>
+            </HBox>
+            <HBox layoutX="22.0" layoutY="122.0">
+               <children>
+                  <Button fx:id="btnPlanillas" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onActionBtnPlanillas" text="Planillas" HBox.hgrow="ALWAYS">
+                     <styleClass>
+                        <String fx:value="p-2" />
+                        <String fx:value="bg-blue-900" />
+                        <String fx:value="text-white" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-xl" />
+                        <String fx:value="cursor-hand" />
+                        <String fx:value="align-left" />
+                        <String fx:value="rad-sm" />
+                        <String fx:value="btn-main-menu" />
+                     </styleClass>
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/hand-coins-icon-24.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <styleClass>
+                  <String fx:value="align-center" />
+                  <String fx:value="p-1" />
+               </styleClass>
+            </HBox>
+            <HBox layoutX="22.0" layoutY="172.0">
+               <children>
+                  <Button fx:id="btnConsultas" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onActionBtnConsultas" text="Consultas" HBox.hgrow="ALWAYS">
+                     <styleClass>
+                        <String fx:value="p-2" />
+                        <String fx:value="bg-blue-900" />
+                        <String fx:value="text-white" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-xl" />
+                        <String fx:value="cursor-hand" />
+                        <String fx:value="align-left" />
+                        <String fx:value="rad-sm" />
+                        <String fx:value="btn-main-menu" />
+                     </styleClass>
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/sliders-horizontal-icon-24.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <styleClass>
+                  <String fx:value="align-center" />
+                  <String fx:value="p-1" />
+               </styleClass>
+            </HBox>
+            <HBox layoutX="22.0" layoutY="221.0">
+               <children>
+                  <Button fx:id="btnReportes" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onActionBtnReportes" text="Reportes" HBox.hgrow="ALWAYS">
+                     <styleClass>
+                        <String fx:value="p-2" />
+                        <String fx:value="bg-blue-900" />
+                        <String fx:value="text-white" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-xl" />
+                        <String fx:value="cursor-hand" />
+                        <String fx:value="align-left" />
+                        <String fx:value="rad-sm" />
+                        <String fx:value="btn-main-menu" />
+                     </styleClass>
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/file-text-icon-24.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <styleClass>
+                  <String fx:value="align-center" />
+                  <String fx:value="p-1" />
+               </styleClass>
+            </HBox>
+            <HBox layoutX="22.0" layoutY="271.0">
+               <children>
+                  <Button fx:id="btnSalir" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onActionBtnSalir" text="Salir" HBox.hgrow="ALWAYS">
+                     <styleClass>
+                        <String fx:value="p-2" />
+                        <String fx:value="bg-blue-900" />
+                        <String fx:value="text-white" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-xl" />
+                        <String fx:value="cursor-hand" />
+                        <String fx:value="align-left" />
+                        <String fx:value="rad-sm" />
+                        <String fx:value="btn-main-menu" />
+                     </styleClass>
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/log-out-icon-24.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <styleClass>
+                  <String fx:value="align-center" />
+                  <String fx:value="p-1" />
+               </styleClass>
+            </HBox>
+            <VBox maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label fx:id="lblFooterMiEmpresa" maxWidth="1.7976931348623157E308" text="© 2026 Mi Empresa">
+                     <styleClass>
+                        <String fx:value="text-white" />
+                        <String fx:value="text-lg" />
+                     </styleClass>
+                  </Label>
+                  <Label fx:id="lblDerechos" maxWidth="1.7976931348623157E308" styleClass="text-gray-300" text="Todos los derechos reservados" />
+               </children>
+               <styleClass>
+                  <String fx:value="p-2" />
+                  <String fx:value="align-bottom" />
+               </styleClass>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

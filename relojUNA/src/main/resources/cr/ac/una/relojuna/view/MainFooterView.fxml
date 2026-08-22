@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+
+<AnchorPane id="AnchorPane" fx:id="root" prefWidth="600.0" stylesheets="@css/UtilStyles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="cr.ac.una.relojuna.controller.MainFooterController">
+   <children>
+      <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="lblSeguro" text="Sistema seguro | Sus datos están protegidos">
+               <styleClass>
+                  <String fx:value="text-gray-200" />
+                  <String fx:value="text-lg" />
+               </styleClass>
+            </Label>
+            <HBox styleClass="align-right" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="lblSello" text="© 2026 Universidad Nacional de Costa Rica">
+                     <styleClass>
+                        <String fx:value="text-gray-200" />
+                        <String fx:value="text-lg" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+         <styleClass>
+            <String fx:value="p-4" />
+            <String fx:value="bg-blue-900" />
+            <String fx:value="align-left" />
+         </styleClass>
+      </HBox>
+   </children>
+</AnchorPane>

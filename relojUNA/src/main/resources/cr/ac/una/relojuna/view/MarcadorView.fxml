@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="400.0" prefWidth="600.0" stylesheets="@css/UtilStyles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="cr.ac.una.relojuna.controller.MarcadorController">
+   <children>
+      <VBox layoutX="235.0" layoutY="85.0" prefHeight="200.0" prefWidth="100.0" stylesheets="@css/Styles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <styleClass>
+            <String fx:value="bg-gray-100" />
+            <String fx:value="align-center" />
+            <String fx:value="gap-1" />
+         </styleClass>
+         <children>
+            <HBox VBox.vgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/arrow-icon-blue-16.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <styleClass>
+                  <String fx:value="align-center" />
+                  <String fx:value="p-2" />
+               </styleClass>
+            </HBox>
+            <HBox styleClass="align-center" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label fx:id="lblBienvenida" text="¡Bienvenido!">
+                     <styleClass>
+                        <String fx:value="h1" />
+                        <String fx:value="text-blue-900" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox styleClass="align-center" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label fx:id="lblDireccion" text="Por favor ingrese su folio para registrar su entrada y salida">
+                     <styleClass>
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-gray-400" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox styleClass="align-center" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label fx:id="lblReloj" text="00:00:00">
+                     <styleClass>
+                        <String fx:value="text-6xl" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-blue-900" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox VBox.vgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/calendar-icon-blue-16.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lblFecha" text="Día, Fecha de Mes de Año">
+                     <styleClass>
+                        <String fx:value="text-blue-900" />
+                        <String fx:value="text-lg" />
+                     </styleClass>
+                  </Label>
+               </children>
+               <styleClass>
+                  <String fx:value="align-center" />
+                  <String fx:value="gap-2" />
+               </styleClass>
+            </HBox>
+            <HBox styleClass="align-center" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox maxWidth="500.0" stylesheets="@css/MFXOverrides.css" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="lblDireccionForm" text="Ingrese su folio">
+                           <styleClass>
+                              <String fx:value="text-lg" />
+                              <String fx:value="text-blue-900" />
+                              <String fx:value="font-bold" />
+                           </styleClass>
+                        </Label>
+                        <Label fx:id="lblDireccionEntrada" styleClass="text-gray-400" text="Utilice el teclado o el lector de codigo de barras" />
+                        <HBox styleClass="align-center">
+                           <children>
+                              <MFXTextField fx:id="txtFolio" floatingText="Folio" maxWidth="400.0" HBox.hgrow="ALWAYS">
+                                 <styleClass>
+                                    <String fx:value="text-center" />
+                                    <String fx:value="required-field" />
+                                 </styleClass>
+                              </MFXTextField>
+                           </children>
+                        </HBox>
+                        <HBox styleClass="align-center">
+                           <children>
+                              <MFXButton fx:id="btnContinuar" maxHeight="40.0" maxWidth="400.0" minHeight="40.0" onAction="#onActionBtnContinuar" prefHeight="40.0" styleClass="primary" text="Continuar" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <styleClass>
+                        <String fx:value="align-center" />
+                        <String fx:value="bg-white" />
+                        <String fx:value="shadow-md" />
+                        <String fx:value="rad-md" />
+                        <String fx:value="p-3" />
+                        <String fx:value="gap-2" />
+                     </styleClass>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox VBox.vgrow="ALWAYS">
+               <children>
+                  <Label fx:id="lblContacto" text="ⓘ Si no tiene folio, comuníquese con el administrador del sistema">
+                     <styleClass>
+                        <String fx:value="p-1" />
+                        <String fx:value="rad-sm" />
+                        <String fx:value="bg-blue-50" />
+                        <String fx:value="text-blue-500" />
+                     </styleClass>
+                  </Label>
+               </children>
+               <styleClass>
+                  <String fx:value="align-center" />
+                  <String fx:value="p-2" />
+               </styleClass>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

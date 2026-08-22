@@ -1,0 +1,137 @@
+package cr.ac.una.relojunaws.service;
+
+import cr.ac.una.relojunaws.model.Empleado;
+import cr.ac.una.relojunaws.model.dto.EmpleadoDTO;
+import cr.ac.una.relojunaws.model.dto.EmpleadoListDTO;
+import cr.ac.una.relojunaws.util.Respuesta;
+import jakarta.ejb.LocalBean;
+import jakarta.ejb.Stateless;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+@Stateless
+@LocalBean
+public class EmpleadoService {
+
+    @PersistenceContext(unitName = "WSRelojUNAPU")
+    private EntityManager em;
+
+    private static final Logger LOG = Logger.getLogger(EmpleadoService.class.getName());
+
+    public Respuesta autenticarEmpleado(String folio, String clave) {
+        try {
+            Query qry = em.createNamedQuery("Empleado.authenticate", Empleado.class);
+            qry.setParameter("folio", folio);
+            qry.setParameter("clave", clave);
+            Empleado empleado = (Empleado) qry.getSingleResult();
+            return new Respuesta(true, "", "", "Empleado", new EmpleadoDTO(empleado));
+        } catch (NoResultException ex) {
+            return new Respuesta(false, "login.auth.notfound", "Empleado.authenticate NoResultException");
+        } catch (NonUniqueResultException ex) {
+            LOG.log(Level.SEVERE, "Resultado no único en Empleado.authenticate", ex);
+            return new Respuesta(false, "login.auth.multiple", "Empleado.authenticate NonUniqueResultException");
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Ocurrió un error en Empleado.authenticate", ex);
+            return new Respuesta(false, "login.auth.error", "Empleado.authenticate Exception");
+        }
+    }
+
+    public Respuesta getEmpleado(Long id) {
+        try {
+            Query qry = em.createNamedQuery("Empleado.findById", Empleado.class);
+            qry.setParameter("id", id);
+            Empleado empleado = (Empleado) qry.getSingleResult();
+            return new Respuesta(true, "", "", empleado);
+        } catch (NoResultException ex) {
+            return new Respuesta(false, "empleados.get.notfound", "Empleado.getEmpleado NoResultException");
+        } catch (NonUniqueResultException ex) {
+            LOG.log(Level.SEVERE, "Resultado no único en Empleado.getEmpleado", ex);
+            return new Respuesta(false, "empleados.get.multiple", "Empleado.getEmpleado NonUniqueResultException");
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Ocurrió un error en Empleado.getEmpleado", ex);
+            return new Respuesta(false, "empleados.get.error", "Empleado.getEmpleado Exception");
+        }
+    }
+
+    public Respuesta getEmpleados() {
+        try {
+            Query qry = em.createNamedQuery("Empleado.findAll", Empleado.class);
+            List<Empleado> empleados = (List<Empleado>) qry.getResultList();
+            List<EmpleadoDTO> empleadosDTO = empleados.stream()
+                    .map(e -> new EmpleadoDTO(e))
+                    .toList();
+            EmpleadoListDTO dtoList = new EmpleadoListDTO(empleadosDTO);
+            return new Respuesta(true, "", "", dtoList);
+        } catch (NoResultException ex) {
+            return new Respuesta(false, "empleados.getlist.notfound", "Empleado.getEmpleadosActivos NoResultException");
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Ocurrió un error en Empleado.getEmpleadosActivos", ex);
+            return new Respuesta(false, "empleados.getlist.error", "Empleado.getEmpleadosActivos Exception");
+        }
+    }
+
+    public Respuesta getEmpleadosActivos() {
+        try {
+            Query qry = em.createNamedQuery("Empleado.findAll", Empleado.class);
+            List<Empleado> empleados = (List<Empleado>) qry.getResultList();
+            List<EmpleadoDTO> empleadosDTO = empleados.stream()
+                    .filter(e -> e.getActivo().equals("A"))
+                    .map(e -> new EmpleadoDTO(e))
+                    .toList();
+            EmpleadoListDTO dtoList = new EmpleadoListDTO(empleadosDTO);
+            return new Respuesta(true, "", "", dtoList);
+        } catch (NoResultException ex) {
+            return new Respuesta(false, "empleados.getlist.notfound", "Empleado.getEmpleadosActivos NoResultException");
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Ocurrió un error en Empleado.getEmpleadosActivos", ex);
+            return new Respuesta(false, "empleados.getlist.error", "Empleado.getEmpleadosActivos Exception");
+        }
+    }
+
+    public Respuesta guardarEmpleado(EmpleadoDTO dto) {
+        try {
+            Empleado empleado;
+            if (dto.getId() != null && dto.getId() > 0) {
+                empleado = em.find(Empleado.class, dto.getId());
+                if (empleado == null) {
+                    return new Respuesta(false, "empleados.update.notfound", "guardarEmpleado NoResultException");
+                }
+                empleado.actualizar(dto);
+                em.merge(empleado);
+            } else {
+                empleado = new Empleado(dto);
+                em.persist(empleado);
+            }
+            em.flush();
+            return new Respuesta(true, "", "", "Empleado", new EmpleadoDTO(empleado));
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Error al guardar " + dto.getId(), ex);
+            return new Respuesta(false, "empleados.guardar.error", "Empleado.guardarEmpleado Exception" + ex.getMessage());
+        }
+    }
+
+    public Respuesta eliminarEmpleado(Long id) {
+        try {
+            if (id != null && id > 0) {
+                return new Respuesta(false, "empleados.delete.nullid", "eliminarEmpleado NoResultException");
+            }
+            Empleado empleado = em.find(Empleado.class, id);
+            if (empleado == null) {
+                return new Respuesta(false, "empleados.delete.notfound", "eliminarEmpleado NoResultException");
+            }
+            empleado.setActivo("I");
+            em.merge(empleado);
+            em.flush();
+            return new Respuesta(true, "", "");
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Ocurrio un error al guardar el empleado.", ex);
+            return new Respuesta(false, "empleados.delete.error", "eliminarEmpleado " + ex.getMessage());
+        }
+    }
+}

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="100.0" prefWidth="400.0" styleClass="mainFxmlClass" stylesheets="@css/UtilStyles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="cr.ac.una.relojuna.controller.NotificationController">
+    <children>
+        <VBox alignment="TOP_CENTER" spacing="10.0" stylesheets="@css/Styles.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+            <styleClass>
+                <String fx:value="bg-white" />
+                <String fx:value="rad-sm" />
+                <String fx:value="shadow-lg" />
+            </styleClass>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+            <children>
+                <Pane fx:id="notificationTypeSeparator">
+                    <padding>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                    </padding>
+                    <styleClass>
+                        <String fx:value="rad-md" />
+                        <String fx:value="bg-gray-100" />
+                    </styleClass>
+                </Pane>
+                <HBox>
+                    <children>
+                        <Label fx:id="lblTitle" text="Title">
+                            <styleClass>
+                                <String fx:value="font-bold" />
+                                <String fx:value="text-2xl" />
+                            </styleClass>
+                        </Label>
+                    </children>
+                    <padding>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                    </padding>
+                </HBox>
+                <HBox VBox.vgrow="ALWAYS">
+                    <children>
+                        <Label fx:id="lblDescription" styleClass="text-lg" text="Description" />
+                    </children>
+                    <padding>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                    </padding>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

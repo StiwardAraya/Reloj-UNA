@@ -20,8 +20,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "MARCA", schema = "relojUNA")
 @NamedQueries({
-    @NamedQuery(name = "Marca.findAll", query = "SELECT m FROM Marca"),
-    @NamedQuery(name = "Marca.findById", query = "SELECT m FROM Marca WHERE m.id = :id")
+    @NamedQuery(name = "Marca.findAll", query = "SELECT m FROM Marca m"),
+    @NamedQuery(name = "Marca.findById", query = "SELECT m FROM Marca m WHERE m.id = :id")
 })
 public class Marca {
 

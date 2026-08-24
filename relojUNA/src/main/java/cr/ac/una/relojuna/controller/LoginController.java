@@ -8,7 +8,9 @@ import cr.ac.una.relojuna.util.NotificationColor;
 import cr.ac.una.relojuna.util.UIRouter;
 import cr.ac.una.relojuna.model.LoginViewModel;
 import cr.ac.una.relojuna.service.EmpleadoService;
+import cr.ac.una.relojuna.util.AppContext;
 import cr.ac.una.relojuna.util.Respuesta;
+import cr.ac.una.relojuna.ws.EmpleadoDTO;
 import cr.ac.una.relojuna.ws.LoginRequestDTO;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
@@ -91,14 +93,15 @@ public class LoginController extends Controller {
 
     // Main
     private void ingresar() {
-        loginRequestDTO = loginModel.toDto();
         if (!validarCampos()) {
             return;
         }
 
+        loginRequestDTO = loginModel.toDto();
         try {
             Respuesta respuesta = empleadoService.autenticarEmpleado(loginRequestDTO);
             if (respuesta.getEstado()) {
+                contextualizarEmpleado((EmpleadoDTO) respuesta.getResultado("Empleado"));
                 cerrarVentanasActuales();
                 abrirSistema();
             } else {
@@ -125,7 +128,6 @@ public class LoginController extends Controller {
     }
 
     private void abrirSistema() {
-        //UIRouter.getInstance().show("SystemHeaderView", UIRouter.Position.TOP);
         UIRouter.getInstance().show("MainMenuView", UIRouter.Position.LEFT);
     }
 
@@ -137,6 +139,10 @@ public class LoginController extends Controller {
     private void configurarFormatos() {
         txtFolio.delegateSetTextFormatter(FieldFormat.formatoAlfanumerico(6));
         txtClave.delegateSetTextFormatter(FieldFormat.formatoLimiteCaracteres(16));
+    }
+
+    private void contextualizarEmpleado(EmpleadoDTO empleadoDto) {
+        AppContext.getInstance().set("EmpleadoLogueado", empleadoDto.getId());
     }
 
     @FXML

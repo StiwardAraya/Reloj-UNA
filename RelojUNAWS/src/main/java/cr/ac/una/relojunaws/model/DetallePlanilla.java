@@ -1,5 +1,6 @@
 package cr.ac.una.relojunaws.model;
 
+import cr.ac.una.relojunaws.model.dto.DetallePlanillaDTO;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -57,6 +58,17 @@ public class DetallePlanilla {
 
     public DetallePlanilla(Long id) {
         this.id = id;
+    }
+
+    public DetallePlanilla(DetallePlanillaDTO dto) {
+        this.id = dto.getId();
+        actualizar(dto);
+    }
+
+    public final void actualizar(DetallePlanillaDTO dto) {
+        this.totalHorasOrdinarias = dto.getTotalHorasOrdinarias();
+        this.totalHorasExtras = dto.getTotalHorasExtras();
+        this.totalAPagar = dto.getTotalAPagar();
     }
 
     public Long getId() {

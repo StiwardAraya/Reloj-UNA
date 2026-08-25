@@ -57,7 +57,7 @@ public class Marca {
         actualizar(marcaDto);
     }
 
-    public void actualizar(MarcaDTO marcaDto) {
+    public final void actualizar(MarcaDTO marcaDto) {
         this.tipo = marcaDto.getTipo();
         this.fechaHora = marcaDto.getFechaHora();
     }
@@ -118,7 +118,7 @@ public class Marca {
 
     @Override
     public String toString() {
-        return "Marca{" + "id=" + id + ", tipo=" + tipo + ", fechaHora=" + fechaHora + ", empleado=" + empleado + '}';
+        return "Marca{" + "id=" + id + '}';
     }
 
 }

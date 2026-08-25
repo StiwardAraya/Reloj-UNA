@@ -143,7 +143,7 @@ public class DetallePlanilla {
 
     @Override
     public String toString() {
-        return "DetallePlanilla{" + "id=" + id + ", totalHorasOrdinarias=" + totalHorasOrdinarias + ", totalHorasExtras=" + totalHorasExtras + ", totalAPagar=" + totalAPagar + ", empleado=" + empleado + ", planilla=" + planilla + '}';
+        return "DetallePlanilla{" + "id=" + id + '}';
     }
 
 }

@@ -57,7 +57,7 @@ public class Planilla {
         this.id = dto.getId();
     }
 
-    public void actualizar(PlanillaDTO dto) {
+    public final void actualizar(PlanillaDTO dto) {
         this.mes = dto.getMes();
         this.anio = dto.getAnio();
         this.fechaGeneracion = dto.getFechaGeneracion();
@@ -128,7 +128,7 @@ public class Planilla {
 
     @Override
     public String toString() {
-        return "Planilla{" + "id=" + id + ", mes=" + mes + ", anio=" + anio + ", fechaGeneracion=" + fechaGeneracion + ", totalPagado=" + totalPagado + '}';
+        return "Planilla{" + "id=" + id + '}';
     }
 
 }

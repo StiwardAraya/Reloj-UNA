@@ -89,7 +89,7 @@ public class Empleado {
         actualizar(dto);
     }
 
-    public void actualizar(EmpleadoDTO dto) {
+    public final void actualizar(EmpleadoDTO dto) {
         this.folio = dto.getFolio();
         this.cedula = dto.getCedula();
         this.nombre = dto.getNombre();
@@ -232,7 +232,7 @@ public class Empleado {
 
     @Override
     public String toString() {
-        return "Empleado{" + "id=" + id + ", folio=" + folio + ", cedula=" + cedula + ", nombre=" + nombre + ", primerApellido=" + primerApellido + ", segundoApellido=" + segundoApellido + ", fechaNacimiento=" + fechaNacimiento + ", foto=" + foto + ", salarioHora=" + salarioHora + ", esAdmin=" + esAdmin + ", clave=" + "***" + ", activo=" + activo + ", fechaBaja=" + fechaBaja + '}';
+        return "Empleado{" + "id=" + id + '}';
     }
 
 }

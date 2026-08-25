@@ -9,7 +9,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -32,7 +32,7 @@ public class PlanillaDTO implements Serializable {
     private LocalDate fechaGeneracion;
 
     @XmlElement(name = "totalPagado")
-    private BigInteger totalPagado;
+    private BigDecimal totalPagado;
 
     public PlanillaDTO() {
     }
@@ -82,11 +82,11 @@ public class PlanillaDTO implements Serializable {
         this.fechaGeneracion = fechaGeneracion;
     }
 
-    public BigInteger getTotalPagado() {
+    public BigDecimal getTotalPagado() {
         return totalPagado;
     }
 
-    public void setTotalPagado(BigInteger totalPagado) {
+    public void setTotalPagado(BigDecimal totalPagado) {
         this.totalPagado = totalPagado;
     }
 

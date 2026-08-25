@@ -11,7 +11,7 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -44,7 +44,7 @@ public class Planilla {
 
     @Basic(optional = false)
     @Column(name = "total_pagado")
-    private BigInteger totalPagado;
+    private BigDecimal totalPagado;
 
     public Planilla() {
     }
@@ -96,11 +96,11 @@ public class Planilla {
         this.fechaGeneracion = fechaGeneracion;
     }
 
-    public BigInteger getTotalPagado() {
+    public BigDecimal getTotalPagado() {
         return totalPagado;
     }
 
-    public void setTotalPagado(BigInteger totalPagado) {
+    public void setTotalPagado(BigDecimal totalPagado) {
         this.totalPagado = totalPagado;
     }
 

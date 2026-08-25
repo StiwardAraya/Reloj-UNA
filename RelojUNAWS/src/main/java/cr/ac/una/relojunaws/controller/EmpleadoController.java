@@ -1,6 +1,7 @@
 package cr.ac.una.relojunaws.controller;
 
 import cr.ac.una.relojunaws.model.dto.EmpleadoDTO;
+import cr.ac.una.relojunaws.model.dto.EmpleadoListDTO;
 import cr.ac.una.relojunaws.model.dto.LoginRequestDTO;
 import cr.ac.una.relojunaws.service.EmpleadoService;
 import cr.ac.una.relojunaws.util.Respuesta;
@@ -38,8 +39,75 @@ public class EmpleadoController implements EmpleadoSOAP {
 
     @Override
     public SOAPResponse<EmpleadoDTO> getEmpleado(String id) {
-        // TODO: Implementar solicitud al servicio
-        return null; // <- eliminar una vez implementada la funcionalidad
+        try{
+            Respuesta respuesta = empleadoService.getEmpleado(Long.parseLong(id));
+            if(!respuesta.getEstado()){
+                return SOAPResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
+            }
+            return SOAPResponse.exito((EmpleadoDTO) respuesta.getResultado(), respuesta.getMensaje());
+        }catch (Exception e){
+            LOG.log(Level.SEVERE, "EmpleadoController.getEmpleado", e);
+            return SOAPResponse.error("", "");
+        }
+    
+    }
+
+    @Override
+    public SOAPResponse<EmpleadoListDTO> getEmpleados() {
+        
+        try{
+            Respuesta respuesta = empleadoService.getEmpleados();
+            if(!respuesta.getEstado()){
+                return SOAPResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
+            }
+            return SOAPResponse.exito((EmpleadoListDTO) respuesta.getResultado(), respuesta.getMensaje());
+        }catch(Exception e){
+            LOG.log(Level.SEVERE, "EmpleadoController.getEmpleados", e);
+            return SOAPResponse.error("", "");
+        }
+        
+    }
+
+    @Override
+    public SOAPResponse<EmpleadoListDTO> getEmpleadosActivos() {
+        try{
+            Respuesta respuesta = empleadoService.getEmpleadosActivos();
+            if(!respuesta.getEstado()){
+                return SOAPResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
+            }
+            return SOAPResponse.exito((EmpleadoListDTO) respuesta.getResultado(), respuesta.getMensaje());
+        }catch(Exception e){
+            LOG.log(Level.SEVERE, "EmpleadoController.getEmpleadoActivos", e);
+            return SOAPResponse.error("", "");
+        }
+    }
+
+    @Override
+    public SOAPResponse<EmpleadoDTO> guardarEmpleado(EmpleadoDTO empleado) {
+        try{
+            Respuesta respuesta = empleadoService.guardarEmpleado(empleado);
+            if(!respuesta.getEstado()){
+                return SOAPResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
+            }
+            return SOAPResponse.exito((EmpleadoDTO) respuesta.getResultado("Empleado"), respuesta.getMensaje());
+        }catch(Exception e){
+            LOG.log(Level.SEVERE, "EmpleadoController.guardarEmpleado", e);
+            return SOAPResponse.error("", "");
+        }
+    }
+
+    @Override
+    public SOAPResponse<EmpleadoDTO> eliminarEmpleado(String id) {
+        try{
+            Respuesta respuesta = empleadoService.eliminarEmpleado(Long.parseLong(id));
+            if(!respuesta.getEstado()){
+                return SOAPResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
+            }
+            return SOAPResponse.exito((EmpleadoDTO) respuesta.getResultado(), respuesta.getMensaje());
+        }catch(Exception e){
+            LOG.log(Level.SEVERE, "EmpleadoController.eliminarEmpleado", e);
+            return SOAPResponse.error("", "");
+        }
     }
 
 }

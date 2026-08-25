@@ -13,6 +13,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
@@ -22,7 +23,7 @@ import java.util.Objects;
     @NamedQuery(name = "Empleado.findById", query = "SELECT e FROM Empleado e WHERE e.id = :id"),
     @NamedQuery(name = "Empleado.authenticate", query = "SELECT e FROM Empleado e WHERE e.folio = :folio AND e.clave = :clave AND e.activo = 'A' AND e.esAdmin = 'S'")
 })
-public class Empleado {
+public class Empleado implements Serializable {
 
     @Id
     @SequenceGenerator(name = "EMP_ID_GENERATOR", sequenceName = "relojUNA.EMP_SEQ_01", allocationSize = 1)

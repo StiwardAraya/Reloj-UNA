@@ -40,6 +40,7 @@ public class Marca {
     @Column(name = "fecha_hora")
     private LocalDateTime fechaHora;
 
+    @Basic(optional = false)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_empleado")
     private Empleado empleado;

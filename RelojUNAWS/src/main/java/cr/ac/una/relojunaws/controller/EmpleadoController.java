@@ -39,44 +39,43 @@ public class EmpleadoController implements EmpleadoSOAP {
 
     @Override
     public SOAPResponse<EmpleadoDTO> getEmpleado(String id) {
-        try{
-            Respuesta respuesta = empleadoService.getEmpleado(Long.parseLong(id));
-            if(!respuesta.getEstado()){
+        try {
+            Respuesta respuesta = empleadoService.getEmpleado(Long.valueOf(id));
+            if (!respuesta.getEstado()) {
                 return SOAPResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
             }
             return SOAPResponse.exito((EmpleadoDTO) respuesta.getResultado(), respuesta.getMensaje());
-        }catch (Exception e){
+        } catch (Exception e) {
             LOG.log(Level.SEVERE, "EmpleadoController.getEmpleado", e);
             return SOAPResponse.error("", "");
         }
-    
+
     }
 
     @Override
     public SOAPResponse<EmpleadoListDTO> getEmpleados() {
-        
-        try{
+        try {
             Respuesta respuesta = empleadoService.getEmpleados();
-            if(!respuesta.getEstado()){
+            if (!respuesta.getEstado()) {
                 return SOAPResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
             }
             return SOAPResponse.exito((EmpleadoListDTO) respuesta.getResultado(), respuesta.getMensaje());
-        }catch(Exception e){
+        } catch (Exception e) {
             LOG.log(Level.SEVERE, "EmpleadoController.getEmpleados", e);
             return SOAPResponse.error("", "");
         }
-        
+
     }
 
     @Override
     public SOAPResponse<EmpleadoListDTO> getEmpleadosActivos() {
-        try{
+        try {
             Respuesta respuesta = empleadoService.getEmpleadosActivos();
-            if(!respuesta.getEstado()){
+            if (!respuesta.getEstado()) {
                 return SOAPResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
             }
             return SOAPResponse.exito((EmpleadoListDTO) respuesta.getResultado(), respuesta.getMensaje());
-        }catch(Exception e){
+        } catch (Exception e) {
             LOG.log(Level.SEVERE, "EmpleadoController.getEmpleadoActivos", e);
             return SOAPResponse.error("", "");
         }
@@ -84,13 +83,13 @@ public class EmpleadoController implements EmpleadoSOAP {
 
     @Override
     public SOAPResponse<EmpleadoDTO> guardarEmpleado(EmpleadoDTO empleado) {
-        try{
+        try {
             Respuesta respuesta = empleadoService.guardarEmpleado(empleado);
-            if(!respuesta.getEstado()){
+            if (!respuesta.getEstado()) {
                 return SOAPResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
             }
             return SOAPResponse.exito((EmpleadoDTO) respuesta.getResultado("Empleado"), respuesta.getMensaje());
-        }catch(Exception e){
+        } catch (Exception e) {
             LOG.log(Level.SEVERE, "EmpleadoController.guardarEmpleado", e);
             return SOAPResponse.error("", "");
         }
@@ -98,13 +97,13 @@ public class EmpleadoController implements EmpleadoSOAP {
 
     @Override
     public SOAPResponse<EmpleadoDTO> eliminarEmpleado(String id) {
-        try{
-            Respuesta respuesta = empleadoService.eliminarEmpleado(Long.parseLong(id));
-            if(!respuesta.getEstado()){
+        try {
+            Respuesta respuesta = empleadoService.eliminarEmpleado(Long.valueOf(id));
+            if (!respuesta.getEstado()) {
                 return SOAPResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
             }
             return SOAPResponse.exito((EmpleadoDTO) respuesta.getResultado(), respuesta.getMensaje());
-        }catch(Exception e){
+        } catch (Exception e) {
             LOG.log(Level.SEVERE, "EmpleadoController.eliminarEmpleado", e);
             return SOAPResponse.error("", "");
         }

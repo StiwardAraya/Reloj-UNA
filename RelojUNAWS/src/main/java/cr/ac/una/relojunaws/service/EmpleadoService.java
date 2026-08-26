@@ -118,7 +118,7 @@ public class EmpleadoService {
 
     public Respuesta eliminarEmpleado(Long id) {
         try {
-            if (id != null && id > 0) {
+            if (id != null || id <= 0) {
                 return new Respuesta(false, "empleados.delete.nullid", "eliminarEmpleado NoResultException");
             }
             Empleado empleado = em.find(Empleado.class, id);

@@ -22,45 +22,48 @@ import java.util.Objects;
 public class EmpleadoDTO implements Serializable {
 
     @XmlElement(name = "id")
-    Long id;
+    private Long id;
 
     @XmlElement(name = "folio")
-    String folio;
+    private String folio;
 
     @XmlElement(name = "cedula")
-    String cedula;
+    private String cedula;
 
     @XmlElement(name = "nombre")
-    String nombre;
+    private String nombre;
 
     @XmlElement(name = "primerApellido")
-    String primerApellido;
+    private String primerApellido;
 
     @XmlElement(name = "segundoApellido")
-    String segundoApellido;
+    private String segundoApellido;
 
     @XmlElement(name = "fechaNacimiento")
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
-    LocalDate fechaNacimiento;
+    private LocalDate fechaNacimiento;
 
     @XmlElement(name = "foto")
-    byte[] foto;
+    private byte[] foto;
 
     @XmlElement(name = "salarioHora")
-    BigDecimal salarioHora;
+    private BigDecimal salarioHora;
 
     @XmlElement(name = "esAdmin")
-    String esAdmin;
+    private String esAdmin;
 
     @XmlElement(name = "clave")
-    String clave;
+    private String clave;
 
     @XmlElement(name = "activo")
-    String activo;
+    private String activo;
 
     @XmlElement(name = "fechaBaja")
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
-    LocalDate fechaBaja;
+    private LocalDate fechaBaja;
+
+    @XmlElement(name = "version")
+    private Long version;
 
     public EmpleadoDTO() {
     }
@@ -84,6 +87,7 @@ public class EmpleadoDTO implements Serializable {
         this.clave = e.getClave();
         this.activo = e.getActivo();
         this.fechaBaja = e.getFechaBaja();
+        this.version = e.getVersion();
     }
 
     public Long getId() {
@@ -188,6 +192,14 @@ public class EmpleadoDTO implements Serializable {
 
     public void setFechaBaja(LocalDate fechaBaja) {
         this.fechaBaja = fechaBaja;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     @Override

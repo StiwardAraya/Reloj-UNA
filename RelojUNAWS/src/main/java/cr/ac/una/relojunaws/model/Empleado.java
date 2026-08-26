@@ -11,6 +11,7 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.io.Serializable;
@@ -30,53 +31,58 @@ public class Empleado implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EMP_ID_GENERATOR")
     @Basic(optional = false)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     @Basic(optional = false)
     @Column(name = "folio")
-    String folio;
+    private String folio;
 
     @Basic(optional = false)
     @Column(name = "cedula")
-    String cedula;
+    private String cedula;
 
     @Basic(optional = false)
     @Column(name = "nombre")
-    String nombre;
+    private String nombre;
 
     @Basic(optional = false)
     @Column(name = "primer_apellido")
-    String primerApellido;
+    private String primerApellido;
 
     @Basic(optional = false)
     @Column(name = "segundo_apellido")
-    String segundoApellido;
+    private String segundoApellido;
 
     @Basic(optional = false)
     @Column(name = "fecha_nacimiento")
-    LocalDate fechaNacimiento;
+    private LocalDate fechaNacimiento;
 
     @Basic(optional = false)
     @Column(name = "foto")
-    byte[] foto;
+    private byte[] foto;
 
     @Basic(optional = false)
     @Column(name = "salario_hora")
-    BigDecimal salarioHora;
+    private BigDecimal salarioHora;
 
     @Basic(optional = false)
     @Column(name = "es_admin")
-    String esAdmin;
+    private String esAdmin;
 
     @Column(name = "clave")
-    String clave;
+    private String clave;
 
     @Basic(optional = false)
     @Column(name = "activo")
-    String activo;
+    private String activo;
 
     @Column(name = "fecha_baja")
-    LocalDate fechaBaja;
+    private LocalDate fechaBaja;
+
+    @Version
+    @Basic(optional = false)
+    @Column(name = "version_empleado")
+    private Long version;
 
     public Empleado() {
     }
@@ -103,6 +109,7 @@ public class Empleado implements Serializable {
         this.clave = dto.getClave();
         this.activo = dto.getActivo();
         this.fechaBaja = dto.getFechaBaja();
+        this.version = dto.getVersion();
     }
 
     public Long getId() {
@@ -207,6 +214,14 @@ public class Empleado implements Serializable {
 
     public void setFechaBaja(LocalDate fechaBaja) {
         this.fechaBaja = fechaBaja;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     @Override

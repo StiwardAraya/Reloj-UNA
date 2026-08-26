@@ -17,7 +17,7 @@ import java.util.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "EmpleadoDTO", propOrder = {
     "id", "folio", "cedula", "nombre", "primerApellido", "segundoApellido",
-    "fechaNacimiento", "foto", "salarioHora", "esAdmin", "clave", "activo", "fechaBaja"
+    "fechaNacimiento", "foto", "salarioHora", "esAdmin", "clave", "activo", "fechaBaja", "version"
 })
 public class EmpleadoDTO implements Serializable {
 

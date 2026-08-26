@@ -44,7 +44,7 @@ public class EmpleadoController implements EmpleadoSOAP {
             if (!respuesta.getEstado()) {
                 return SOAPResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
             }
-            return SOAPResponse.exito((EmpleadoDTO) respuesta.getResultado(), respuesta.getMensaje());
+            return SOAPResponse.exito((EmpleadoDTO) respuesta.getResultado("Empleado"), respuesta.getMensaje());
         } catch (Exception e) {
             LOG.log(Level.SEVERE, "EmpleadoController.getEmpleado", e);
             return SOAPResponse.error("", "");

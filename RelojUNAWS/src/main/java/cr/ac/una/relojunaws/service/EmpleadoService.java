@@ -47,7 +47,7 @@ public class EmpleadoService {
             Query qry = em.createNamedQuery("Empleado.findById", Empleado.class);
             qry.setParameter("id", id);
             Empleado empleado = (Empleado) qry.getSingleResult();
-            return new Respuesta(true, "", "", empleado);
+            return new Respuesta(true, "", "", "Empleado", new EmpleadoDTO(empleado));
         } catch (NoResultException ex) {
             return new Respuesta(false, "empleados.get.notfound", "Empleado.getEmpleado NoResultException");
         } catch (NonUniqueResultException ex) {
@@ -118,7 +118,7 @@ public class EmpleadoService {
 
     public Respuesta eliminarEmpleado(Long id) {
         try {
-            if (id != null || id <= 0) {
+            if (id == null || id <= 0) {
                 return new Respuesta(false, "empleados.delete.nullid", "eliminarEmpleado NoResultException");
             }
             Empleado empleado = em.find(Empleado.class, id);

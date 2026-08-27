@@ -15,7 +15,7 @@ import java.util.Objects;
 
 @XmlRootElement(name = "planilla")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PlanillaDTO", propOrder = {"id", "mes", "anio", "fechaGeneracion", "totalPagado"})
+@XmlType(name = "PlanillaDTO", propOrder = {"id", "mes", "anio", "fechaGeneracion", "totalPagado", "version"})
 public class PlanillaDTO implements Serializable {
 
     @XmlElement(name = "id")
@@ -34,6 +34,9 @@ public class PlanillaDTO implements Serializable {
     @XmlElement(name = "totalPagado")
     private BigDecimal totalPagado;
 
+    @XmlElement(name = "version")
+    private Long version;
+
     public PlanillaDTO() {
     }
 
@@ -48,6 +51,7 @@ public class PlanillaDTO implements Serializable {
         this.anio = planilla.getAnio();
         this.fechaGeneracion = planilla.getFechaGeneracion();
         this.totalPagado = planilla.getTotalPagado();
+        this.version = planilla.getVersion();
     }
 
     public Long getId() {
@@ -88,6 +92,14 @@ public class PlanillaDTO implements Serializable {
 
     public void setTotalPagado(BigDecimal totalPagado) {
         this.totalPagado = totalPagado;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     @Override

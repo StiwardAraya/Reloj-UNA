@@ -11,6 +11,7 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -46,6 +47,11 @@ public class Planilla {
     @Column(name = "total_pagado")
     private BigDecimal totalPagado;
 
+    @Version
+    @Basic(optional = false)
+    @Column(name = "version_planilla")
+    private Long version;
+
     public Planilla() {
     }
 
@@ -62,6 +68,7 @@ public class Planilla {
         this.anio = dto.getAnio();
         this.fechaGeneracion = dto.getFechaGeneracion();
         this.totalPagado = dto.getTotalPagado();
+        this.version = dto.getVersion();
     }
 
     public Long getId() {
@@ -102,6 +109,14 @@ public class Planilla {
 
     public void setTotalPagado(BigDecimal totalPagado) {
         this.totalPagado = totalPagado;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     @Override

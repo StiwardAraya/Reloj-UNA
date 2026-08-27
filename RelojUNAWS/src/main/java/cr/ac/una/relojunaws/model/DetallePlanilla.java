@@ -14,6 +14,7 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -44,6 +45,11 @@ public class DetallePlanilla {
     @Column(name = "total_a_pagar")
     private BigDecimal totalAPagar;
 
+    @Version
+    @Basic(optional = false)
+    @Column(name = "version_detalle_planilla")
+    private Long version;
+
     @Basic(optional = false)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_empleado")
@@ -69,6 +75,7 @@ public class DetallePlanilla {
         this.totalHorasOrdinarias = dto.getTotalHorasOrdinarias();
         this.totalHorasExtras = dto.getTotalHorasExtras();
         this.totalAPagar = dto.getTotalAPagar();
+        this.version = dto.getVersion();
     }
 
     public Long getId() {
@@ -101,6 +108,14 @@ public class DetallePlanilla {
 
     public void setTotalAPagar(BigDecimal totalAPagar) {
         this.totalAPagar = totalAPagar;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public Empleado getEmpleado() {

@@ -14,6 +14,7 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -40,6 +41,11 @@ public class Marca {
     @Column(name = "fecha_hora")
     private LocalDateTime fechaHora;
 
+    @Version
+    @Basic(optional = false)
+    @Column(name = "version_marca")
+    private Long version;
+
     @Basic(optional = false)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_empleado")
@@ -60,6 +66,7 @@ public class Marca {
     public final void actualizar(MarcaDTO marcaDto) {
         this.tipo = marcaDto.getTipo();
         this.fechaHora = marcaDto.getFechaHora();
+        this.version = marcaDto.getVersion();
     }
 
     public Long getId() {
@@ -84,6 +91,14 @@ public class Marca {
 
     public void setFechaHora(LocalDateTime fechaHora) {
         this.fechaHora = fechaHora;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public Empleado getEmpleado() {

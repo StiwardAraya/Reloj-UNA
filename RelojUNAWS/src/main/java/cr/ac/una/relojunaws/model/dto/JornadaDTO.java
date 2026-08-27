@@ -17,7 +17,7 @@ import java.util.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "JornadaDTO", propOrder = {
     "id", "fecha", "esDiaLibre", "tipoJornada", "horasOrdinarias",
-    "horasExtras", "montoPagar", "empleadoId", "detallePlanillaId"
+    "horasExtras", "montoPagar", "version", "empleadoId", "detallePlanillaId"
 })
 public class JornadaDTO implements Serializable {
 
@@ -43,6 +43,9 @@ public class JornadaDTO implements Serializable {
     @XmlElement(name = "montoPagar")
     private BigDecimal montoPagar;
 
+    @XmlElement(name = "version")
+    private Long version;
+
     @XmlElement(name = "empleadoId")
     private Long empleadoId;
 
@@ -65,6 +68,7 @@ public class JornadaDTO implements Serializable {
         this.horasOrdinarias = jornada.getHorasOrdinarias();
         this.horasExtras = jornada.getHorasExtras();
         this.montoPagar = jornada.getMontoPagar();
+        this.version = jornada.getVersion();
         this.empleadoId = jornada.getEmpleado().getId();
         this.detallePlanillaId = jornada.getDetallePlanilla().getId();
     }
@@ -123,6 +127,14 @@ public class JornadaDTO implements Serializable {
 
     public void setMontoPagar(BigDecimal montoPagar) {
         this.montoPagar = montoPagar;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public Long getEmpleadoId() {

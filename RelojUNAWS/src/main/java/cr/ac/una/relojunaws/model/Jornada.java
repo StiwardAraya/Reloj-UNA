@@ -14,6 +14,7 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -56,6 +57,11 @@ public class Jornada {
     @Column(name = "monto_pagar")
     private BigDecimal montoPagar;
 
+    @Version
+    @Basic(optional = false)
+    @Column(name = "version_jornada")
+    private Long version;
+
     @Basic(optional = false)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_empleado")
@@ -84,6 +90,7 @@ public class Jornada {
         this.horasOrdinarias = dto.getHorasOrdinarias();
         this.horasExtras = dto.getHorasExtras();
         this.montoPagar = dto.getMontoPagar();
+        this.version = dto.getVersion();
     }
 
     public Long getId() {
@@ -140,6 +147,14 @@ public class Jornada {
 
     public void setMontoPagar(BigDecimal montoPagar) {
         this.montoPagar = montoPagar;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public Empleado getEmpleado() {

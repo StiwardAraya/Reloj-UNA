@@ -14,7 +14,7 @@ import java.util.Objects;
 
 @XmlRootElement(name = "marca")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MarcaDTO", propOrder = {"id", "tipo", "fechaHora", "idEmpleado"})
+@XmlType(name = "MarcaDTO", propOrder = {"id", "tipo", "fechaHora", "version", "idEmpleado"})
 public class MarcaDTO implements Serializable {
 
     @XmlElement(name = "id")
@@ -26,6 +26,9 @@ public class MarcaDTO implements Serializable {
     @XmlElement(name = "fechaHora")
     @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     private LocalDateTime fechaHora;
+
+    @XmlElement(name = "version")
+    private Long version;
 
     @XmlElement(name = "idEmpleado")
     private Long idEmpleado;
@@ -42,6 +45,7 @@ public class MarcaDTO implements Serializable {
         this.id = marca.getId();
         this.tipo = marca.getTipo();
         this.fechaHora = marca.getFechaHora();
+        this.version = marca.getVersion();
         this.idEmpleado = marca.getEmpleado().getId();
     }
 
@@ -67,6 +71,14 @@ public class MarcaDTO implements Serializable {
 
     public void setFechaHora(LocalDateTime fechaHora) {
         this.fechaHora = fechaHora;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public Long getIdEmpleado() {

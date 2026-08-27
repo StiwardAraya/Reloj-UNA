@@ -1,10 +1,216 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
     <head>
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>RelojUNA Web Service</title>
+
+        <link rel="stylesheet" href="style.css">
     </head>
+
     <body>
-        <h1>Hello World!</h1>
+
+        <header class="hero">
+
+            <div class="hero-content">
+
+                <span class="hero-label">SOAP WEB SERVICE</span>
+
+                <h1>RelojUNA Web Service</h1>
+
+                <p>
+                    Servicio web encargado de proporcionar acceso a las
+                    funcionalidades y datos de RelojUNA mediante SOAP.
+                </p>
+
+                <a href="#servicios" class="btn-primary">
+                    Ver servicios
+                    <span class="arrow">↓</span>
+                </a>
+
+            </div>
+
+        </header>
+
+
+        <main>
+
+            <section id="servicios" class="services-section">
+
+                <div class="section-header">
+
+                    <span class="section-label">DOCUMENTACIÓN</span>
+
+                    <h2>Servicios disponibles</h2>
+
+                    <p>
+                        Consulta las operaciones disponibles en el Web Service.
+                        Selecciona un servicio para visualizar sus endpoints.
+                    </p>
+
+                </div>
+
+
+                <div class="services-container">
+
+                    <details class="service">
+
+                        <!-- El servicio es el desplegable -->
+                        <summary>
+
+                            <div class="service-title">
+
+                                <span class="service-icon">01</span>
+
+                                <div>
+
+                                    <h3>Servicio de empleados</h3>
+
+                                    <p>
+                                        Operaciones relacionadas con los empleados.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <span class="service-arrow">⌄</span>
+
+                        </summary>
+
+
+                        <!-- Contenido que aparece al desplegar -->
+                        <div class="service-content">
+
+                            <div class="service-actions">
+
+                                <a href="http://localhost:8080/RelojUNAWS/EmpleadoSOAP?wsdl"
+                                   class="btn-wsdl"
+                                   target="_blank"
+                                   rel="noopener noreferrer">
+
+                                    Ver WSDL
+
+                                </a>
+
+                            </div>
+
+
+                            <div class="endpoints">
+
+                                <article class="endpoint">
+
+                                    <div class="endpoint-name">
+
+                                        <span class="method">SOAP</span>
+
+                                        Autenticar empleado
+
+                                    </div>
+
+                                    <p>
+                                        Autentica un empleado utilizando su folio
+                                        y contraseña.
+                                    </p>
+
+                                </article>
+
+
+                                <article class="endpoint">
+
+                                    <div class="endpoint-name">
+
+                                        <span class="method">SOAP</span>
+
+                                        Obtener empleado
+
+                                    </div>
+
+                                    <p>
+                                        Retorna un empleado realizando una búsqueda
+                                        mediante su identificador.
+                                    </p>
+
+                                </article>
+
+
+                                <article class="endpoint">
+
+                                    <div class="endpoint-name">
+
+                                        <span class="method">SOAP</span>
+
+                                        Obtener empleados
+
+                                    </div>
+
+                                    <p>
+                                        Retorna la lista de empleados registrados
+                                        en el sistema.
+                                    </p>
+
+                                </article>
+
+
+                                <article class="endpoint">
+
+                                    <div class="endpoint-name">
+
+                                        <span class="method">SOAP</span>
+
+                                        Guardar empleado
+
+                                    </div>
+
+                                    <p>
+                                        Registra un nuevo empleado en el sistema.
+                                    </p>
+
+                                </article>
+
+
+                                <article class="endpoint">
+
+                                    <div class="endpoint-name">
+
+                                        <span class="method">SOAP</span>
+
+                                        Eliminar empleado
+
+                                    </div>
+
+                                    <p>
+                                        Elimina un empleado utilizando su
+                                        identificador.
+                                    </p>
+
+                                </article>
+
+                            </div>
+
+                        </div>
+
+                    </details>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <footer class="footer">
+
+            <p>
+                RelojUNA Web Service
+            </p>
+
+            <span>
+                SOAP API
+            </span>
+
+        </footer>
+
     </body>
 </html>

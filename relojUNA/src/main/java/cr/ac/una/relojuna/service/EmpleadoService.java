@@ -23,4 +23,12 @@ public class EmpleadoService {
         return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Empleado", resultado.getResultado());
     }
 
+    public Respuesta getEmpleado(String id) {
+        SOAPResponse resultado = port.getEmpleado(id);
+        if (!resultado.isExito()) {
+            return new Respuesta(false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
+        }
+        return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Empleado", resultado.getResultado());
+    }
+
 }

@@ -82,7 +82,7 @@ public class LoginController extends Controller {
             linkRecuperacion.setText(bundle.getString("login.link.recuperacion"));
             btnIngresar.setText(bundle.getString("login.btn.ingresar"));
         } catch (MissingResourceException ex) {
-            LOG.log(Level.SEVERE, "Exception configuring view language at MainHeaderController.updateLanguageTexts", ex);
+            LOG.log(Level.SEVERE, "Exception configuring view language at LoginController.updateLanguageTexts", ex);
             UIRouter.getInstance().notify(
                     UIRouter.NotificationPosition.BOTTOM_RIGHT,
                     NotificationColor.WARNING,

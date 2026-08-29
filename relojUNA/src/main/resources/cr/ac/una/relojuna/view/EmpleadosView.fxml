@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" fx:id="root" stylesheets="@css/UtilStyles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.EmpleadosController">
+   <children>
+      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <styleClass>
+            <String fx:value="align-top" />
+            <String fx:value="p-4" />
+            <String fx:value="gap-1" />
+            <String fx:value="bg-gray-100" />
+         </styleClass>
+         <children>
+            <HBox styleClass="align-center" VBox.vgrow="NEVER">
+               <children>
+                  <Label fx:id="lblTitulo" text="Mantenimiento de empleados">
+                     <styleClass>
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-4xl" />
+                        <String fx:value="text-blue-900" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox layoutX="22.0" layoutY="22.0" styleClass="align-center">
+               <children>
+                  <Label fx:id="lblInfo" text="Registre, actualice, consulte o elimine la información de los empleados en el sistema">
+                     <styleClass>
+                        <String fx:value="text-xl" />
+                        <String fx:value="text-gray-500" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </HBox>
+            <VBox maxHeight="1.7976931348623157E308" stylesheets="@css/MFXOverrides.css" VBox.vgrow="ALWAYS">
+               <styleClass>
+                  <String fx:value="bg-white" />
+                  <String fx:value="shadow-md" />
+                  <String fx:value="rad-md" />
+                  <String fx:value="p-2" />
+                  <String fx:value="gap-1" />
+                  <String fx:value="align-center" />
+               </styleClass>
+               <children>
+                  <HBox VBox.vgrow="NEVER">
+                     <children>
+                        <MFXTextField fx:id="txtId" floatingText="Id del empleado" maxWidth="100.0" HBox.hgrow="ALWAYS" />
+                        <MFXTextField fx:id="txtFolioBusqueda" floatingText="Folio" layoutX="225.0" layoutY="10.0" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                        <Separator orientation="VERTICAL" />
+                        <MFXButton fx:id="btnBuscar" onAction="#onActionBtnBuscar" styleClass="primary" text="Buscar">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/search-icon-24.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </MFXButton>
+                     </children>
+                     <styleClass>
+                        <String fx:value="align-center" />
+                        <String fx:value="gap-3" />
+                     </styleClass>
+                  </HBox>
+                  <Separator>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Separator>
+                  <HBox VBox.vgrow="NEVER">
+                     <styleClass>
+                        <String fx:value="align-left" />
+                        <String fx:value="gap-1" />
+                        <String fx:value="p-2" />
+                     </styleClass>
+                     <children>
+                        <Label fx:id="lblDatos" text="Datos del empleado">
+                           <styleClass>
+                              <String fx:value="font-bold" />
+                              <String fx:value="text-blue-900" />
+                              <String fx:value="text-xl" />
+                           </styleClass>
+                        </Label>
+                        <HBox maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                           <children>
+                              <MFXCheckbox fx:id="chkActivo" styleClass="md" text="Activo" />
+                              <MFXCheckbox fx:id="chkAdministrador" layoutX="276.0" layoutY="10.0" styleClass="md" text="Administrador" />
+                           </children>
+                           <styleClass>
+                              <String fx:value="align-right" />
+                              <String fx:value="gap-2" />
+                           </styleClass>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <HBox maxHeight="1.7976931348623157E308" styleClass="gap-1" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox maxWidth="300.0" HBox.hgrow="SOMETIMES">
+                           <children>
+                              <Label fx:id="lblFoto" maxWidth="150.0" text="Foto">
+                                 <styleClass>
+                                    <String fx:value="text-lg" />
+                                    <String fx:value="font-bold" />
+                                    <String fx:value="text-blue-900" />
+                                 </styleClass>
+                              </Label>
+                              <Label fx:id="lblIndicacionFoto" layoutX="108.0" layoutY="84.0" maxWidth="150.0" text="Arrastre o suba una imagen">
+                                 <styleClass>
+                                    <String fx:value="text-md" />
+                                    <String fx:value="text-gray-500" />
+                                 </styleClass>
+                              </Label>
+                              <AnchorPane maxWidth="100.0">
+                                 <children>
+                                    <ImageView fx:id="imvFoto" fitHeight="175.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" styleClass="bg-gray-500" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                                 <styleClass>
+                                    <String fx:value="rad-sm" />
+                                    <String fx:value="bg-gray-300" />
+                                 </styleClass>
+                              </AnchorPane>
+                              <MFXButton fx:id="btnSubirFoto" maxWidth="150.0" onAction="#onActionBtnSubirFoto" styleClass="primary" text="Subir">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/image-up-icon-24.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </MFXButton>
+                           </children>
+                           <styleClass>
+                              <String fx:value="align-center" />
+                              <String fx:value="p-3" />
+                              <String fx:value="gap-2" />
+                           </styleClass>
+                        </VBox>
+                        <Separator orientation="VERTICAL" />
+                        <VBox layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" HBox.hgrow="SOMETIMES">
+                           <children>
+                              <MFXTextField fx:id="txtFolio" floatingText="Folio" maxWidth="1.7976931348623157E308" styleClass="md" />
+                              <MFXTextField fx:id="txtNombre" floatingText="Nombre" layoutX="18.0" layoutY="18.0" maxWidth="1.7976931348623157E308" styleClass="md" />
+                              <MFXTextField fx:id="txtPApellido" floatingText="Primer Apellido" layoutX="18.0" layoutY="18.0" maxWidth="1.7976931348623157E308" styleClass="md" />
+                              <MFXTextField fx:id="txtSApellido" floatingText="Segundo Apellido" layoutX="18.0" layoutY="65.0" maxWidth="1.7976931348623157E308" styleClass="md" />
+                              <MFXDatePicker fx:id="dtpFechaNacimiento" floatingText="Fecha de nacimiento" maxWidth="1.7976931348623157E308" styleClass="md" />
+                              <MFXTextField fx:id="txtSalarioHora" floatingText="Salario por hora" layoutX="18.0" layoutY="160.0" maxWidth="1.7976931348623157E308" styleClass="md" />
+                              <MFXPasswordField fx:id="txtClave" floatingText="Contraseña" maxWidth="1.7976931348623157E308" styleClass="md" />
+                           </children>
+                           <styleClass>
+                              <String fx:value="p-2" />
+                              <String fx:value="gap-4" />
+                              <String fx:value="align-center" />
+                           </styleClass>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox stylesheets="@css/MFXOverrides.css">
+               <styleClass>
+                  <String fx:value="align-center" />
+                  <String fx:value="p-2" />
+                  <String fx:value="gap-1" />
+               </styleClass>
+               <children>
+                  <MFXButton fx:id="btnNuevo" maxWidth="1.7976931348623157E308" onAction="#onActionBtnNuevo" prefHeight="46.0" styleClass="primary" text="Nuevo" HBox.hgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/refresh-icon-24.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton fx:id="btnFiltrar" layoutX="18.0" layoutY="18.0" maxWidth="1.7976931348623157E308" onAction="#onActionBtnFiltrar" prefHeight="46.0" styleClass="secondary" text="Filtrar" HBox.hgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/filter-icon-24.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton fx:id="btnEliminar" layoutX="291.0" layoutY="18.0" maxWidth="1.7976931348623157E308" onAction="#onActionBtnEliminar" prefHeight="46.0" styleClass="danger" text="Eliminar" HBox.hgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/delete-icon-24.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton fx:id="btnGuardar" layoutX="459.0" layoutY="18.0" maxWidth="1.7976931348623157E308" onAction="#onActionBtnGuardar" prefHeight="46.0" styleClass="success" text="Guardar" HBox.hgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/save-check-icon-24.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MFXButton>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

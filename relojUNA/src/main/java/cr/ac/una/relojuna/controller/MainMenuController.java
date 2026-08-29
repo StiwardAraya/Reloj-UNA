@@ -109,7 +109,7 @@ public class MainMenuController extends Controller {
         if (vistaActual != Vista.DASHBOARD) {
             cambiarBoton(btnDashboard);
             vistaActual = Vista.DASHBOARD;
-            // TODO: Abrir Dashboard
+            UIRouter.getInstance().show("DashboardView", UIRouter.Position.CENTER);
         }
     }
 
@@ -118,7 +118,7 @@ public class MainMenuController extends Controller {
         if (vistaActual != Vista.EMPLEADOS) {
             cambiarBoton(btnEmpleados);
             vistaActual = Vista.EMPLEADOS;
-            // TODO: Abrir ventana de empleados
+            UIRouter.getInstance().show("EmpleadosView", UIRouter.Position.CENTER);
         }
     }
 

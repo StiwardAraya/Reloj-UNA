@@ -14,7 +14,7 @@ import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.File;
-import java.math.BigDecimal;
+import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -29,8 +29,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -100,6 +103,7 @@ public class EmpleadosController extends Controller {
             updateLanguageTexts(bundle);
         });
         configurarFormatos();
+        configurarDragAndDrop();
         txtClave.setDisable(true);
         crearEventoCheckAdministrador();
         this.empleadoProperty = new SimpleObjectProperty<>();
@@ -129,7 +133,7 @@ public class EmpleadosController extends Controller {
     }
 
     //Helpers
-    private void abrirExploradorArchivos() {
+    private void subirFoto() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(bundle.getString("empleados.lbl.indicacion.foto"));
         fileChooser.getExtensionFilters().addAll(
@@ -138,15 +142,60 @@ public class EmpleadosController extends Controller {
 
         Stage stage = (Stage) root.getScene().getWindow();
         File archivoSeleccionado = fileChooser.showOpenDialog(stage);
+        cargarImagen(archivoSeleccionado);
+    }
 
-        if (archivoSeleccionado != null) {
-            try {
-                Image imagen = new Image(archivoSeleccionado.toURI().toString());
-                imvFoto.setImage(imagen);
-            } catch (Exception ex) {
-                LOG.log(Level.SEVERE, "Ocurrió un error cargando la imagen seleccionada", ex);
+    private void cargarImagen(File archivo) {
+        if (archivo == null) {
+            return;
+        }
+        try {
+            Image imagen = new Image(archivo.toURI().toString());
+            imvFoto.setImage(imagen);
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Ocurrió un error cargando la imagen seleccionada", ex);
+        }
+    }
+
+    private boolean esImagenValida(File archivo) {
+        String nombre = archivo.getName().toLowerCase();
+        return nombre.endsWith(".png") || nombre.endsWith(".jpg") || nombre.endsWith(".jpeg");
+    }
+
+    private void configurarDragAndDrop() {
+        imvFoto.setOnDragOver(this::onDragOverFoto);
+        imvFoto.setOnDragDropped(this::onDragDroppedFoto);
+    }
+
+    private void onDragOverFoto(DragEvent event) {
+        Dragboard db = event.getDragboard();
+        if (db.hasFiles() && db.getFiles().stream().anyMatch(this::esImagenValida)) {
+            event.acceptTransferModes(TransferMode.COPY);
+        }
+        event.consume();
+    }
+
+    private void onDragDroppedFoto(DragEvent event) {
+        Dragboard db = event.getDragboard();
+        boolean exito = false;
+
+        if (db.hasFiles()) {
+            List<File> archivos = db.getFiles();
+            File imagenValida = archivos.stream()
+                    .filter(this::esImagenValida)
+                    .findFirst()
+                    .orElse(null);
+
+            if (imagenValida != null) {
+                cargarImagen(imagenValida);
+                exito = true;
+            } else {
+                LOG.log(Level.SEVERE, "Formato de imagen invalido");
             }
         }
+
+        event.setDropCompleted(exito);
+        event.consume();
     }
 
     private void cargarValoresPorDefecto() {
@@ -236,7 +285,7 @@ public class EmpleadosController extends Controller {
 
     @FXML
     private void onActionBtnSubirFoto(ActionEvent event) {
-        abrirExploradorArchivos();
+        subirFoto();
     }
 
     @FXML

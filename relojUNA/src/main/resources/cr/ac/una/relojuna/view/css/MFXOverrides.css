@@ -848,3 +848,13 @@
 .mfx-date-cell:selected {
     -fx-background-color: #2563EB;
 }
+
+MFXButton.jfx-btn-modificar {
+    -fx-background-color: #f59e0b !important;
+    -fx-text-fill: white !important;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}

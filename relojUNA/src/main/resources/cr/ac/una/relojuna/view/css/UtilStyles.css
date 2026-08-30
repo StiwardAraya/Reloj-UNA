@@ -468,3 +468,18 @@
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
 }
+
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-border-color: #dbe4f0;
+}
+.card, .second-card {
+    -fx-effect: dropshadow( gaussian, rgba(0, 0, 0, 0.15), 10, 0, 0, 3 );
+}
+
+.content-area {
+    -fx-background-color: #f5f7fb;
+}
+

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane minHeight="500.0" minWidth="800.0" prefHeight="700.0" prefWidth="900.0" styleClass="content-area" stylesheets="@css/UtilStyles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.BrandMaintenanceController">
+   <right>
+
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="content-area" vbarPolicy="AS_NEEDED" BorderPane.alignment="CENTER">
+        <content>
+            <VBox alignment="TOP_CENTER" maxWidth="900.0" spacing="6.0" stylesheets="@css/MFXOverrides.css">
+                <padding>
+                    <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
+                </padding>
+<!--TÍTULO-->
+                <Label text="Mantenimiento de marcas">
+                  <styleClass>
+                     <String fx:value="font-bold" />
+                     <String fx:value="text-4xl" />
+                     <String fx:value="text-blue-900" />
+                  </styleClass></Label>
+                <Label text="Consulte y gestione las marcas de entrada y salida de los empleados." textAlignment="CENTER" wrapText="true">
+                  <styleClass>
+                     <String fx:value="text-xl" />
+                     <String fx:value="text-gray-500" />
+                  </styleClass></Label>
+
+<!--FILTRO POR FECHAS-->
+                <VBox maxWidth="1000" prefWidth="1000" spacing="10.0" styleClass="card" stylesheets="@css/UtilStyles.css">
+                    <padding>
+                        <Insets bottom="18.0" left="20.0" right="20.0" top="10.0" />
+                    </padding>
+                    <Label text="Consultar marcas">
+                     <styleClass>
+                        <String fx:value="text-lg" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-blue-900" />
+                     </styleClass></Label>
+                    <Label text="Seleccione el rango de fechas que desea consultar." wrapText="true">
+                     <styleClass>
+                        <String fx:value="text-xl" />
+                        <String fx:value="text-gray-500" />
+                     </styleClass></Label>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <MFXDatePicker fx:id="dpFechaInicio" floatingText="Fecha inicial" prefHeight="40" HBox.hgrow="ALWAYS" />
+                        <MFXDatePicker fx:id="dpFechaFin" floatingText="Fecha final" prefHeight="40" HBox.hgrow="ALWAYS" />
+                        <MFXButton fx:id="btnConsultar" onAction="#consultar" prefHeight="40" prefWidth="130" rippleAnimateBackground="false" styleClass="primary" stylesheets="@css/MFXOverrides.css" text="Consultar" />
+                    </HBox>
+                  <VBox.margin>
+                     <Insets left="30.0" right="30.0" />
+                  </VBox.margin>
+                </VBox>
+
+<!--GESTIÓN DE MARCA-->
+                <VBox maxWidth="900.0" prefWidth="900.0" spacing="10" styleClass="card" stylesheets="@css/UtilStyles.css">
+                    <padding>
+                        <Insets bottom="18" left="20" right="20" top="18" />
+                    </padding>
+                    <Label text="Gestionar marca">
+                     <styleClass>
+                        <String fx:value="text-lg" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-blue-900" />
+                     </styleClass></Label>
+                    <Label text="Agregue o modifique manualmente una marca de entrada o salida." wrapText="true">
+                     <styleClass>
+                        <String fx:value="text-xl" />
+                        <String fx:value="text-gray-500" />
+                     </styleClass></Label>
+                    <HBox spacing="10">
+                        <MFXComboBox fx:id="cbEmpleado" floatingText="Empleado" prefHeight="40" promptText="Seleccione un empleado" styleClass="md" HBox.hgrow="ALWAYS" />
+                        <MFXComboBox fx:id="cbTipo" floatingText="Tipo de marca" prefHeight="40" promptText="Entrada o salida" styleClass="md" HBox.hgrow="ALWAYS" />
+                    </HBox>
+                    <HBox spacing="10">
+                        <MFXDatePicker fx:id="dpFecha" floatingText="Fecha" prefHeight="40" HBox.hgrow="ALWAYS" />
+                        <MFXTextField fx:id="txtHora" floatingText="Hora" prefHeight="40" promptText="HH:mm" HBox.hgrow="ALWAYS" />
+                    </HBox>
+                    <Separator prefHeight="15.0" prefWidth="827.0" />
+
+<!--BOTONES PARA MODIFICAR CIERTAS MARCAS -->
+                    <HBox alignment="CENTER" spacing="10">
+                        <MFXButton fx:id="btnNuevo" onAction="#nuevo" prefHeight="40" prefWidth="110" styleClass="primary" text="Nuevo" />
+                        <MFXButton fx:id="btnGuardar" onAction="#guardar" prefHeight="40" prefWidth="110" styleClass="success" text="Guardar" />
+                        <MFXButton fx:id="btnModificar" onAction="#modificar" prefHeight="40" prefWidth="110" styleClass="jfx-btn-modificar" text="Modificar" />
+                        <MFXButton fx:id="btnEliminar" onAction="#eliminar" prefHeight="40" prefWidth="110" styleClass="danger" text="Eliminar" />
+                        <MFXButton fx:id="btnLimpiar" onAction="#limpiar" prefHeight="40" prefWidth="110" styleClass="secondary" text="Limpiar" />
+                    </HBox>
+                  <VBox.margin>
+                     <Insets left="30.0" right="30.0" />
+                  </VBox.margin>
+                </VBox>
+
+<!--INCONSISTENCIAS-->
+                <VBox maxWidth="1000" prefWidth="1000" spacing="10" styleClass="card" stylesheets="@css/UtilStyles.css">
+                    <padding>
+                        <Insets bottom="18" left="20" right="20" top="18" />
+                    </padding>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <VBox spacing="2">
+                            <Label text="Revisión de inconsistencias">
+                           <styleClass>
+                              <String fx:value="text-lg" />
+                              <String fx:value="font-bold" />
+                              <String fx:value="text-blue-900" />
+                           </styleClass></Label>
+                            <Label text="Marcas que no tienen entrada y salida completas." wrapText="true">
+                           <styleClass>
+                              <String fx:value="text-xl" />
+                              <String fx:value="text-gray-500" />
+                           </styleClass></Label>
+                        </VBox>
+                        <Region HBox.hgrow="ALWAYS" />
+
+<!--INDICADORES DE INCONSISTENCIA-->
+                        <VBox alignment="CENTER" spacing="2">
+                            <Label text="Inconsistencias" />
+                            <Label fx:id="lblCantidadInconsistentes" styleClass="cantidad-inconsistencias" text="0" />
+                        </VBox>
+                    </HBox>
+                    <Separator />
+                    <HBox alignment="CENTER" spacing="10">
+                        <MFXButton fx:id="btnRevisarInconsistencias" onAction="#revisarInconsistencias" prefHeight="40" prefWidth="200" styleClass="primary" text="Revisar inconsistencias" />
+                        <MFXButton fx:id="btnSiguienteInconsistente" onAction="#siguienteInconsistente" prefHeight="40" prefWidth="220" styleClass="jfx-btn-modificar" text="Siguiente inconsistencia" />
+                    </HBox>
+                  <VBox.margin>
+                     <Insets left="30.0" right="30.0" />
+                  </VBox.margin>
+                </VBox>
+                
+<!--TABLA DE LAS MARCAS QUE SE VAN REGISTRANDO-->
+                <VBox maxWidth="1000" prefWidth="1000" spacing="8" styleClass="card" stylesheets="@css/UtilStyles.css">
+                    <padding>
+                        <Insets bottom="15" left="15" right="15" top="15" />
+                    </padding>
+                    <Label text="Marcas registradas">
+                     <styleClass>
+                        <String fx:value="text-lg" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-blue-900" />
+                     </styleClass></Label>
+                    <TableView fx:id="tablaMarcas" prefHeight="300" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colId" prefWidth="70" text="ID" />
+                            <TableColumn fx:id="colEmpleado" prefWidth="280" text="Empleado" />
+                            <TableColumn fx:id="colTipo" prefWidth="140" text="Tipo" />
+                            <TableColumn fx:id="colFechaHora" prefWidth="180" text="Fecha / Hora" />
+                            <TableColumn fx:id="colEstado" prefWidth="160" text="Estado" />
+                        </columns>
+                    </TableView>
+                  <VBox.margin>
+                     <Insets left="30.0" right="30.0" />
+                  </VBox.margin>
+                </VBox>
+               <styleClass>
+                  <String fx:value="shadow-md" />
+                  <String fx:value="content-area" />
+                  <String fx:value="rad-md" />
+                  <String fx:value="p-2" />
+                  <String fx:value="gap-10" />
+               </styleClass>
+            </VBox>
+        </content>
+         <stylesheets>
+            <URL value="@css/MFXOverrides.css" />
+            <URL value="@css/UtilStyles.css" />
+         </stylesheets>
+    </ScrollPane>
+   </right>
+
+</BorderPane>

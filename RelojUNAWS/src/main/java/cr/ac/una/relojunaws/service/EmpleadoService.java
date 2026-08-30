@@ -59,6 +59,24 @@ public class EmpleadoService {
         }
     }
 
+    public Respuesta getEmpleadoIdFolio(Long id, String folio) {
+        try {
+            Query qry = em.createNamedQuery("Empleado.findByIdFolio", Empleado.class);
+            qry.setParameter("id", id);
+            qry.setParameter("folio", folio);
+            Empleado empleado = (Empleado) qry.getSingleResult();
+            return new Respuesta(true, "", "", "Empleado", new EmpleadoDTO(empleado));
+        } catch (NoResultException ex) {
+            return new Respuesta(false, "empleados.get.notfound", "Empleado.getEmpleadoIdFolio NoResultException");
+        } catch (NonUniqueResultException ex) {
+            LOG.log(Level.SEVERE, "Resultado no único en Empleado.getEmpleadoIdFolio", ex);
+            return new Respuesta(false, "empleados.get.multiple", "Empleado.getEmpleadoIdFolio NonUniqueResultException");
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Ocurrió un error en Empleado.getEmpleadoIdFolio", ex);
+            return new Respuesta(false, "empleados.get.error", "Empleado.getEmpleadoIdFolio Exception");
+        }
+    }
+
     public Respuesta getEmpleados() {
         try {
             Query qry = em.createNamedQuery("Empleado.findAll", Empleado.class);
@@ -73,6 +91,28 @@ public class EmpleadoService {
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "Ocurrió un error en Empleado.getEmpleadosActivos", ex);
             return new Respuesta(false, "empleados.getlist.error", "Empleado.getEmpleadosActivos Exception");
+        }
+    }
+
+    public Respuesta getEmpleadosByFilters(String folio, String cedula, String nombre, String primerApellido, String segundoApellido) {
+        try {
+            Query qry = em.createNamedQuery("Empleado.findByFilters", Empleado.class);
+            qry.setParameter("folio", folio);
+            qry.setParameter("cedula", cedula);
+            qry.setParameter("nombre", nombre);
+            qry.setParameter("primerApellido", primerApellido);
+            qry.setParameter("segundoApellido", segundoApellido);
+            List<Empleado> empleados = (List<Empleado>) qry.getResultList();
+            List<EmpleadoDTO> empleadosDTO = empleados.stream()
+                    .map(e -> new EmpleadoDTO(e))
+                    .toList();
+            EmpleadoListDTO dtoList = new EmpleadoListDTO(empleadosDTO);
+            return new Respuesta(true, "", "", dtoList);
+        } catch (NoResultException ex) {
+            return new Respuesta(false, "empleados.getlist.notfound", "Empleado.getEmpleadosByFilters NoResultException");
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Ocurrió un error en Empleado.getEmpleadosActivos", ex);
+            return new Respuesta(false, "empleados.getlist.error", "Empleado.getEmpleadosByFilters Exception");
         }
     }
 
@@ -116,6 +156,7 @@ public class EmpleadoService {
         }
     }
 
+    //TODO: Modificar para eliminar de la BD, no desactivar
     public Respuesta eliminarEmpleado(Long id) {
         try {
             if (id == null || id <= 0) {

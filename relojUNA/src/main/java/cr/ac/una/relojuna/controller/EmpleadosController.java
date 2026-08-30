@@ -129,6 +129,11 @@ public class EmpleadosController extends Controller {
             return;
         }
 
+        if (imvFoto.getImage() == null) {
+            //TODO: Abrir notificación indicando que la foto no puede ser nula
+            return;
+        }
+
         // TODO: Llamar al servicio para guardar el empleado del formulario
     }
 

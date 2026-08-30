@@ -31,9 +31,26 @@ public interface EmpleadoSOAP {
             @WebParam(name = "id") String id
     );
 
+    @WebMethod(operationName = "getEmpleadoIdFolio")
+    @WebResult(name = "SOAPResponse")
+    SOAPResponse<EmpleadoDTO> getEmpleadoIdFolio(
+            @WebParam(name = "id") String id,
+            @WebParam(name = "folio") String folio
+    );
+
     @WebMethod(operationName = "getEmpleados")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<EmpleadoListDTO> getEmpleados();
+
+    @WebMethod(operationName = "getEmpleadosByFilters")
+    @WebResult(name = "SOAPResponse")
+    SOAPResponse<EmpleadoListDTO> getEmpleadosByFilters(
+            @WebParam(name = "folio") String folio,
+            @WebParam(name = "cedula") String cedula,
+            @WebParam(name = "nombre") String nombre,
+            @WebParam(name = "primerApellido") String primerApellido,
+            @WebParam(name = "segundoApellido") String segundoApellido
+    );
 
     @WebMethod(operationName = "getEmpleadosActivos")
     @WebResult(name = "SOAPResponse")
@@ -48,7 +65,7 @@ public interface EmpleadoSOAP {
     @WebMethod(operationName = "eliminarEmpleado")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<EmpleadoDTO> eliminarEmpleado(
-            @WebParam (name="id") String id
+            @WebParam(name = "id") String id
     );
 
 }

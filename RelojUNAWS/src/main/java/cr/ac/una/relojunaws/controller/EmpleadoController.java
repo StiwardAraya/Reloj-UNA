@@ -49,7 +49,20 @@ public class EmpleadoController implements EmpleadoSOAP {
             LOG.log(Level.SEVERE, "EmpleadoController.getEmpleado", e);
             return SOAPResponse.error("", "");
         }
+    }
 
+    @Override
+    public SOAPResponse<EmpleadoDTO> getEmpleadoIdFolio(String id, String folio) {
+        try {
+            Respuesta respuesta = empleadoService.getEmpleadoIdFolio(Long.valueOf(id), folio);
+            if (!respuesta.getEstado()) {
+                return SOAPResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
+            }
+            return SOAPResponse.exito((EmpleadoDTO) respuesta.getResultado("Empleado"), respuesta.getMensaje());
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE, "EmpleadoController.getEmpleadoIdFolio", e);
+            return SOAPResponse.error("", "");
+        }
     }
 
     @Override
@@ -65,6 +78,20 @@ public class EmpleadoController implements EmpleadoSOAP {
             return SOAPResponse.error("", "");
         }
 
+    }
+
+    @Override
+    public SOAPResponse<EmpleadoListDTO> getEmpleadosByFilters(String folio, String cedula, String nombre, String primerApellido, String segundoApellido) {
+        try {
+            Respuesta respuesta = empleadoService.getEmpleadosByFilters(folio, cedula, nombre, primerApellido, segundoApellido);
+            if (!respuesta.getEstado()) {
+                return SOAPResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
+            }
+            return SOAPResponse.exito((EmpleadoListDTO) respuesta.getResultado(), respuesta.getMensaje());
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE, "EmpleadoController.getEmpleadosByFilters", e);
+            return SOAPResponse.error("", "");
+        }
     }
 
     @Override

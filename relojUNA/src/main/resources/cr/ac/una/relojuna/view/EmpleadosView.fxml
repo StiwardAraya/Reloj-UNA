@@ -58,8 +58,8 @@
                <children>
                   <HBox VBox.vgrow="NEVER">
                      <children>
-                        <MFXTextField fx:id="txtId" floatingText="Id del empleado" maxWidth="100.0" HBox.hgrow="ALWAYS" />
-                        <MFXTextField fx:id="txtFolioBusqueda" floatingText="Folio" layoutX="225.0" layoutY="10.0" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                        <MFXTextField fx:id="txtId" floatingText="Id del empleado" maxWidth="100.0" onKeyPressed="#onKeyPressedTxtId" HBox.hgrow="ALWAYS" />
+                        <MFXTextField fx:id="txtFolioBusqueda" floatingText="Folio" layoutX="225.0" layoutY="10.0" maxWidth="1.7976931348623157E308" onKeyPressed="#onKeyPressedTxtFolio" HBox.hgrow="ALWAYS" />
                         <Separator orientation="VERTICAL" />
                         <MFXButton fx:id="btnBuscar" onAction="#onActionBtnBuscar" styleClass="primary" text="Buscar">
                            <graphic>
@@ -107,7 +107,7 @@
                         </HBox>
                      </children>
                   </HBox>
-                  <HBox maxHeight="1.7976931348623157E308" styleClass="gap-1" VBox.vgrow="ALWAYS">
+                  <HBox maxHeight="1.7976931348623157E308" styleClass="gap-1" stylesheets="@css/Styles.css" VBox.vgrow="ALWAYS">
                      <children>
                         <VBox maxWidth="300.0" HBox.hgrow="SOMETIMES">
                            <children>
@@ -153,11 +153,37 @@
                         <VBox layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" HBox.hgrow="SOMETIMES">
                            <children>
                               <MFXTextField fx:id="txtFolio" floatingText="Folio" maxWidth="1.7976931348623157E308" styleClass="md" />
-                              <MFXTextField fx:id="txtNombre" floatingText="Nombre" layoutX="18.0" layoutY="18.0" maxWidth="1.7976931348623157E308" styleClass="md" />
-                              <MFXTextField fx:id="txtPApellido" floatingText="Primer Apellido" layoutX="18.0" layoutY="18.0" maxWidth="1.7976931348623157E308" styleClass="md" />
-                              <MFXTextField fx:id="txtSApellido" floatingText="Segundo Apellido" layoutX="18.0" layoutY="65.0" maxWidth="1.7976931348623157E308" styleClass="md" />
-                              <MFXDatePicker fx:id="dtpFechaNacimiento" floatingText="Fecha de nacimiento" maxWidth="1.7976931348623157E308" styleClass="md" />
-                              <MFXTextField fx:id="txtSalarioHora" floatingText="Salario por hora" layoutX="18.0" layoutY="160.0" maxWidth="1.7976931348623157E308" styleClass="md" />
+                              <MFXTextField fx:id="txtCedula" floatingText="Cedula" layoutX="18.0" layoutY="18.0" maxWidth="1.7976931348623157E308">
+                                 <styleClass>
+                                    <String fx:value="md" />
+                                    <String fx:value="required-field" />
+                                 </styleClass>
+                              </MFXTextField>
+                              <MFXTextField fx:id="txtNombre" floatingText="Nombre" layoutX="18.0" layoutY="18.0" maxWidth="1.7976931348623157E308">
+                                 <styleClass>
+                                    <String fx:value="md" />
+                                    <String fx:value="required-field" />
+                                 </styleClass></MFXTextField>
+                              <MFXTextField fx:id="txtPApellido" floatingText="Primer Apellido" layoutX="18.0" layoutY="18.0" maxWidth="1.7976931348623157E308">
+                                 <styleClass>
+                                    <String fx:value="md" />
+                                    <String fx:value="required-field" />
+                                 </styleClass></MFXTextField>
+                              <MFXTextField fx:id="txtSApellido" floatingText="Segundo Apellido" layoutX="18.0" layoutY="65.0" maxWidth="1.7976931348623157E308">
+                                 <styleClass>
+                                    <String fx:value="md" />
+                                    <String fx:value="required-field" />
+                                 </styleClass></MFXTextField>
+                              <MFXDatePicker fx:id="dtpFechaNacimiento" floatingText="Fecha de nacimiento" maxWidth="1.7976931348623157E308">
+                                 <styleClass>
+                                    <String fx:value="md" />
+                                    <String fx:value="required-field" />
+                                 </styleClass></MFXDatePicker>
+                              <MFXTextField fx:id="txtSalarioHora" floatingText="Salario por hora" layoutX="18.0" layoutY="160.0" maxWidth="1.7976931348623157E308">
+                                 <styleClass>
+                                    <String fx:value="md" />
+                                    <String fx:value="required-field" />
+                                 </styleClass></MFXTextField>
                               <MFXPasswordField fx:id="txtClave" floatingText="Contraseña" maxWidth="1.7976931348623157E308" styleClass="md" />
                            </children>
                            <styleClass>

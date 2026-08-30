@@ -1,17 +1,13 @@
 package cr.ac.una.relojuna.controller;
 
-import cr.ac.una.relojuna.util.FXAnimator;
 import cr.ac.una.relojuna.util.NotificationColor;
 import cr.ac.una.relojuna.util.UIRouter;
-import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;

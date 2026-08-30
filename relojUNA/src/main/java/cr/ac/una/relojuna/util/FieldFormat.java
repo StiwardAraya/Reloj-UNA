@@ -170,7 +170,7 @@ public final class FieldFormat {
         if (soloDigitos.isEmpty()) {
             return 0.0;
         }
-        return Long.parseLong(soloDigitos) / 100.0;
+        return Long.parseLong(soloDigitos) / 100.00;
     }
 
     public static TextFormatter<String> formatoDecimal(int maxEnteros, int maxDecimales) {

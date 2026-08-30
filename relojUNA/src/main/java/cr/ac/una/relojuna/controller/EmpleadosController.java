@@ -1,24 +1,39 @@
 package cr.ac.una.relojuna.controller;
 
+import cr.ac.una.relojuna.model.EmpleadoViewModel;
 import cr.ac.una.relojuna.util.FXAnimator;
+import cr.ac.una.relojuna.util.FieldFormat;
+import cr.ac.una.relojuna.util.FormValidator;
+import cr.ac.una.relojuna.util.Mensaje;
 import cr.ac.una.relojuna.util.NotificationColor;
 import cr.ac.una.relojuna.util.UIRouter;
+import cr.ac.una.relojuna.ws.EmpleadoDTO;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import java.io.File;
+import java.math.BigDecimal;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class EmpleadosController extends Controller {
 
@@ -70,8 +85,13 @@ public class EmpleadosController extends Controller {
     private MFXCheckbox chkActivo;
     @FXML
     private MFXCheckbox chkAdministrador;
+    @FXML
+    private MFXTextField txtCedula;
 
     private static final Logger LOG = Logger.getLogger(EmpleadosController.class.getName());
+    private EmpleadoViewModel empleadoView;
+    private ObjectProperty<EmpleadoViewModel> empleadoProperty;
+    private EmpleadoDTO empleadoDto;
 
     @Override
     public void initialize() {
@@ -79,6 +99,166 @@ public class EmpleadosController extends Controller {
         Platform.runLater(() -> {
             updateLanguageTexts(bundle);
         });
+        configurarFormatos();
+        txtClave.setDisable(true);
+        crearEventoCheckAdministrador();
+        this.empleadoProperty = new SimpleObjectProperty<>();
+        bindEmpleado();
+        cargarValoresPorDefecto();
+    }
+
+    //Main
+    private void obtenerEmpleado() {
+        // TODO: Llamar al service para obtener el empleado por id y folio y bindearlo en el formulario
+    }
+
+    private void verEmpleados() {
+        // TODO: Abrir la ventana de filtrar empleados en modo modal.
+    }
+
+    private void eliminarEmpleado() {
+        // TODO: Llamar al servicio para eliminar un empleado con el id cargado
+    }
+
+    private void guardarEmpleado() {
+        if (!validarCampos()) {
+            return;
+        }
+
+        // TODO: Llamar al servicio para guardar el empleado del formulario
+    }
+
+    //Helpers
+    private void abrirExploradorArchivos() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle(bundle.getString("empleados.lbl.indicacion.foto"));
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Imágenes (*.png, *.jpg, *.jpeg)", "*.png", "*.jpg", "*.jpeg")
+        );
+
+        Stage stage = (Stage) root.getScene().getWindow();
+        File archivoSeleccionado = fileChooser.showOpenDialog(stage);
+
+        if (archivoSeleccionado != null) {
+            try {
+                Image imagen = new Image(archivoSeleccionado.toURI().toString());
+                imvFoto.setImage(imagen);
+            } catch (Exception ex) {
+                LOG.log(Level.SEVERE, "Ocurrió un error cargando la imagen seleccionada", ex);
+            }
+        }
+    }
+
+    private void cargarValoresPorDefecto() {
+        this.empleadoDto = new EmpleadoDTO();
+        this.empleadoView = new EmpleadoViewModel();
+        this.empleadoView.setActivo("A");
+        this.empleadoView.setEsAdmin("N");
+        this.empleadoProperty.set(empleadoView);
+        txtId.clear();
+        txtId.requestFocus();
+    }
+
+    private void bindEmpleado() {
+        try {
+            empleadoProperty.addListener((obs, oldVal, newVal) -> {
+                if (oldVal != null) {
+                    txtId.textProperty().unbind();
+                    txtFolio.textProperty().unbindBidirectional(oldVal.folioProperty());
+                    txtCedula.textProperty().unbindBidirectional(oldVal.cedulaProperty());
+                    txtNombre.textProperty().unbindBidirectional(oldVal.nombreProperty());
+                    txtPApellido.textProperty().unbindBidirectional(oldVal.primerApellidoProperty());
+                    txtSApellido.textProperty().unbindBidirectional(oldVal.segundoApellidoProperty());
+                    dtpFechaNacimiento.valueProperty().unbindBidirectional(oldVal.fechaNacimientoProperty());
+                    chkAdministrador.selectedProperty().unbindBidirectional(oldVal.esAdminProperty());
+                    txtClave.textProperty().unbindBidirectional(oldVal.claveProperty());
+                    chkActivo.selectedProperty().unbindBidirectional(oldVal.activoProperty());
+                    imvFoto.imageProperty().unbindBidirectional(oldVal.fotoProperty());
+                }
+                if (newVal != null) {
+                    if (newVal.idProperty().get() != null
+                            && !newVal.idProperty().get().isBlank()) {
+                        txtId.textProperty().bind(newVal.idProperty());
+                    }
+                    txtFolio.textProperty().bindBidirectional(newVal.folioProperty());
+                    txtCedula.textProperty().bindBidirectional(newVal.cedulaProperty());
+                    txtNombre.textProperty().bindBidirectional(newVal.nombreProperty());
+                    txtPApellido.textProperty().bindBidirectional(newVal.primerApellidoProperty());
+                    txtSApellido.textProperty().bindBidirectional(newVal.segundoApellidoProperty());
+                    dtpFechaNacimiento.valueProperty().bindBidirectional(newVal.fechaNacimientoProperty());
+                    chkAdministrador.selectedProperty().bindBidirectional(newVal.esAdminProperty());
+                    txtClave.textProperty().bindBidirectional(newVal.claveProperty());
+                    chkActivo.selectedProperty().bindBidirectional(newVal.activoProperty());
+                    imvFoto.imageProperty().bindBidirectional(newVal.fotoProperty());
+                }
+            });
+
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Ocurrió un error bindeando el empleado", ex);
+        }
+    }
+
+    private void crearEventoCheckAdministrador() {
+        chkAdministrador.selectedProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal) {
+                txtClave.setDisable(false);
+            } else {
+                txtClave.setDisable(true);
+                txtClave.clear();
+            }
+        });
+    }
+
+    private void configurarFormatos() {
+        txtId.delegateSetTextFormatter(FieldFormat.formatoSoloNumeros());
+        txtFolio.delegateSetTextFormatter(FieldFormat.formatoAlfanumerico(6));
+        txtFolioBusqueda.delegateSetTextFormatter(FieldFormat.formatoAlfanumerico(6));
+        txtCedula.delegateSetTextFormatter(FieldFormat.formatoSoloNumeros(9));
+        txtNombre.delegateSetTextFormatter(FieldFormat.formatoSoloLetras(30));
+        txtPApellido.delegateSetTextFormatter(FieldFormat.formatoSoloLetras(30));
+        txtSApellido.delegateSetTextFormatter(FieldFormat.formatoSoloLetras(30));
+        txtSalarioHora.delegateSetTextFormatter(FieldFormat.formatoDineroColones());
+        txtClave.delegateSetTextFormatter(FieldFormat.formatoLimiteCaracteres(16));
+    }
+
+    private boolean validarCampos() {
+        var result = FormValidator.validate(root, bundle);
+        if (!result.isValid()) {
+            new Mensaje().show(Alert.AlertType.ERROR, bundle.getString("validation.missing.fields.title"), result.toMessage());
+        }
+        return result.isValid();
+    }
+
+    @FXML
+    private void onActionBtnBuscar(ActionEvent event) {
+        obtenerEmpleado();
+    }
+
+    @FXML
+    private void onActionBtnSubirFoto(ActionEvent event) {
+        abrirExploradorArchivos();
+    }
+
+    @FXML
+    private void onActionBtnNuevo(ActionEvent event) {
+        if (new Mensaje().showConfirmation("Limpiar Empleado", getStage(), "¿Esta seguro que desea limpiar el registro?")) {
+            cargarValoresPorDefecto();
+        }
+    }
+
+    @FXML
+    private void onActionBtnFiltrar(ActionEvent event) {
+        verEmpleados();
+    }
+
+    @FXML
+    private void onActionBtnEliminar(ActionEvent event) {
+        eliminarEmpleado();
+    }
+
+    @FXML
+    private void onActionBtnGuardar(ActionEvent event) {
+        guardarEmpleado();
     }
 
     @Override
@@ -101,6 +281,7 @@ public class EmpleadosController extends Controller {
             this.lblFoto.setText(bundle.getString("empleados.lbl.foto"));
             this.lblIndicacionFoto.setText(bundle.getString("empleados.lbl.indicacion.foto"));
             this.btnSubirFoto.setText(bundle.getString("empleados.btn.subir"));
+            this.txtCedula.setFloatingText(bundle.getString("empleados.txt.cedula"));
             this.txtNombre.setFloatingText(bundle.getString("empleados.txt.nombre"));
             this.txtPApellido.setFloatingText(bundle.getString("empleados.txt.papellido"));
             this.txtSApellido.setFloatingText(bundle.getString("empleados.txt.sapellido"));
@@ -122,27 +303,16 @@ public class EmpleadosController extends Controller {
     }
 
     @FXML
-    private void onActionBtnBuscar(ActionEvent event) {
+    private void onKeyPressedTxtId(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER)) {
+            obtenerEmpleado();
+        }
     }
 
     @FXML
-    private void onActionBtnSubirFoto(ActionEvent event) {
+    private void onKeyPressedTxtFolio(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER)) {
+            obtenerEmpleado();
+        }
     }
-
-    @FXML
-    private void onActionBtnNuevo(ActionEvent event) {
-    }
-
-    @FXML
-    private void onActionBtnFiltrar(ActionEvent event) {
-    }
-
-    @FXML
-    private void onActionBtnEliminar(ActionEvent event) {
-    }
-
-    @FXML
-    private void onActionBtnGuardar(ActionEvent event) {
-    }
-
 }

@@ -185,7 +185,6 @@ public class EmpleadoViewModel {
         empleadoDto.setSegundoApellido(this.getSegundoApellido());
         empleadoDto.setFechaNacimiento(this.getFechaNacimiento().toString());
         empleadoDto.setFoto(this.getFoto());
-        empleadoDto.setSalarioHora(this.getSalarioHora());
         empleadoDto.setEsAdmin(this.getEsAdmin());
         empleadoDto.setClave(this.getClave());
         empleadoDto.setActivo(this.getActivo());

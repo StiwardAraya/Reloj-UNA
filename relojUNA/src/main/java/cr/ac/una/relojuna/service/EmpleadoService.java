@@ -71,13 +71,12 @@ public class EmpleadoService {
         }
         return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Empleado", resultado.getResultado());
     }
-    //TODO: Modificar para eliminar de la BD, no desactivar
 
     public Respuesta getEmpleadosActivos() {
         SOAPResponse resultado = port.getEmpleadosActivos();
         if (!resultado.isExito()) {
-            return new Respuesta(false,resultado.getMensajeUsuario(),resultado.getMensajeTecnico());
+            return new Respuesta(false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
         }
-        return new Respuesta(true,resultado.getMensajeUsuario(),resultado.getMensajeTecnico(),"Empleados",resultado.getResultado());
+        return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Empleados", resultado.getResultado());
     }
 }

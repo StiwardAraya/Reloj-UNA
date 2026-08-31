@@ -175,6 +175,7 @@ public class EmpleadosController extends Controller {
 
     private void cargarEmpleado(EmpleadoDTO dto) {
         empleadoDto = dto;
+        empleadoView = new EmpleadoViewModel();
         empleadoView.fromDto(empleadoDto);
         empleadoProperty.set(empleadoView);
         txtId.setDisable(true);

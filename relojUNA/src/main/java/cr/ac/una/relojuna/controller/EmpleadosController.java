@@ -130,7 +130,7 @@ public class EmpleadosController extends Controller {
     }
 
     private void verEmpleados() {
-        // TODO: Abrir la ventana de filtrar empleados en modo modal.
+        UIRouter.getInstance().showModal("VerEmpleadosView");
     }
 
     private void eliminarEmpleado() {

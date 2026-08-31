@@ -156,7 +156,6 @@ public class EmpleadoService {
         }
     }
 
-    //TODO: Modificar para eliminar de la BD, no desactivar
     public Respuesta eliminarEmpleado(Long id) {
         try {
             if (id == null || id <= 0) {
@@ -166,10 +165,9 @@ public class EmpleadoService {
             if (empleado == null) {
                 return new Respuesta(false, "empleados.delete.notfound", "eliminarEmpleado NoResultException");
             }
-            empleado.setActivo("I");
-            em.merge(empleado);
+            em.remove(empleado);
             em.flush();
-            return new Respuesta(true, "", "");
+            return new Respuesta(true, "empleado.eliminar.exito", "");
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "Ocurrio un error al guardar el empleado.", ex);
             return new Respuesta(false, "empleados.delete.error", "eliminarEmpleado " + ex.getMessage());

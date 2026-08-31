@@ -136,7 +136,7 @@ public class EmpleadoController implements EmpleadoSOAP {
             if (!respuesta.getEstado()) {
                 return SOAPResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
             }
-            return SOAPResponse.exito((EmpleadoDTO) respuesta.getResultado(), respuesta.getMensaje());
+            return SOAPResponse.exito(respuesta.getMensaje(), respuesta.getMensajeInterno());
         } catch (Exception e) {
             LOG.log(Level.SEVERE, "EmpleadoController.eliminarEmpleado", e);
             return SOAPResponse.error("", "");

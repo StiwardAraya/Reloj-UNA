@@ -16,7 +16,6 @@ import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.File;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -135,7 +134,19 @@ public class EmpleadosController extends Controller {
     }
 
     private void eliminarEmpleado() {
-        // TODO: Llamar al servicio para eliminar un empleado con el id cargado
+        try {
+            EmpleadoService service = new EmpleadoService();
+            Respuesta respuesta = service.eliminarEmpleado(txtId.getText());
+            if (!respuesta.getEstado()) {
+                new Mensaje().show(Alert.AlertType.ERROR, bundle.getString("empleados.error.title"), bundle.getString(respuesta.getMensaje()));
+                return;
+            }
+            UIRouter.getInstance().notify(UIRouter.NotificationPosition.BOTTOM_RIGHT, NotificationColor.SUCCESS, bundle.getString("empleado.eliminar.exito.title"), bundle.getString(respuesta.getMensaje()));
+            cargarValoresPorDefecto();
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Error eliminando el empleado.", ex);
+            new Mensaje().showModal(Alert.AlertType.ERROR, bundle.getString("empleados.error.title"), getStage(), bundle.getString("empleados.delete.error"));
+        }
     }
 
     private void guardarEmpleado() {
@@ -179,6 +190,7 @@ public class EmpleadosController extends Controller {
         empleadoView.fromDto(empleadoDto);
         empleadoProperty.set(empleadoView);
         txtId.setDisable(true);
+        btnEliminar.setDisable(false);
     }
 
     private boolean validacionesPreGuardado() {
@@ -257,6 +269,7 @@ public class EmpleadosController extends Controller {
         txtId.setDisable(false);
         txtId.clear();
         txtId.requestFocus();
+        btnEliminar.setDisable(true);
     }
 
     private void bindEmpleado() {

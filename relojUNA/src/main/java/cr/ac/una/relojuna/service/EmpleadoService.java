@@ -7,6 +7,7 @@ import cr.ac.una.relojuna.ws.EmpleadoSOAP_Service;
 import cr.ac.una.relojuna.ws.LoginRequestDTO;
 import cr.ac.una.relojuna.ws.SOAPResponse;
 
+
 public class EmpleadoService {
 
     private final EmpleadoSOAP port;
@@ -33,28 +34,43 @@ public class EmpleadoService {
     }
 
     public Respuesta getEmpleadoIdFolio(String id, String folio) {
-        // TODO: Implementar este metodo
-        return null;
+        SOAPResponse resultado = port.getEmpleadoIdFolio(id, folio);
+        if(!resultado.isExito()){
+            return new Respuesta( false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
+        }
+        return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Empleado", resultado.getResultado());
     }
-
+    
     public Respuesta getEmpleados() {
-        // TODO: Implementar este metodo
-        return null;
+        SOAPResponse resultado = port.getEmpleados();
+        if(!resultado.isExito()){
+            return new Respuesta( false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
+        }
+        return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Empleados", resultado.getResultado());
     }
 
     public Respuesta getEmpleadosByFilters(String folio, String cedula, String nombre, String pApellido, String sApellido) {
-        // TODO: Implementar este metodo
-        return null;
+        SOAPResponse resultado = port.getEmpleadosByFilters(folio, cedula, nombre, pApellido, sApellido);
+        if(!resultado.isExito()){
+            return new Respuesta( false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
+        }
+        return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Empleados", resultado.getResultado());
     }
 
     public Respuesta guardarEmpleado(EmpleadoDTO empleadoDto) {
-        // TODO: Implementar este metodo
-        return null;
+        SOAPResponse resultado = port.guardarEmpleado(empleadoDto);
+        if(!resultado.isExito()){
+            return new Respuesta( false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
+        }
+        return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Empleado", resultado.getResultado());
     }
 
     public Respuesta eliminarEmpleado(String id) {
-        // TODO: Implementar este metodo
-        return null;
+        SOAPResponse resultado = port.eliminarEmpleado(id);
+        if(!resultado.isExito()){
+            return new Respuesta( false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
+        }
+        return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Empleados", resultado.getResultado());
     }
 
 }

@@ -26,6 +26,7 @@ public class EmpleadoViewModel {
     private final SimpleBooleanProperty esAdmin = new SimpleBooleanProperty(false);
     private final SimpleStringProperty clave = new SimpleStringProperty("");
     private final SimpleBooleanProperty activo = new SimpleBooleanProperty(false);
+    private Long version;
 
     public Long getId() {
         if (esIdValido.test(this.id)) {
@@ -126,6 +127,14 @@ public class EmpleadoViewModel {
         this.activo.set(activo.equals("A"));
     }
 
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
     // PROPERTIES
     public SimpleStringProperty idProperty() {
         return id;
@@ -185,9 +194,11 @@ public class EmpleadoViewModel {
         empleadoDto.setSegundoApellido(this.getSegundoApellido());
         empleadoDto.setFechaNacimiento(this.getFechaNacimiento().toString());
         empleadoDto.setFoto(this.getFoto());
+        empleadoDto.setSalarioHora(this.getSalarioHora());
         empleadoDto.setEsAdmin(this.getEsAdmin());
         empleadoDto.setClave(this.getClave());
         empleadoDto.setActivo(this.getActivo());
+        empleadoDto.setVersion(this.getVersion());
         return empleadoDto;
     }
 
@@ -202,7 +213,10 @@ public class EmpleadoViewModel {
         this.setFoto(dto.getFoto());
         this.setSalarioHora(dto.getSalarioHora());
         this.setEsAdmin(dto.getEsAdmin());
-        this.setClave(dto.getClave());
+        if (dto.getEsAdmin().equals("S")) {
+            this.setClave(dto.getClave());
+        }
         this.setActivo(dto.getActivo());
+        this.setVersion(dto.getVersion());
     }
 }

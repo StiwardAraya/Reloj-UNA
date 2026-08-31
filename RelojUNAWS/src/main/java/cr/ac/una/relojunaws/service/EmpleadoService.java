@@ -149,7 +149,7 @@ public class EmpleadoService {
                 em.persist(empleado);
             }
             em.flush();
-            return new Respuesta(true, "", "", "Empleado", new EmpleadoDTO(empleado));
+            return new Respuesta(true, "empleado.guardar.exito", "", "Empleado", new EmpleadoDTO(empleado));
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "Error al guardar " + dto.getId(), ex);
             return new Respuesta(false, "empleados.guardar.error", "Empleado.guardarEmpleado Exception" + ex.getMessage());

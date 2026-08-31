@@ -54,7 +54,14 @@ public class EmpleadoController implements EmpleadoSOAP {
     @Override
     public SOAPResponse<EmpleadoDTO> getEmpleadoIdFolio(String id, String folio) {
         try {
-            Respuesta respuesta = empleadoService.getEmpleadoIdFolio(Long.valueOf(id), folio);
+            Long idEmpleado;
+            if (id.isBlank()) {
+                idEmpleado = 0L;
+            } else {
+                idEmpleado = Long.valueOf(id);
+            }
+
+            Respuesta respuesta = empleadoService.getEmpleadoIdFolio(idEmpleado, folio);
             if (!respuesta.getEstado()) {
                 return SOAPResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
             }

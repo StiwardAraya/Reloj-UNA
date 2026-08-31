@@ -1,11 +1,13 @@
 package cr.ac.una.relojuna.controller;
 
 import cr.ac.una.relojuna.model.EmpleadoViewModel;
+import cr.ac.una.relojuna.service.EmpleadoService;
 import cr.ac.una.relojuna.util.FXAnimator;
 import cr.ac.una.relojuna.util.FieldFormat;
 import cr.ac.una.relojuna.util.FormValidator;
 import cr.ac.una.relojuna.util.Mensaje;
 import cr.ac.una.relojuna.util.NotificationColor;
+import cr.ac.una.relojuna.util.Respuesta;
 import cr.ac.una.relojuna.util.UIRouter;
 import cr.ac.una.relojuna.ws.EmpleadoDTO;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -14,6 +16,7 @@ import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -113,7 +116,18 @@ public class EmpleadosController extends Controller {
 
     //Main
     private void obtenerEmpleado() {
-        // TODO: Llamar al service para obtener el empleado por id y folio y bindearlo en el formulario
+        try {
+            EmpleadoService service = new EmpleadoService();
+            Respuesta respuesta = service.getEmpleadoIdFolio(txtId.getText(), txtFolioBusqueda.getText());
+            if (!respuesta.getEstado()) {
+                new Mensaje().showModal(Alert.AlertType.ERROR, bundle.getString("empleados.error.title"), getStage(), bundle.getString(respuesta.getMensaje()));
+                return;
+            }
+            cargarEmpleado((EmpleadoDTO) respuesta.getResultado("Empleado"));
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Error buscando el empleado.", ex);
+            new Mensaje().showModal(Alert.AlertType.ERROR, bundle.getString("empleados.error.title"), getStage(), bundle.getString("empleados.get.error"));
+        }
     }
 
     private void verEmpleados() {
@@ -125,16 +139,25 @@ public class EmpleadosController extends Controller {
     }
 
     private void guardarEmpleado() {
-        if (!validarCampos()) {
+        if (!validacionesPreGuardado()) {
             return;
         }
 
-        if (imvFoto.getImage() == null) {
-            //TODO: Abrir notificación indicando que la foto no puede ser nula
-            return;
-        }
+        try {
+            EmpleadoService service = new EmpleadoService();
+            empleadoDto = empleadoView.toDto();
+            Respuesta respuesta = service.guardarEmpleado(empleadoDto);
+            if (!respuesta.getEstado()) {
+                new Mensaje().show(Alert.AlertType.ERROR, bundle.getString("empleados.error.title"), bundle.getString(respuesta.getMensaje()));
+                return;
+            }
+            cargarEmpleado((EmpleadoDTO) respuesta.getResultado("Empleado"));
+            UIRouter.getInstance().notify(UIRouter.NotificationPosition.BOTTOM_RIGHT, NotificationColor.SUCCESS, bundle.getString("empleado.guardar.exito.title"), bundle.getString(respuesta.getMensaje()));
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Error guardando el empleado.", ex);
+            new Mensaje().show(Alert.AlertType.ERROR, bundle.getString("empleados.error.title"), bundle.getString("empleados.guardar.error"));
 
-        // TODO: Llamar al servicio para guardar el empleado del formulario
+        }
     }
 
     //Helpers
@@ -148,6 +171,26 @@ public class EmpleadosController extends Controller {
         Stage stage = (Stage) root.getScene().getWindow();
         File archivoSeleccionado = fileChooser.showOpenDialog(stage);
         cargarImagen(archivoSeleccionado);
+    }
+
+    private void cargarEmpleado(EmpleadoDTO dto) {
+        empleadoDto = dto;
+        empleadoView.fromDto(empleadoDto);
+        empleadoProperty.set(empleadoView);
+        txtId.setDisable(true);
+    }
+
+    private boolean validacionesPreGuardado() {
+        if (!validarCampos()) {
+            return false;
+        }
+
+        if (imvFoto.getImage() == null) {
+            new Mensaje().show(Alert.AlertType.ERROR, bundle.getString("empleados.nofoto.error.title"), bundle.getString("empleados.nofoto.error"));
+            return false;
+        }
+
+        return true;
     }
 
     private void cargarImagen(File archivo) {
@@ -209,6 +252,8 @@ public class EmpleadosController extends Controller {
         this.empleadoView.setActivo("A");
         this.empleadoView.setEsAdmin("N");
         this.empleadoProperty.set(empleadoView);
+        txtFolioBusqueda.clear();
+        txtId.setDisable(false);
         txtId.clear();
         txtId.requestFocus();
     }
@@ -225,6 +270,7 @@ public class EmpleadosController extends Controller {
                     txtSApellido.textProperty().unbindBidirectional(oldVal.segundoApellidoProperty());
                     dtpFechaNacimiento.valueProperty().unbindBidirectional(oldVal.fechaNacimientoProperty());
                     chkAdministrador.selectedProperty().unbindBidirectional(oldVal.esAdminProperty());
+                    txtSalarioHora.textProperty().unbindBidirectional(oldVal.salarioHoraProperty());
                     txtClave.textProperty().unbindBidirectional(oldVal.claveProperty());
                     chkActivo.selectedProperty().unbindBidirectional(oldVal.activoProperty());
                     imvFoto.imageProperty().unbindBidirectional(oldVal.fotoProperty());
@@ -241,6 +287,7 @@ public class EmpleadosController extends Controller {
                     txtSApellido.textProperty().bindBidirectional(newVal.segundoApellidoProperty());
                     dtpFechaNacimiento.valueProperty().bindBidirectional(newVal.fechaNacimientoProperty());
                     chkAdministrador.selectedProperty().bindBidirectional(newVal.esAdminProperty());
+                    txtSalarioHora.textProperty().bindBidirectional(newVal.salarioHoraProperty());
                     txtClave.textProperty().bindBidirectional(newVal.claveProperty());
                     chkActivo.selectedProperty().bindBidirectional(newVal.activoProperty());
                     imvFoto.imageProperty().bindBidirectional(newVal.fotoProperty());
@@ -271,7 +318,7 @@ public class EmpleadosController extends Controller {
         txtNombre.delegateSetTextFormatter(FieldFormat.formatoSoloLetras(30));
         txtPApellido.delegateSetTextFormatter(FieldFormat.formatoSoloLetras(30));
         txtSApellido.delegateSetTextFormatter(FieldFormat.formatoSoloLetras(30));
-        txtSalarioHora.delegateSetTextFormatter(FieldFormat.formatoDineroColones());
+        txtSalarioHora.delegateSetTextFormatter(FieldFormat.formatoSoloNumeros());
         txtClave.delegateSetTextFormatter(FieldFormat.formatoLimiteCaracteres(16));
     }
 

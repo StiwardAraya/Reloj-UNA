@@ -128,5 +128,6 @@ public class MarcadorController extends Controller {
     private void onActionBtnContinuar(ActionEvent event) {
         marcarFolio();
     }
+    //falta enviar un mensaje cuando se registra correctamente la entrada del folio
 
 }

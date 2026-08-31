@@ -1,11 +1,16 @@
 package cr.ac.una.relojuna.controller;
 
 import cr.ac.una.relojuna.util.FXAnimator;
+import cr.ac.una.relojuna.util.NotificationColor;
+import cr.ac.una.relojuna.util.UIRouter;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -49,6 +54,8 @@ public class MarcasController extends Controller {
     @FXML
     private MFXButton btnRevalidar;
 
+    private final static Logger LOG = Logger.getLogger(MarcasController.class.getName());
+
     @Override
     public void initialize() {
         FXAnimator.slideInFromRight(root, 20);
@@ -61,7 +68,29 @@ public class MarcasController extends Controller {
 
     @Override
     protected void updateLanguageTexts(ResourceBundle bundle) {
-        // TODO
+        try {
+            lblTitulo.setText(bundle.getString("marcas.lbl.titulo"));
+            lblInfo.setText(bundle.getString("marcas.lbl.info"));
+            txtFolio.setFloatingText(bundle.getString("marcas.txt.folio"));
+            dtpDesde.setFloatingText(bundle.getString("marcas.dtp.desde"));
+            dtpHasta.setFloatingText(bundle.getString("marcas.dtp.hasta"));
+            btnBuscar.setText(bundle.getString("marcas.btn.buscar"));
+            btnAgregar.setText(bundle.getString("marcas.btn.agregar"));
+            clFolio.setText(bundle.getString("marcas.col.folio"));
+            clNombre.setText(bundle.getString("marcas.col.nombre"));
+            clFecha.setText(bundle.getString("marcas.col.fecha"));
+            clEntrada.setText(bundle.getString("marcas.col.entrada"));
+            clSalida.setText(bundle.getString("marcas.col.salida"));
+            chkVerInconsistencias.setText(bundle.getString("marcas.chk.inconsistencia"));
+            btnRevalidar.setText(bundle.getString("marcas.btn.validar"));
+        } catch (MissingResourceException ex) {
+            LOG.log(Level.SEVERE, "Exception configuring view language at MarcasController.updateLanguageTexts", ex);
+            UIRouter.getInstance().notify(
+                    UIRouter.NotificationPosition.BOTTOM_RIGHT,
+                    NotificationColor.WARNING,
+                    bundle.getString("general.notification.language.errortitle"),
+                    bundle.getString("general.notification.language.errormsg"));
+        }
     }
 
     @FXML

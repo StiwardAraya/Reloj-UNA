@@ -2,6 +2,7 @@ package cr.ac.una.relojuna.controller;
 
 import cr.ac.una.relojuna.model.EmpleadoViewModel;
 import cr.ac.una.relojuna.service.EmpleadoService;
+import cr.ac.una.relojuna.util.AppContext;
 import cr.ac.una.relojuna.util.FXAnimator;
 import cr.ac.una.relojuna.util.FieldFormat;
 import cr.ac.una.relojuna.util.FormValidator;
@@ -130,7 +131,13 @@ public class EmpleadosController extends Controller {
     }
 
     private void verEmpleados() {
-        UIRouter.getInstance().showModal("VerEmpleadosView");
+        UIRouter.getInstance().showModalAndWait("VerEmpleadosView");
+        empleadoDto = (EmpleadoDTO) AppContext.getInstance().get("EmpleadoBusqueda");
+        if (empleadoDto == null) {
+            LOG.log(Level.SEVERE, "Ocurrió un error obteniendo el empleado desde busqueda");
+            return;
+        }
+        cargarEmpleado(empleadoDto);
     }
 
     private void eliminarEmpleado() {
@@ -189,6 +196,9 @@ public class EmpleadosController extends Controller {
         empleadoView = new EmpleadoViewModel();
         empleadoView.fromDto(empleadoDto);
         empleadoProperty.set(empleadoView);
+
+        //FIXME: Parche temporal, revisar por que el salario no se bindea cuando el empleado no es admin
+        txtSalarioHora.setText(empleadoDto.getSalarioHora().toString());
         txtId.setDisable(true);
         btnEliminar.setDisable(false);
     }

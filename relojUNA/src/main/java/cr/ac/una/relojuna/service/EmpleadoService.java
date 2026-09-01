@@ -49,7 +49,12 @@ public class EmpleadoService {
     }
 
     public Respuesta getEmpleadosByFilters(String folio, String cedula, String nombre, String pApellido, String sApellido) {
-        SOAPResponse resultado = port.getEmpleadosByFilters(folio, cedula, nombre, pApellido, sApellido);
+        SOAPResponse resultado = port.getEmpleadosByFilters(
+                "%" + folio.toUpperCase() + "%",
+                "%" + cedula.toUpperCase() + "%",
+                "%" + nombre.toUpperCase() + "%",
+                "%" + pApellido.toUpperCase() + "%",
+                "%" + sApellido.toUpperCase() + "%");
         if (!resultado.isExito()) {
             return new Respuesta(false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
         }

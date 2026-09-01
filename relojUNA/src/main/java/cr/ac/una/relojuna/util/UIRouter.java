@@ -55,6 +55,8 @@ public final class UIRouter {
     private static final double NOTIFICATION_MARGIN = 16.0;
     private static final Duration NOTIFICATION_FADE_DURATION = Duration.millis(200);
 
+    private boolean modalWaiting;
+
     public enum Position {
         TOP, BOTTOM, LEFT, RIGHT, CENTER
     }
@@ -111,6 +113,14 @@ public final class UIRouter {
 
     public void showModal(String viewName) {
         runOnFxThread(() -> showModalInternal(viewName));
+    }
+
+    public void showModalAndWait(String viewName) {
+        if (!Platform.isFxApplicationThread()) {
+            throw new IllegalStateException(
+                    "showModalAndWait debe invocarse desde el hilo de la aplicación JavaFX.");
+        }
+        runOnFxThread(() -> showModalAndWaitInternal(viewName));
     }
 
     public void hideModal() {
@@ -186,6 +196,12 @@ public final class UIRouter {
         modalActive = true;
     }
 
+    private void showModalAndWaitInternal(String viewName) {
+        showModalInternal(viewName);
+        modalWaiting = true;
+        Platform.enterNestedEventLoop(this);
+    }
+
     private void hideModalInternal() {
         checkInitialization();
 
@@ -206,6 +222,11 @@ public final class UIRouter {
         setModalLayerVisible(false);
 
         modalActive = false;
+
+        if (modalWaiting) {
+            modalWaiting = false;
+            Platform.exitNestedEventLoop(this, null);
+        }
     }
 
     private void notifyInternal(NotificationPosition position,

@@ -213,10 +213,10 @@ public class EmpleadoViewModel {
         this.setFoto(dto.getFoto());
         this.setSalarioHora(dto.getSalarioHora());
         this.setEsAdmin(dto.getEsAdmin());
+        this.setActivo(dto.getActivo());
+        this.setVersion(dto.getVersion());
         if (dto.getEsAdmin().equals("S")) {
             this.setClave(dto.getClave());
         }
-        this.setActivo(dto.getActivo());
-        this.setVersion(dto.getVersion());
     }
 }

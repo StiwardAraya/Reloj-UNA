@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<AnchorPane id="AnchorPane" fx:id="root" maxHeight="400.0" maxWidth="700.0" minHeight="400.0" minWidth="700.0" prefHeight="400.0" prefWidth="700.0" stylesheets="@css/UtilStyles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="cr.ac.una.relojuna.controller.VerEmpleadosController">
+<AnchorPane id="AnchorPane" fx:id="root" maxHeight="500.0" maxWidth="850.0" minHeight="500.0" minWidth="850.0" prefHeight="500.0" prefWidth="850.0" stylesheets="@css/UtilStyles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="cr.ac.una.relojuna.controller.VerEmpleadosController">
    <styleClass>
       <String fx:value="p-3" />
       <String fx:value="gap-2" />
@@ -60,7 +60,7 @@
                   </VBox>
                </children>
                <styleClass>
-                  <String fx:value="gap-1" />
+                  <String fx:value="gap-2" />
                   <String fx:value="p-1" />
                </styleClass>
             </VBox>
@@ -75,7 +75,7 @@
                      <children>
                         <TableView fx:id="tbEmpleados" prefHeight="200.0" prefWidth="200.0" styleClass="table-modern" stylesheets="@css/Table.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
-                            <TableColumn fx:id="clId" prefWidth="33.59997630119324" text="ID" />
+                            <TableColumn fx:id="clFolio" prefWidth="33.59997630119324" text="Folio" />
                             <TableColumn fx:id="clCedula" prefWidth="103.99999618530273" text="Cedula" />
                               <TableColumn fx:id="clNombre" prefWidth="75.0" text="Nombre" />
                               <TableColumn fx:id="clPrimerApellido" prefWidth="75.0" text="1° Apellido" />

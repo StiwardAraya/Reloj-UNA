@@ -131,9 +131,11 @@ public class EmpleadosController extends Controller {
     }
 
     private void verEmpleados() {
+        this.cargarValoresPorDefecto();
+        AppContext.getInstance().set("EmpleadoBusqueda", empleadoDto);
         UIRouter.getInstance().showModalAndWait("VerEmpleadosView");
         empleadoDto = (EmpleadoDTO) AppContext.getInstance().get("EmpleadoBusqueda");
-        if (empleadoDto == null) {
+        if (empleadoDto.getId() == null) {
             LOG.log(Level.SEVERE, "Ocurrió un error obteniendo el empleado desde busqueda");
             return;
         }
@@ -141,7 +143,17 @@ public class EmpleadosController extends Controller {
     }
 
     private void eliminarEmpleado() {
+//        boolean empPropio = validacionesPreGuardado();
+//        if (empPropio) {
+//            if (!new Mensaje().showConfirmation(bundle.getString("empleado.eliminar.exito.title"), getStage(), bundle.getString("empleados.eliminar.propio"))) {
+//                return;
+//            }
+//        }
+
         try {
+            if (verificarEmpleadoLogueado()) {
+                return;
+            }
             EmpleadoService service = new EmpleadoService();
             Respuesta respuesta = service.eliminarEmpleado(txtId.getText());
             if (!respuesta.getEstado()) {
@@ -150,6 +162,9 @@ public class EmpleadosController extends Controller {
             }
             UIRouter.getInstance().notify(UIRouter.NotificationPosition.BOTTOM_RIGHT, NotificationColor.SUCCESS, bundle.getString("empleado.eliminar.exito.title"), bundle.getString(respuesta.getMensaje()));
             cargarValoresPorDefecto();
+//            if (empPropio) {
+//                logout();
+//            }
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "Error eliminando el empleado.", ex);
             new Mensaje().showModal(Alert.AlertType.ERROR, bundle.getString("empleados.error.title"), getStage(), bundle.getString("empleados.delete.error"));
@@ -157,10 +172,6 @@ public class EmpleadosController extends Controller {
     }
 
     private void guardarEmpleado() {
-        if (!validacionesPreGuardado()) {
-            return;
-        }
-
         try {
             EmpleadoService service = new EmpleadoService();
             empleadoDto = empleadoView.toDto();
@@ -196,26 +207,37 @@ public class EmpleadosController extends Controller {
         empleadoView = new EmpleadoViewModel();
         empleadoView.fromDto(empleadoDto);
         empleadoProperty.set(empleadoView);
-
-        //FIXME: Parche temporal, revisar por que el salario no se bindea cuando el empleado no es admin
-        txtSalarioHora.setText(empleadoDto.getSalarioHora().toString());
         txtId.setDisable(true);
         btnEliminar.setDisable(false);
     }
 
-    private boolean validacionesPreGuardado() {
-        if (!validarCampos()) {
-            return false;
+    private boolean verificarEmpleadoLogueado() {
+        if (((Long) AppContext.getInstance().get("EmpleadoLogueado")).toString().equals(txtId.getText())) {
+            return true;
         }
-
-        if (imvFoto.getImage() == null) {
-            new Mensaje().show(Alert.AlertType.ERROR, bundle.getString("empleados.nofoto.error.title"), bundle.getString("empleados.nofoto.error"));
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
+    private void logout() {
+        UIRouter.getInstance().close(UIRouter.Position.LEFT);
+        UIRouter.getInstance().close(UIRouter.Position.CENTER);
+        UIRouter.getInstance().show("MainHeaderView", UIRouter.Position.TOP);
+        UIRouter.getInstance().show("MainFooterView", UIRouter.Position.BOTTOM);
+        UIRouter.getInstance().show("LoginView", UIRouter.Position.CENTER);
+    }
+
+//    private boolean validacionesPreGuardado() {
+//        if (!validarCampos()) {
+//            return false;
+//        }
+//
+//        if (imvFoto.getImage() == null) {
+//            new Mensaje().show(Alert.AlertType.ERROR, bundle.getString("empleados.nofoto.error.title"), bundle.getString("empleados.nofoto.error"));
+//            return false;
+//        }
+//
+//        return true;
+//    }
     private void cargarImagen(File archivo) {
         if (archivo == null) {
             return;
@@ -354,6 +376,12 @@ public class EmpleadosController extends Controller {
         return result.isValid();
     }
 
+    private void advertenciaCheckActivo() {
+        if (!this.chkActivo.selectedProperty().get()) {
+            new Mensaje().show(Alert.AlertType.WARNING, bundle.getString("empleados.activo.adv.title"), bundle.getString("empleados.activo.adv"));
+        }
+    }
+
     @FXML
     private void onActionBtnBuscar(ActionEvent event) {
         obtenerEmpleado();
@@ -439,5 +467,10 @@ public class EmpleadosController extends Controller {
         if (event.getCode().equals(KeyCode.ENTER)) {
             obtenerEmpleado();
         }
+    }
+
+    @FXML
+    private void onActionChkActivo(ActionEvent event) {
+        advertenciaCheckActivo();
     }
 }

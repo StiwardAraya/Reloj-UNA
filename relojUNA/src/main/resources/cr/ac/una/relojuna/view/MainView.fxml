@@ -3,7 +3,7 @@
 <?import java.net.URL?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="root" prefHeight="725.0" prefWidth="1300.0" styleClass="bg-white" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.MainController">
+<BorderPane fx:id="root" prefHeight="740.0" prefWidth="1300.0" styleClass="bg-white" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.MainController">
    <stylesheets>
       <URL value="@css/UtilStyles.css" />
       <URL value="@css/Styles.css" />

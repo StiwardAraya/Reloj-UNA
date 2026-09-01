@@ -43,8 +43,6 @@ public class LoginController extends Controller {
     @FXML
     private MFXPasswordField txtClave;
     @FXML
-    private Hyperlink linkRecuperacion;
-    @FXML
     private MFXButton btnIngresar;
 
     private Logger LOG;
@@ -79,7 +77,6 @@ public class LoginController extends Controller {
             lblAdministradores.setText(bundle.getString("login.lbl.administradores"));
             txtFolio.setFloatingText(bundle.getString("login.txt.folio"));
             txtClave.setFloatingText(bundle.getString("login.txt.clave"));
-            linkRecuperacion.setText(bundle.getString("login.link.recuperacion"));
             btnIngresar.setText(bundle.getString("login.btn.ingresar"));
         } catch (MissingResourceException ex) {
             LOG.log(Level.SEVERE, "Exception configuring view language at LoginController.updateLanguageTexts", ex);
@@ -143,6 +140,7 @@ public class LoginController extends Controller {
 
     private void contextualizarEmpleado(EmpleadoDTO empleadoDto) {
         AppContext.getInstance().set("EmpleadoLogueado", empleadoDto.getId());
+        AppContext.getInstance().set("FolioLogueado", empleadoDto.getFolio());
     }
 
     @FXML

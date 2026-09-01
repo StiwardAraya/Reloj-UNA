@@ -17,15 +17,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane id="AnchorPane" fx:id="root" stylesheets="@css/UtilStyles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="cr.ac.una.relojuna.controller.MarcasController">
+<AnchorPane id="AnchorPane" fx:id="root" stylesheets="@css/UtilStyles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.MarcasController">
    <children>
       <VBox layoutX="237.0" layoutY="63.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <styleClass>
             <String fx:value="align-top" />
             <String fx:value="p-4" />
             <String fx:value="gap-1" />
-            <String fx:value="bg-gray-200" />
+            <String fx:value="bg-gray-100" />
          </styleClass>
          <children>
             <Label fx:id="lblTitulo" text="Mantenimiento de Marcas">

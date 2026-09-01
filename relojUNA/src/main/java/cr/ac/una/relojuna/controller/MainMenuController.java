@@ -1,5 +1,6 @@
 package cr.ac.una.relojuna.controller;
 
+import cr.ac.una.relojuna.util.AppContext;
 import cr.ac.una.relojuna.util.FXAnimator;
 import cr.ac.una.relojuna.util.Mensaje;
 import cr.ac.una.relojuna.util.NotificationColor;
@@ -40,6 +41,8 @@ public class MainMenuController extends Controller {
     private Label lblDerechos;
     @FXML
     private Button btnMarcas;
+    @FXML
+    private Label lblFolioAdmin;
 
     private enum Vista {
         DASHBOARD,
@@ -63,10 +66,11 @@ public class MainMenuController extends Controller {
             UIRouter.getInstance().show("DashboardView", UIRouter.Position.CENTER);
         });
         LOG = Logger.getLogger(MainMenuController.class.getName());
+        resetButtonStyles();
         this.vistaActual = Vista.DASHBOARD;
         this.botonActual = btnDashboard;
         cambiarBoton(btnDashboard);
-
+        this.lblFolioAdmin.setText((String) AppContext.getInstance().get("FolioLogueado"));
     }
 
     @Override
@@ -104,6 +108,23 @@ public class MainMenuController extends Controller {
         botonActual.getStyleClass().add("selected");
     }
 
+    private void resetButtonStyles() {
+        btnDashboard.getStyleClass().remove("selected");
+        btnEmpleados.getStyleClass().remove("selected");
+        btnMarcas.getStyleClass().remove("selected");
+        btnConsultas.getStyleClass().remove("selected");
+        btnPlanillas.getStyleClass().remove("selected");
+        btnReportes.getStyleClass().remove("selected");
+    }
+
+    private void logout() {
+        UIRouter.getInstance().close(UIRouter.Position.LEFT);
+        UIRouter.getInstance().close(UIRouter.Position.CENTER);
+        UIRouter.getInstance().show("MainHeaderView", UIRouter.Position.TOP);
+        UIRouter.getInstance().show("MainFooterView", UIRouter.Position.BOTTOM);
+        UIRouter.getInstance().show("LoginView", UIRouter.Position.CENTER);
+    }
+
     @FXML
     private void onActionBtnDashboard(ActionEvent event) {
         if (vistaActual != Vista.DASHBOARD) {
@@ -127,7 +148,7 @@ public class MainMenuController extends Controller {
         if (vistaActual != Vista.MARCAS) {
             cambiarBoton(btnMarcas);
             vistaActual = Vista.MARCAS;
-            // TODO: Abrir ventana de empleados
+            UIRouter.getInstance().show("MarcasView", UIRouter.Position.CENTER);
         }
     }
 
@@ -161,12 +182,7 @@ public class MainMenuController extends Controller {
     @FXML
     private void onActionBtnSalir(ActionEvent event) {
         if (new Mensaje().showConfirmation(bundle.getString("mainmenu.check.logout.title"), root.getScene().getWindow(), bundle.getString("mainmenu.check.logout"))) {
-            UIRouter.getInstance().close(UIRouter.Position.LEFT);
-            UIRouter.getInstance().close(UIRouter.Position.TOP);
-            UIRouter.getInstance().close(UIRouter.Position.CENTER);
-            UIRouter.getInstance().show("MainHeaderView", UIRouter.Position.TOP);
-            UIRouter.getInstance().show("MainFooterView", UIRouter.Position.BOTTOM);
-            UIRouter.getInstance().show("LoginView", UIRouter.Position.CENTER);
+            logout();
         }
     }
 

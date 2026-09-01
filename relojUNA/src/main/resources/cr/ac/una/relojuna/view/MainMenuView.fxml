@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane id="AnchorPane" fx:id="root" stylesheets="@css/UtilStyles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="cr.ac.una.relojuna.controller.MainMenuController">
+<AnchorPane id="AnchorPane" fx:id="root" stylesheets="@css/UtilStyles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.MainMenuController">
    <children>
       <VBox stylesheets="@css/Styles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <styleClass>
@@ -42,6 +41,30 @@
                </styleClass>
             </HBox>
             <Separator prefWidth="200.0" />
+            <HBox>
+               <styleClass>
+                  <String fx:value="bg-white" />
+                  <String fx:value="rad-sm" />
+                  <String fx:value="shadow-md" />
+                  <String fx:value="p-3" />
+                  <String fx:value="gap-1" />
+                  <String fx:value="align-left" />
+               </styleClass>
+               <children>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/circle-icon-blue-24.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lblFolioAdmin" text="Folio Admin">
+                     <styleClass>
+                        <String fx:value="text-lg" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-blue-900" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </HBox>
             <HBox>
                <children>
                   <Button fx:id="btnDashboard" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onActionBtnDashboard" text="Dashboard" HBox.hgrow="ALWAYS">

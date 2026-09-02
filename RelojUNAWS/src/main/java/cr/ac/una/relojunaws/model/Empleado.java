@@ -24,7 +24,7 @@ import java.util.Objects;
     @NamedQuery(name = "Empleado.findAll", query = "SELECT e FROM Empleado e"),
     @NamedQuery(name = "Empleado.findById", query = "SELECT e FROM Empleado e WHERE e.id = :id"),
     @NamedQuery(name = "Empleado.findByIdFolio", query = "SELECT e FROM Empleado e WHERE e.id = :id OR e.folio = :folio"),
-    @NamedQuery(name = "Empleado.findByFilters", query = "SELECT e FROM Empleado e WHERE UPPER(e.folio) LIKE :folio AND UPPER(e.cedula) LIKE :cedula AND UPPER(e.nombre) LIKE :nombre AND UPPER(e.primerApellido) LIKE :primerApellido AND UPPER(e.segundoApellido) LIKE :segundoApellido", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+    @NamedQuery(name = "Empleado.findByFilters", query = "SELECT e FROM Empleado e WHERE UPPER(e.correo) LIKE :correo AND UPPER(e.cedula) LIKE :cedula AND UPPER(e.nombre) LIKE :nombre AND UPPER(e.primerApellido) LIKE :primerApellido AND UPPER(e.segundoApellido) LIKE :segundoApellido", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
     @NamedQuery(name = "Empleado.authenticate", query = "SELECT e FROM Empleado e WHERE e.folio = :folio AND e.clave = :clave AND e.activo = 'A' AND e.esAdmin = 'S'", hints = @QueryHint(name = "eclipselink.refresh", value = "true"))
 })
 public class Empleado implements Serializable {
@@ -75,6 +75,10 @@ public class Empleado implements Serializable {
     @Column(name = "clave")
     private String clave;
 
+    @Column(name = "correo")
+    @Basic(optional = false)
+    private String correo;
+
     @Basic(optional = false)
     @Column(name = "activo")
     private String activo;
@@ -110,6 +114,7 @@ public class Empleado implements Serializable {
         this.salarioHora = dto.getSalarioHora();
         this.esAdmin = dto.getEsAdmin();
         this.clave = dto.getClave();
+        this.correo = dto.getCorreo();
         this.activo = dto.getActivo();
         this.fechaBaja = dto.getFechaBaja();
         this.version = dto.getVersion();
@@ -201,6 +206,14 @@ public class Empleado implements Serializable {
 
     public void setClave(String clave) {
         this.clave = clave;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public String getActivo() {

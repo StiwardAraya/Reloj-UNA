@@ -94,10 +94,10 @@ public class EmpleadoService {
         }
     }
 
-    public Respuesta getEmpleadosByFilters(String folio, String cedula, String nombre, String primerApellido, String segundoApellido) {
+    public Respuesta getEmpleadosByFilters(String correo, String cedula, String nombre, String primerApellido, String segundoApellido) {
         try {
             Query qry = em.createNamedQuery("Empleado.findByFilters", Empleado.class);
-            qry.setParameter("folio", folio);
+            qry.setParameter("correo", correo);
             qry.setParameter("cedula", cedula);
             qry.setParameter("nombre", nombre);
             qry.setParameter("primerApellido", primerApellido);

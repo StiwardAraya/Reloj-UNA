@@ -45,7 +45,7 @@ public interface EmpleadoSOAP {
     @WebMethod(operationName = "getEmpleadosByFilters")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<EmpleadoListDTO> getEmpleadosByFilters(
-            @WebParam(name = "folio") String folio,
+            @WebParam(name = "correo") String correo,
             @WebParam(name = "cedula") String cedula,
             @WebParam(name = "nombre") String nombre,
             @WebParam(name = "primerApellido") String primerApellido,

@@ -93,6 +93,8 @@ public class EmpleadosController extends Controller {
     private MFXCheckbox chkAdministrador;
     @FXML
     private MFXTextField txtCedula;
+    @FXML
+    private MFXTextField txtCorreo;
 
     private static final Logger LOG = Logger.getLogger(EmpleadosController.class.getName());
     private EmpleadoViewModel empleadoView;
@@ -143,13 +145,6 @@ public class EmpleadosController extends Controller {
     }
 
     private void eliminarEmpleado() {
-//        boolean empPropio = validacionesPreGuardado();
-//        if (empPropio) {
-//            if (!new Mensaje().showConfirmation(bundle.getString("empleado.eliminar.exito.title"), getStage(), bundle.getString("empleados.eliminar.propio"))) {
-//                return;
-//            }
-//        }
-
         try {
             if (verificarEmpleadoLogueado()) {
                 return;
@@ -162,9 +157,6 @@ public class EmpleadosController extends Controller {
             }
             UIRouter.getInstance().notify(UIRouter.NotificationPosition.BOTTOM_RIGHT, NotificationColor.SUCCESS, bundle.getString("empleado.eliminar.exito.title"), bundle.getString(respuesta.getMensaje()));
             cargarValoresPorDefecto();
-//            if (empPropio) {
-//                logout();
-//            }
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "Error eliminando el empleado.", ex);
             new Mensaje().showModal(Alert.AlertType.ERROR, bundle.getString("empleados.error.title"), getStage(), bundle.getString("empleados.delete.error"));
@@ -173,6 +165,10 @@ public class EmpleadosController extends Controller {
 
     private void guardarEmpleado() {
         try {
+            if (!validarCampos() && !FieldFormat.validarCorreoElectronico(txtCorreo.getText())) {
+                return;
+            }
+
             EmpleadoService service = new EmpleadoService();
             empleadoDto = empleadoView.toDto();
             Respuesta respuesta = service.guardarEmpleado(empleadoDto);
@@ -208,6 +204,7 @@ public class EmpleadosController extends Controller {
         empleadoView.fromDto(empleadoDto);
         empleadoProperty.set(empleadoView);
         txtId.setDisable(true);
+        txtFolioBusqueda.setDisable(true);
         btnEliminar.setDisable(false);
     }
 
@@ -226,18 +223,6 @@ public class EmpleadosController extends Controller {
         UIRouter.getInstance().show("LoginView", UIRouter.Position.CENTER);
     }
 
-//    private boolean validacionesPreGuardado() {
-//        if (!validarCampos()) {
-//            return false;
-//        }
-//
-//        if (imvFoto.getImage() == null) {
-//            new Mensaje().show(Alert.AlertType.ERROR, bundle.getString("empleados.nofoto.error.title"), bundle.getString("empleados.nofoto.error"));
-//            return false;
-//        }
-//
-//        return true;
-//    }
     private void cargarImagen(File archivo) {
         if (archivo == null) {
             return;
@@ -298,6 +283,7 @@ public class EmpleadosController extends Controller {
         this.empleadoView.setEsAdmin("N");
         this.empleadoProperty.set(empleadoView);
         txtFolioBusqueda.clear();
+        txtFolioBusqueda.setDisable(false);
         txtId.setDisable(false);
         txtId.clear();
         txtId.requestFocus();
@@ -318,6 +304,7 @@ public class EmpleadosController extends Controller {
                     chkAdministrador.selectedProperty().unbindBidirectional(oldVal.esAdminProperty());
                     txtSalarioHora.textProperty().unbindBidirectional(oldVal.salarioHoraProperty());
                     txtClave.textProperty().unbindBidirectional(oldVal.claveProperty());
+                    txtCorreo.textProperty().unbindBidirectional(oldVal.correoProperty());
                     chkActivo.selectedProperty().unbindBidirectional(oldVal.activoProperty());
                     imvFoto.imageProperty().unbindBidirectional(oldVal.fotoProperty());
                 }
@@ -335,6 +322,7 @@ public class EmpleadosController extends Controller {
                     chkAdministrador.selectedProperty().bindBidirectional(newVal.esAdminProperty());
                     txtSalarioHora.textProperty().bindBidirectional(newVal.salarioHoraProperty());
                     txtClave.textProperty().bindBidirectional(newVal.claveProperty());
+                    txtCorreo.textProperty().bindBidirectional(newVal.correoProperty());
                     chkActivo.selectedProperty().bindBidirectional(newVal.activoProperty());
                     imvFoto.imageProperty().bindBidirectional(newVal.fotoProperty());
                 }
@@ -366,6 +354,7 @@ public class EmpleadosController extends Controller {
         txtSApellido.delegateSetTextFormatter(FieldFormat.formatoSoloLetras(30));
         txtSalarioHora.delegateSetTextFormatter(FieldFormat.formatoSoloNumeros());
         txtClave.delegateSetTextFormatter(FieldFormat.formatoLimiteCaracteres(16));
+        txtCorreo.delegateSetTextFormatter(FieldFormat.formatoCorreoElectronico(50));
     }
 
     private boolean validarCampos() {
@@ -441,6 +430,7 @@ public class EmpleadosController extends Controller {
             this.dtpFechaNacimiento.setFloatingText(bundle.getString("empleados.dtp.nacimiento"));
             this.txtSalarioHora.setFloatingText(bundle.getString("empleados.txt.salario"));
             this.txtClave.setFloatingText(bundle.getString("empleados.txt.clave"));
+            this.txtCorreo.setFloatingText(bundle.getString("empleados.txt.correo"));
             this.btnNuevo.setText(bundle.getString("empleados.btn.nuevo"));
             this.btnFiltrar.setText(bundle.getString("empleados.btn.filtrar"));
             this.btnEliminar.setText(bundle.getString("empleados.btn.eliminar"));
@@ -458,6 +448,7 @@ public class EmpleadosController extends Controller {
     @FXML
     private void onKeyPressedTxtId(KeyEvent event) {
         if (event.getCode().equals(KeyCode.ENTER)) {
+            txtFolioBusqueda.clear();
             obtenerEmpleado();
         }
     }
@@ -465,6 +456,7 @@ public class EmpleadosController extends Controller {
     @FXML
     private void onKeyPressedTxtFolio(KeyEvent event) {
         if (event.getCode().equals(KeyCode.ENTER)) {
+            txtId.clear();
             obtenerEmpleado();
         }
     }

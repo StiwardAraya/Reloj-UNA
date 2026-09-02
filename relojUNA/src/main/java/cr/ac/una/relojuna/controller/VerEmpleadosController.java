@@ -35,7 +35,7 @@ public class VerEmpleadosController extends Controller {
     @FXML
     private Label lblFiltros;
     @FXML
-    private MFXTextField txtFolio;
+    private MFXTextField txtCorreo;
     @FXML
     private MFXTextField txtCedula;
     @FXML
@@ -49,7 +49,7 @@ public class VerEmpleadosController extends Controller {
     @FXML
     private TableView<EmpleadoDTO> tbEmpleados;
     @FXML
-    private TableColumn<EmpleadoDTO, String> clFolio;
+    private TableColumn<EmpleadoDTO, String> clCorreo;
     @FXML
     private TableColumn<EmpleadoDTO, String> clCedula;
     @FXML
@@ -73,9 +73,9 @@ public class VerEmpleadosController extends Controller {
     }
 
     // Main
-    private void cargarEmpleados(String folio, String cedula, String nombre, String pApellido, String sApellido) {
+    private void cargarEmpleados(String correo, String cedula, String nombre, String pApellido, String sApellido) {
         EmpleadoService service = new EmpleadoService();
-        Respuesta respuesta = service.getEmpleadosByFilters(folio, cedula, nombre, pApellido, sApellido);
+        Respuesta respuesta = service.getEmpleadosByFilters(correo, cedula, nombre, pApellido, sApellido);
 
         if (!respuesta.getEstado()) {
             UIRouter.getInstance().notify(
@@ -92,7 +92,7 @@ public class VerEmpleadosController extends Controller {
 
     // Helpers
     private void configurarColumnas() {
-        this.clFolio.setCellValueFactory(new PropertyValueFactory<>("folio"));
+        this.clCorreo.setCellValueFactory(new PropertyValueFactory<>("correo"));
         this.clCedula.setCellValueFactory(new PropertyValueFactory<>("cedula"));
         this.clNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         this.clPrimerApellido.setCellValueFactory(new PropertyValueFactory<>("primerApellido"));
@@ -119,7 +119,7 @@ public class VerEmpleadosController extends Controller {
     @FXML
     private void onActionBtnFiltrar(ActionEvent event) {
         cargarEmpleados(
-                txtFolio.getText(),
+                txtCorreo.getText(),
                 txtCedula.getText(),
                 txtNombre.getText(),
                 txtPApellido.getText(),
@@ -135,13 +135,13 @@ public class VerEmpleadosController extends Controller {
     protected void updateLanguageTexts(ResourceBundle bundle) {
         try {
             lblFiltros.setText(bundle.getString("empleados.lbl.filtros"));
-            txtFolio.setFloatingText(bundle.getString("empleados.txt.folio"));
+            txtCorreo.setFloatingText(bundle.getString("empleados.txt.correo"));
             txtCedula.setFloatingText(bundle.getString("empleados.txt.cedula"));
             txtNombre.setFloatingText(bundle.getString("empleados.txt.nombre"));
             txtPApellido.setFloatingText(bundle.getString("empleados.txt.papellido"));
             txtSApellido.setFloatingText(bundle.getString("empleados.txt.sapellido"));
             btnFiltrar.setText(bundle.getString("empleados.btn.filtrar"));
-            clFolio.setText(bundle.getString("empleados.col.folio"));
+            clCorreo.setText(bundle.getString("empleados.col.correo"));
             clCedula.setText(bundle.getString("empleados.col.cedula"));
             clNombre.setText(bundle.getString("empleados.col.nombre"));
             clPrimerApellido.setText(bundle.getString("empleados.col.papellido"));

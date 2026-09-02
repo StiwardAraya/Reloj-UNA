@@ -25,6 +25,7 @@ public class EmpleadoViewModel {
     private final SimpleStringProperty salarioHora = new SimpleStringProperty("");
     private final SimpleBooleanProperty esAdmin = new SimpleBooleanProperty(false);
     private final SimpleStringProperty clave = new SimpleStringProperty("");
+    private final SimpleStringProperty correo = new SimpleStringProperty("");
     private final SimpleBooleanProperty activo = new SimpleBooleanProperty(false);
     private Long version;
 
@@ -119,6 +120,14 @@ public class EmpleadoViewModel {
         this.clave.set(clave);
     }
 
+    public String getCorreo() {
+        return correo.get();
+    }
+
+    public void setCorreo(String correo) {
+        this.correo.set(correo);
+    }
+
     public String getActivo() {
         return activo.get() ? "A" : "I";
     }
@@ -180,6 +189,10 @@ public class EmpleadoViewModel {
         return clave;
     }
 
+    public SimpleStringProperty correoProperty() {
+        return correo;
+    }
+
     public SimpleBooleanProperty activoProperty() {
         return activo;
     }
@@ -197,6 +210,7 @@ public class EmpleadoViewModel {
         empleadoDto.setSalarioHora(this.getSalarioHora());
         empleadoDto.setEsAdmin(this.getEsAdmin());
         empleadoDto.setClave(this.getClave());
+        empleadoDto.setCorreo(this.getCorreo());
         empleadoDto.setActivo(this.getActivo());
         empleadoDto.setVersion(this.getVersion());
         return empleadoDto;
@@ -214,6 +228,7 @@ public class EmpleadoViewModel {
         this.setSalarioHora(dto.getSalarioHora());
         this.setEsAdmin(dto.getEsAdmin());
         this.setActivo(dto.getActivo());
+        this.setCorreo(dto.getCorreo());
         this.setVersion(dto.getVersion());
         if (dto.getEsAdmin().equals("S")) {
             this.setClave(dto.getClave());

@@ -15,8 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane id="AnchorPane" fx:id="root" maxHeight="500.0" maxWidth="850.0" minHeight="500.0" minWidth="850.0" prefHeight="500.0" prefWidth="850.0" stylesheets="@css/UtilStyles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="cr.ac.una.relojuna.controller.VerEmpleadosController">
+<AnchorPane id="AnchorPane" fx:id="root" maxHeight="500.0" maxWidth="850.0" minHeight="500.0" minWidth="850.0" prefHeight="500.0" prefWidth="850.0" stylesheets="@css/UtilStyles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.VerEmpleadosController">
    <styleClass>
       <String fx:value="p-3" />
       <String fx:value="gap-2" />
@@ -37,7 +36,7 @@
                      </styleClass>
                   </Label>
                   <Separator prefWidth="200.0" />
-                  <MFXTextField fx:id="txtFolio" floatingText="Folio" maxWidth="1.7976931348623157E308" />
+                  <MFXTextField fx:id="txtCorreo" floatingText="Correo" maxWidth="1.7976931348623157E308" />
                   <MFXTextField fx:id="txtCedula" floatingText="Cedula" layoutX="14.0" layoutY="60.0" maxWidth="1.7976931348623157E308" />
                   <MFXTextField fx:id="txtNombre" floatingText="Nombre" layoutX="14.0" layoutY="107.0" maxWidth="1.7976931348623157E308" />
                   <MFXTextField fx:id="txtPApellido" floatingText="Primer Apellido" layoutX="14.0" layoutY="154.0" maxWidth="1.7976931348623157E308" />
@@ -75,7 +74,7 @@
                      <children>
                         <TableView fx:id="tbEmpleados" prefHeight="200.0" prefWidth="200.0" styleClass="table-modern" stylesheets="@css/Table.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
-                            <TableColumn fx:id="clFolio" prefWidth="33.59997630119324" text="Folio" />
+                            <TableColumn fx:id="clCorreo" prefWidth="33.59997630119324" text="Correo" />
                             <TableColumn fx:id="clCedula" prefWidth="103.99999618530273" text="Cedula" />
                               <TableColumn fx:id="clNombre" prefWidth="75.0" text="Nombre" />
                               <TableColumn fx:id="clPrimerApellido" prefWidth="75.0" text="1° Apellido" />

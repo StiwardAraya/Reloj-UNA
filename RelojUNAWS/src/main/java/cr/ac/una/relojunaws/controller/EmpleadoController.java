@@ -88,9 +88,9 @@ public class EmpleadoController implements EmpleadoSOAP {
     }
 
     @Override
-    public SOAPResponse<EmpleadoListDTO> getEmpleadosByFilters(String folio, String cedula, String nombre, String primerApellido, String segundoApellido) {
+    public SOAPResponse<EmpleadoListDTO> getEmpleadosByFilters(String correo, String cedula, String nombre, String primerApellido, String segundoApellido) {
         try {
-            Respuesta respuesta = empleadoService.getEmpleadosByFilters(folio, cedula, nombre, primerApellido, segundoApellido);
+            Respuesta respuesta = empleadoService.getEmpleadosByFilters(correo, cedula, nombre, primerApellido, segundoApellido);
             if (!respuesta.getEstado()) {
                 return SOAPResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
             }

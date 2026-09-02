@@ -48,9 +48,9 @@ public class EmpleadoService {
         return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Empleados", resultado.getResultado());
     }
 
-    public Respuesta getEmpleadosByFilters(String folio, String cedula, String nombre, String pApellido, String sApellido) {
+    public Respuesta getEmpleadosByFilters(String correo, String cedula, String nombre, String pApellido, String sApellido) {
         SOAPResponse resultado = port.getEmpleadosByFilters(
-                "%" + folio.toUpperCase() + "%",
+                "%" + correo.toUpperCase() + "%",
                 "%" + cedula.toUpperCase() + "%",
                 "%" + nombre.toUpperCase() + "%",
                 "%" + pApellido.toUpperCase() + "%",

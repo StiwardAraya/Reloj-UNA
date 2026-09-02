@@ -194,11 +194,17 @@
                                                 <String fx:value="required-field" />
                                             </styleClass>
                                         </MFXTextField>
+                              <MFXTextField fx:id="txtCorreo" floatingText="Correo" layoutX="18.0" layoutY="354.0" maxWidth="1.7976931348623157E308">
+                                 <styleClass>
+                                    <String fx:value="md" />
+                                    <String fx:value="required-field" />
+                                 </styleClass>
+                              </MFXTextField>
                                         <MFXPasswordField fx:id="txtClave" floatingText="Contraseña" maxWidth="1.7976931348623157E308" styleClass="md" />
                                     </children>
                                     <styleClass>
                                         <String fx:value="p-2" />
-                                        <String fx:value="gap-4" />
+                                        <String fx:value="gap-2" />
                                         <String fx:value="align-center" />
                                     </styleClass>
                                 </VBox>

@@ -17,7 +17,8 @@ import java.util.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "EmpleadoDTO", propOrder = {
     "id", "folio", "cedula", "nombre", "primerApellido", "segundoApellido",
-    "fechaNacimiento", "foto", "salarioHora", "esAdmin", "clave", "activo", "fechaBaja", "version"
+    "fechaNacimiento", "foto", "salarioHora", "esAdmin", "clave", "correo",
+    "activo", "fechaBaja", "version"
 })
 public class EmpleadoDTO implements Serializable {
 
@@ -58,6 +59,9 @@ public class EmpleadoDTO implements Serializable {
     @XmlElement(name = "activo")
     private String activo;
 
+    @XmlElement(name = "correo")
+    private String correo;
+
     @XmlElement(name = "fechaBaja")
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate fechaBaja;
@@ -85,6 +89,7 @@ public class EmpleadoDTO implements Serializable {
         this.salarioHora = e.getSalarioHora();
         this.esAdmin = e.getEsAdmin();
         this.clave = e.getClave();
+        this.correo = e.getCorreo();
         this.activo = e.getActivo();
         this.fechaBaja = e.getFechaBaja();
         this.version = e.getVersion();
@@ -178,6 +183,14 @@ public class EmpleadoDTO implements Serializable {
         this.clave = clave;
     }
 
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
     public String getActivo() {
         return activo;
     }
@@ -226,7 +239,7 @@ public class EmpleadoDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "EmpleadoDTO{" + "id=" + id + ", folio=" + folio + ", cedula=" + cedula + ", nombre=" + nombre + ", primerApellido=" + primerApellido + ", segundoApellido=" + segundoApellido + ", fechaNacimiento=" + fechaNacimiento + ", foto=" + foto + ", salarioHora=" + salarioHora + ", esAdmin=" + esAdmin + ", clave=" + "***" + ", activo=" + activo + ", fechaBaja=" + fechaBaja + '}';
+        return "EmpleadoDTO{" + "id=" + id + ", folio=" + folio + ", cedula=" + cedula + ", nombre=" + nombre + ", primerApellido=" + primerApellido + ", segundoApellido=" + segundoApellido + ", fechaNacimiento=" + fechaNacimiento + ", foto=" + foto + ", salarioHora=" + salarioHora + ", esAdmin=" + esAdmin + ", clave=" + clave + ", activo=" + activo + ", correo=" + correo + ", fechaBaja=" + fechaBaja + ", version=" + version + '}';
     }
 
 }

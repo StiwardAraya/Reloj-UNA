@@ -11,6 +11,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -169,6 +170,9 @@ public class EmpleadoService {
             em.flush();
             return new Respuesta(true, "empleado.eliminar.exito", "");
         } catch (Exception ex) {
+            if (ex.getCause() != null && ex.getCause().getCause().getClass() == SQLIntegrityConstraintViolationException.class) {
+                return new Respuesta(false, "No se puede eliminar el empleado porque tiene relaciones con otros registros.", "eliminarEmpleado " + ex.getMessage());
+            }
             LOG.log(Level.SEVERE, "Ocurrio un error al guardar el empleado.", ex);
             return new Respuesta(false, "empleados.delete.error", "eliminarEmpleado " + ex.getMessage());
         }

@@ -42,17 +42,17 @@ public class MarcasController extends Controller {
     @FXML
     private TableColumn<?, ?> clFolio;
     @FXML
-    private TableColumn<?, ?> clNombre;
-    @FXML
     private TableColumn<?, ?> clFecha;
-    @FXML
-    private TableColumn<?, ?> clEntrada;
-    @FXML
-    private TableColumn<?, ?> clSalida;
     @FXML
     private MFXCheckbox chkVerInconsistencias;
     @FXML
     private MFXButton btnRevalidar;
+    @FXML
+    private TableColumn<?, ?> clHora;
+    @FXML
+    private TableColumn<?, ?> clTipo;
+    @FXML
+    private TableColumn<?, ?> clControles;
 
     private final static Logger LOG = Logger.getLogger(MarcasController.class.getName());
 
@@ -77,10 +77,10 @@ public class MarcasController extends Controller {
             btnBuscar.setText(bundle.getString("marcas.btn.buscar"));
             btnAgregar.setText(bundle.getString("marcas.btn.agregar"));
             clFolio.setText(bundle.getString("marcas.col.folio"));
-            clNombre.setText(bundle.getString("marcas.col.nombre"));
+            clHora.setText(bundle.getString("marcas.col.hora"));
             clFecha.setText(bundle.getString("marcas.col.fecha"));
-            clEntrada.setText(bundle.getString("marcas.col.entrada"));
-            clSalida.setText(bundle.getString("marcas.col.salida"));
+            clTipo.setText(bundle.getString("marcas.col.tipo"));
+            clControles.setText(bundle.getString("marcas.col.controles"));
             chkVerInconsistencias.setText(bundle.getString("marcas.chk.inconsistencia"));
             btnRevalidar.setText(bundle.getString("marcas.btn.validar"));
         } catch (MissingResourceException ex) {

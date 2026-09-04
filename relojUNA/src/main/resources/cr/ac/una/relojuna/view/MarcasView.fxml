@@ -83,11 +83,11 @@
                            <children>
                               <TableView fx:id="tbMarcas" styleClass="table-modern" stylesheets="@css/Table.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn fx:id="clFolio" prefWidth="75.0" text="Folio" />
-                                  <TableColumn fx:id="clNombre" prefWidth="75.0" text="Nombre" />
-                                    <TableColumn fx:id="clFecha" prefWidth="75.0" text="Fecha" />
-                                    <TableColumn fx:id="clEntrada" prefWidth="75.0" text="Entrada" />
-                                    <TableColumn fx:id="clSalida" prefWidth="75.0" text="Salida" />
+                                  <TableColumn fx:id="clFolio" prefWidth="60.79998850822449" text="Folio" />
+                                  <TableColumn fx:id="clFecha" prefWidth="153.5999755859375" text="Fecha" />
+                                    <TableColumn fx:id="clHora" prefWidth="140.00001525878906" text="Hora" />
+                                    <TableColumn fx:id="clTipo" prefWidth="136.79998779296875" text="Tipo" />
+                                    <TableColumn fx:id="clControles" prefWidth="156.79998779296875" text="Controler" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 
 public class App extends Application {
@@ -16,7 +17,14 @@ public class App extends Application {
         UIRouter.getInstance().init(stage, "MainView");
         UIRouter.getInstance().show("MainHeaderView", UIRouter.Position.TOP);
         UIRouter.getInstance().show("MainFooterView", UIRouter.Position.BOTTOM);
-        UIRouter.getInstance().show("MarcadorView", UIRouter.Position.CENTER);
+
+        String modo = System.getProperty("app.modo", "login");
+
+        if ("marcador".equalsIgnoreCase(modo)) {
+            UIRouter.getInstance().show("MarcadorView", UIRouter.Position.CENTER);
+        } else {
+            UIRouter.getInstance().show("LoginView", UIRouter.Position.CENTER);
+        }
     }
 
     public static void main(String[] args) {

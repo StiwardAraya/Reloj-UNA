@@ -1,9 +1,9 @@
 package cr.ac.una.relojuna;
 
-public class Main {
+public class MainMarcador {
 
     public static void main(String[] args) {
-        System.setProperty("app.modo", "login");
+        System.setProperty("app.modo", "marcador");
         App.main(args);
     }
 }

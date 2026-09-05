@@ -164,7 +164,7 @@ public class EmpleadosController extends Controller {
     private void guardarEmpleado() {
         try {
             // FIXME: Validar correo electronico correctamente
-            if (!validarCampos() && FieldFormat.validarCorreoElectronico(txtCorreo.getText())) {
+            if (!validarCampos()) {
                 return;
             }
 

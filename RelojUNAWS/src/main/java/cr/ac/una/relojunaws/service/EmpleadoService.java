@@ -186,7 +186,6 @@ public class EmpleadoService {
                 throw ex;
             }
         } catch (Exception ex) {
-
             LOG.log(Level.SEVERE, "Ocurrio un error al guardar el empleado.", ex);
             return new Respuesta(false, "empleados.delete.error", "eliminarEmpleado " + ex.getMessage());
         }

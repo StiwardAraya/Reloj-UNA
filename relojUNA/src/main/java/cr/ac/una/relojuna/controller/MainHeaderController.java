@@ -21,8 +21,6 @@ public class MainHeaderController extends Controller {
     private Label lblTitulo;
     @FXML
     private Label lblSubTitulo;
-    @FXML
-    private MFXCheckbox chkAdministrador;
 
     Logger LOG;
 
@@ -32,7 +30,6 @@ public class MainHeaderController extends Controller {
             updateLanguageTexts(bundle);
         });
         LOG = Logger.getLogger(MainHeaderController.class.getName());
-        crearEventoCheck();
     }
 
     @Override
@@ -45,7 +42,6 @@ public class MainHeaderController extends Controller {
         try {
             this.lblTitulo.setText(bundle.getString("mainheader.lbl.titulo"));
             this.lblSubTitulo.setText(bundle.getString("mainheader.lbl.subtitulo"));
-            this.chkAdministrador.setText(bundle.getString("mainheader.btn.login"));
         } catch (MissingResourceException ex) {
             LOG.log(Level.SEVERE, "Exception configuring view language at MainHeaderController.updateLanguageTexts", ex);
             UIRouter.getInstance().notify(
@@ -63,17 +59,6 @@ public class MainHeaderController extends Controller {
 
     private void mostrarMarcador() {
         UIRouter.getInstance().show("MarcadorView", UIRouter.Position.CENTER);
-    }
-
-    // Helpers
-    private void crearEventoCheck() {
-        chkAdministrador.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal) {
-                mostrarLogin();
-            } else {
-                mostrarMarcador();
-            }
-        });
     }
 
 }

@@ -25,7 +25,8 @@ import java.util.Objects;
     @NamedQuery(name = "Empleado.findById", query = "SELECT e FROM Empleado e WHERE e.id = :id"),
     @NamedQuery(name = "Empleado.findByIdFolio", query = "SELECT e FROM Empleado e WHERE e.id = :id OR e.folio = :folio"),
     @NamedQuery(name = "Empleado.findByFilters", query = "SELECT e FROM Empleado e WHERE UPPER(e.correo) LIKE :correo AND UPPER(e.cedula) LIKE :cedula AND UPPER(e.nombre) LIKE :nombre AND UPPER(e.primerApellido) LIKE :primerApellido AND UPPER(e.segundoApellido) LIKE :segundoApellido", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
-    @NamedQuery(name = "Empleado.authenticate", query = "SELECT e FROM Empleado e WHERE e.folio = :folio AND e.clave = :clave AND e.activo = 'A' AND e.esAdmin = 'S'", hints = @QueryHint(name = "eclipselink.refresh", value = "true"))
+    @NamedQuery(name = "Empleado.authenticate", query = "SELECT e FROM Empleado e WHERE e.folio = :folio AND e.clave = :clave AND e.activo = 'A' AND e.esAdmin = 'S'", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+    @NamedQuery(name = "Empleado.findFolios", query = "SELECT e.folio FROM Empleado e")
 })
 public class Empleado implements Serializable {
 

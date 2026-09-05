@@ -152,12 +152,7 @@
                                 <Separator orientation="VERTICAL" />
                                 <VBox layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" HBox.hgrow="SOMETIMES">
                                     <children>
-                                        <MFXTextField fx:id="txtFolio" floatingText="Folio" maxWidth="1.7976931348623157E308" styleClass="md">
-                                            <styleClass>
-                                                <String fx:value="md" />
-                                                <String fx:value="required-field" />
-                                            </styleClass>
-                                        </MFXTextField>
+                                        <MFXTextField fx:id="txtFolio" floatingText="Folio" maxWidth="1.7976931348623157E308" styleClass="md" />
                                         <MFXTextField fx:id="txtCedula" floatingText="Cedula" layoutX="18.0" layoutY="18.0" maxWidth="1.7976931348623157E308">
                                             <styleClass>
                                                 <String fx:value="md" />

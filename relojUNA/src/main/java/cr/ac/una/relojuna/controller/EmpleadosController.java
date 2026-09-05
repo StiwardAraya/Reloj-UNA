@@ -110,6 +110,7 @@ public class EmpleadosController extends Controller {
         configurarFormatos();
         configurarDragAndDrop();
         txtClave.setDisable(true);
+        txtFolio.setDisable(true);
         crearEventoCheckAdministrador();
         this.empleadoProperty = new SimpleObjectProperty<>();
         bindEmpleado();
@@ -146,9 +147,6 @@ public class EmpleadosController extends Controller {
 
     private void eliminarEmpleado() {
         try {
-            if (verificarEmpleadoLogueado()) {
-                return;
-            }
             EmpleadoService service = new EmpleadoService();
             Respuesta respuesta = service.eliminarEmpleado(txtId.getText());
             if (!respuesta.getEstado()) {
@@ -207,13 +205,6 @@ public class EmpleadosController extends Controller {
         txtId.setDisable(true);
         txtFolioBusqueda.setDisable(true);
         btnEliminar.setDisable(false);
-    }
-
-    private boolean verificarEmpleadoLogueado() {
-        if (((Long) AppContext.getInstance().get("EmpleadoLogueado")).toString().equals(txtId.getText())) {
-            return true;
-        }
-        return false;
     }
 
     private void logout() {

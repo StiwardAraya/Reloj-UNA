@@ -10,6 +10,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.Query;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
@@ -146,6 +147,8 @@ public class EmpleadoService {
                 empleado.actualizar(dto);
                 em.merge(empleado);
             } else {
+                String folioGenerado = generarFolio(dto.getPrimerApellido());
+                dto.setFolio(folioGenerado);
                 empleado = new Empleado(dto);
                 em.persist(empleado);
             }
@@ -175,6 +178,38 @@ public class EmpleadoService {
             }
             LOG.log(Level.SEVERE, "Ocurrio un error al guardar el empleado.", ex);
             return new Respuesta(false, "empleados.delete.error", "eliminarEmpleado " + ex.getMessage());
+        }
+    }
+
+    //Helpr
+    private String generarFolio(String primerApellido) {
+        int maxNumero = 0;
+        String letra = primerApellido.trim().substring(0, 1).toUpperCase();
+        try {
+            Query qry = em.createNamedQuery("Empleado.findFolios", Empleado.class);
+            List<String> folios = qry.getResultList();
+            maxNumero = folios.stream()
+                    .filter(folio -> folio != null && folio.length() >= 6)
+                    .mapToInt(this::parseNumeroFolio)
+                    .max()
+                    .orElse(0);
+        } catch (PersistenceException ex) {
+            LOG.log(Level.SEVERE, "Error al consultar folios existentes", ex);
+            throw new RuntimeException("No se pudo generar el folio: error al consultar folios existentes", ex);
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Error inesperado al generar folio", ex);
+            throw new RuntimeException("No se pudo generar el folio", ex);
+        }
+        int siguienteNumero = maxNumero + 1;
+        return letra + String.format("%05d", siguienteNumero);
+    }
+
+    private int parseNumeroFolio(String folio) {
+        try {
+            return Integer.parseInt(folio.substring(1));
+        } catch (NumberFormatException ex) {
+            LOG.log(Level.WARNING, "Folio con formato inesperado, se ignora: " + folio, ex);
+            return 0;
         }
     }
 }

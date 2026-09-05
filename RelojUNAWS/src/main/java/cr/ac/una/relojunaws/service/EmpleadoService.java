@@ -169,13 +169,24 @@ public class EmpleadoService {
             if (empleado == null) {
                 return new Respuesta(false, "empleados.delete.notfound", "eliminarEmpleado NoResultException");
             }
-            em.remove(empleado);
-            em.flush();
-            return new Respuesta(true, "empleado.eliminar.exito", "");
-        } catch (Exception ex) {
-            if (ex.getCause() != null && ex.getCause().getCause().getClass() == SQLIntegrityConstraintViolationException.class) {
-                return new Respuesta(false, "No se puede eliminar el empleado porque tiene relaciones con otros registros.", "eliminarEmpleado " + ex.getMessage());
+            try {
+                em.remove(empleado);
+                em.flush();
+                return new Respuesta(true, "empleado.eliminar.exito", "");
+            } catch (Exception ex) {
+                if (ex.getCause() != null && ex.getCause().getCause().getClass() == SQLIntegrityConstraintViolationException.class) {
+                    em.clear();
+                    Empleado empleadoDesactivar = em.find(Empleado.class, id);
+                    empleadoDesactivar.setActivo("I");
+                    em.merge(empleadoDesactivar);
+                    em.flush();
+                    return new Respuesta(true, "empleado.eliminar.desactivado",
+                            "El empleado tiene relaciones con otros registros, se desactivó en su lugar.");
+                }
+                throw ex;
             }
+        } catch (Exception ex) {
+
             LOG.log(Level.SEVERE, "Ocurrio un error al guardar el empleado.", ex);
             return new Respuesta(false, "empleados.delete.error", "eliminarEmpleado " + ex.getMessage());
         }

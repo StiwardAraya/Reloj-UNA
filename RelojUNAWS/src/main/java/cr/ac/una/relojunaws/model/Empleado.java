@@ -4,11 +4,13 @@ import cr.ac.una.relojunaws.model.dto.EmpleadoDTO;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.QueryHint;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -16,6 +18,8 @@ import jakarta.persistence.Version;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -91,6 +95,9 @@ public class Empleado implements Serializable {
     @Basic(optional = false)
     @Column(name = "version_empleado")
     private Long version;
+
+    @OneToMany(mappedBy = "empleado", fetch = FetchType.LAZY)
+    private List<Marca> marcas = new ArrayList<>();
 
     public Empleado() {
     }
@@ -239,6 +246,24 @@ public class Empleado implements Serializable {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    public List<Marca> getMarcas() {
+        return marcas;
+    }
+
+    public void setMarcas(List<Marca> marcas) {
+        this.marcas = marcas;
+    }
+
+    public void addMarca(Marca marca) {
+        this.marcas.add(marca);
+        marca.setEmpleado(this);
+    }
+
+    public void removeMarca(Marca marca) {
+        this.marcas.remove(marca);
+        marca.setEmpleado(null);
     }
 
     @Override

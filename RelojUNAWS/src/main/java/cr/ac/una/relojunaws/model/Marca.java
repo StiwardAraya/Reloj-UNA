@@ -22,7 +22,8 @@ import java.util.Objects;
 @Table(name = "MARCA", schema = "relojUNA")
 @NamedQueries({
     @NamedQuery(name = "Marca.findAll", query = "SELECT m FROM Marca m"),
-    @NamedQuery(name = "Marca.findById", query = "SELECT m FROM Marca m WHERE m.id = :id")
+    @NamedQuery(name = "Marca.findById", query = "SELECT m FROM Marca m WHERE m.id = :id"),
+    @NamedQuery(name = "Marca.findByEmpleado", query = "SELECT m FROM Marca m WHERE m.empleado.folio = :folio ORDER BY m.fechaHora DESC")
 })
 public class Marca {
 
@@ -46,9 +47,8 @@ public class Marca {
     @Column(name = "version_marca")
     private Long version;
 
-    @Basic(optional = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_empleado")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_empleado", nullable = false)
     private Empleado empleado;
 
     public Marca() {

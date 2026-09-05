@@ -13,6 +13,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.PersistenceException;
 import jakarta.persistence.Query;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -178,6 +179,7 @@ public class EmpleadoService {
                     em.clear();
                     Empleado empleadoDesactivar = em.find(Empleado.class, id);
                     empleadoDesactivar.setActivo("I");
+                    empleadoDesactivar.setFechaBaja(LocalDate.now());
                     em.merge(empleadoDesactivar);
                     em.flush();
                     return new Respuesta(true, "empleado.eliminar.desactivado",

@@ -30,8 +30,8 @@ public class MarcaDTO implements Serializable {
     @XmlElement(name = "version")
     private Long version;
 
-    @XmlElement(name = "idEmpleado")
-    private Long idEmpleado;
+    @XmlElement(name = "folioEmpleado")
+    private String folioEmpleado;
 
     public MarcaDTO() {
     }
@@ -46,7 +46,7 @@ public class MarcaDTO implements Serializable {
         this.tipo = marca.getTipo();
         this.fechaHora = marca.getFechaHora();
         this.version = marca.getVersion();
-        this.idEmpleado = marca.getEmpleado().getId();
+        this.folioEmpleado = marca.getEmpleado().getFolio();
     }
 
     public Long getId() {
@@ -81,12 +81,12 @@ public class MarcaDTO implements Serializable {
         this.version = version;
     }
 
-    public Long getIdEmpleado() {
-        return idEmpleado;
+    public String getFolioEmpleado() {
+        return folioEmpleado;
     }
 
-    public void setIdEmpleado(Long idEmpleado) {
-        this.idEmpleado = idEmpleado;
+    public void setFolioEmpleado(String folioEmpleado) {
+        this.folioEmpleado = folioEmpleado;
     }
 
     @Override
@@ -113,7 +113,7 @@ public class MarcaDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "MarcaDTO{" + "id=" + id + ", tipo=" + tipo + ", fechaHora=" + fechaHora + ", empleado=" + idEmpleado + '}';
+        return "MarcaDTO{" + "id=" + id + ", tipo=" + tipo + ", fechaHora=" + fechaHora + ", version=" + version + ", folioEmpleado=" + folioEmpleado + '}';
     }
 
 }

@@ -14,7 +14,7 @@ import java.util.Objects;
 
 @XmlRootElement(name = "marca")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MarcaDTO", propOrder = {"id", "tipo", "fechaHora", "version", "idEmpleado"})
+@XmlType(name = "MarcaDTO", propOrder = {"id", "tipo", "fechaHora", "version", "folioEmpleado"})
 public class MarcaDTO implements Serializable {
 
     @XmlElement(name = "id")

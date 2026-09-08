@@ -147,6 +147,7 @@
                         <configuration>
                             <wsdlUrls>
                                 <wsdlUrl>http://localhost:8080/RelojUNAWS/EmpleadoSOAP?wsdl</wsdlUrl>
+                                <wsdlUrl>http://localhost:8080/RelojUNAWS/MarcaSOAP?wsdl</wsdlUrl>
                             </wsdlUrls>
                             <packageName>cr.ac.una.relojuna.ws</packageName>
                             <sourceDestDir>${project.build.directory}/generated-sources/wsimport</sourceDestDir>

@@ -30,12 +30,6 @@ public interface MarcaSOAP {
             @WebParam(name = "folio") String folio
     );
 
-    // TODO: Endpoint para obtenerPorFechas
-    // TODO: Endpoint para guardarMarca
-    // TODO: Endpoint para eliminarMarca
-    // TODO: Endpoint para obtenerMarcasInconsistentes
-    // TODO: Endpoint para consultarResumen
-    // TODO: Endpoint para obtenerJornadas
     @WebMethod(operationName = "obtenerPorFechas")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<MarcaListDTO> obtenerPorFechas(

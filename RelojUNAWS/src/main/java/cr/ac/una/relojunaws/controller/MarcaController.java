@@ -18,14 +18,13 @@ import java.time.LocalDate;
  *
  * @author Tames
  */
-
 @WebService(
         endpointInterface = "cr.ac.una.relojunaws.controller.MarcaSOAP",
         serviceName = "MarcaSOAP",
         targetNamespace = "http://controller.una.ac.cr/marcas"
 )
-public class MarcaController implements MarcaSOAP{
-    
+public class MarcaController implements MarcaSOAP {
+
     @EJB
     private MarcaService marceService;
 
@@ -45,7 +44,7 @@ public class MarcaController implements MarcaSOAP{
     }
 
     @Override
-    public SOAPResponse<Void> eliminarMarca(Long id) {
+    public SOAPResponse<MarcaDTO> eliminarMarca(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -63,5 +62,5 @@ public class MarcaController implements MarcaSOAP{
     public SOAPResponse<JornadaListDTO> obtenerJornadas(LocalDate desde, LocalDate hasta, String folioEmpleado) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
 }

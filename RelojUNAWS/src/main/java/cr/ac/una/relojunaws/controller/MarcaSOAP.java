@@ -45,7 +45,7 @@ public interface MarcaSOAP {
 
     @WebMethod(operationName = "eliminarMarca")
     @WebResult(name = "SOAPResponse")
-    SOAPResponse<Void> eliminarMarca(
+    SOAPResponse<MarcaDTO> eliminarMarca(
             @WebParam(name = "id") Long id);
 
     @WebMethod(operationName = "obtenerMarcasInconsistentes")
@@ -62,7 +62,7 @@ public interface MarcaSOAP {
             @WebParam(name = "desde")
             @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate desde,
             @WebParam(name = "hasta")
-            @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta,@WebParam(name = "folioEmpleado") String folioEmpleado);
+            @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta, @WebParam(name = "folioEmpleado") String folioEmpleado);
 
     @WebMethod(operationName = "obtenerJornadas")
     @WebResult(name = "SOAPResponse")
@@ -70,6 +70,6 @@ public interface MarcaSOAP {
             @WebParam(name = "desde")
             @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate desde,
             @WebParam(name = "hasta")
-            @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta,@WebParam(name = "folioEmpleado") String folioEmpleado
+            @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta, @WebParam(name = "folioEmpleado") String folioEmpleado
     );
 }

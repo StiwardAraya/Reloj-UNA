@@ -2,18 +2,18 @@ package cr.ac.una.relojuna.service;
 
 import cr.ac.una.relojuna.util.Respuesta;
 import cr.ac.una.relojuna.ws.EmpleadoDTO;
-import cr.ac.una.relojuna.ws.EmpleadoSOAP;
-import cr.ac.una.relojuna.ws.EmpleadoSOAP_Service;
 import cr.ac.una.relojuna.ws.LoginRequestDTO;
+import cr.ac.una.relojuna.ws.RelojUNASOAP;
+import cr.ac.una.relojuna.ws.RelojUNASOAPService;
 import cr.ac.una.relojuna.ws.SOAPResponse;
 
 public class EmpleadoService {
 
-    private final EmpleadoSOAP port;
+    private final RelojUNASOAP port;
 
     public EmpleadoService() {
-        EmpleadoSOAP_Service service = new EmpleadoSOAP_Service();
-        this.port = service.getEmpleadoControllerPort();
+         RelojUNASOAPService service = new RelojUNASOAPService();
+        this.port = service.getRelojUNASOAPPort();
     }
 
     public Respuesta autenticarEmpleado(LoginRequestDTO loginRequest) {

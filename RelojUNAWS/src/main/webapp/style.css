@@ -614,5 +614,9 @@ body {
         text-align: center;
     }
 
-}
+    .service-heading,
+    .service-description {
+        display: block;
+    }
 
+}

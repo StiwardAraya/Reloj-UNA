@@ -145,6 +145,9 @@ public class EmpleadoService {
                 if (empleado == null) {
                     return new Respuesta(false, "empleados.update.notfound", "guardarEmpleado NoResultException");
                 }
+                if (dto.getActivo().equalsIgnoreCase("I")) {
+                    dto.setFechaBaja(LocalDate.now());
+                }
                 empleado.actualizar(dto);
                 em.merge(empleado);
             } else {

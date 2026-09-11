@@ -166,7 +166,7 @@ public class MainMenuController extends Controller {
         if (vistaActual != Vista.CONSULTAS) {
             cambiarBoton(btnConsultas);
             vistaActual = Vista.CONSULTAS;
-            // TODO: Abrir ventana de consultas
+            UIRouter.getInstance().show("ConsultasView", UIRouter.Position.CENTER);
         }
     }
 
@@ -175,7 +175,7 @@ public class MainMenuController extends Controller {
         if (vistaActual != Vista.REPORTES) {
             cambiarBoton(btnReportes);
             vistaActual = Vista.REPORTES;
-            // TODO: Abrir ventana de planillas
+            UIRouter.getInstance().show("ReporteView", UIRouter.Position.CENTER);
         }
     }
 

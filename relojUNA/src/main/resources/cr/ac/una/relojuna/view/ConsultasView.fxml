@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="root" prefHeight="720.0" prefWidth="1000.0" styleClass="bg-gray-50" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.ConsultasViewController">
+
+    <children>
+        <VBox spacing="16.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+            <padding>
+                <Insets bottom="20.0" left="24.0" right="24.0" top="20.0" />
+            </padding>
+
+            <VBox spacing="4.0">
+                <Label text="Consulta y exportación de marcas">
+               <styleClass>
+                  <String fx:value="font-bold" />
+                  <String fx:value="text-4xl" />
+                  <String fx:value="text-blue-900" />
+               </styleClass></Label>
+
+                <Label text="Consulte las jornadas por rango de fechas y expórtelas a Excel.">
+               <styleClass>
+                  <String fx:value="text-xl" />
+                  <String fx:value="text-gray-500" />
+               </styleClass></Label>
+            </VBox>
+
+            <VBox spacing="14.0" styleClass="bg-white, border, border-gray-200, rad-md, p-4">
+
+                <Label styleClass="text-lg, font-semibold, text-gray-800" text="Filtros de consulta" />
+
+                <GridPane hgap="14.0" vgap="8.0">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="30.0" />
+                        <ColumnConstraints percentWidth="30.0" />
+                        <ColumnConstraints percentWidth="25.0" />
+                        <ColumnConstraints percentWidth="15.0" />
+                    </columnConstraints>
+
+                    <Label styleClass="font-semibold, text-gray-700" text="Fecha inicial" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+
+                    <Label styleClass="font-semibold, text-gray-700" text="Fecha final" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                    <Label styleClass="font-semibold, text-gray-700" text="Folio" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+                    <MFXDatePicker fx:id="dpFechaInicio" maxWidth="Infinity" promptText="Fecha inicial" styleClass="outlined" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+                    <MFXDatePicker fx:id="dpFechaFin" maxWidth="Infinity" promptText="Fecha final" styleClass="outlined" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                    <MFXTextField fx:id="txtFolio" floatingText="Folio del empleado" maxWidth="Infinity" promptText="Vacío para todos" styleClass="outlined" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+
+                    <MFXButton fx:id="btnConsultar" maxWidth="Infinity" onAction="#consultar" styleClass="primary" text="Consultar" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+                </GridPane>
+            </VBox>
+
+            <HBox spacing="14.0">
+                <VBox spacing="5.0" styleClass="bg-white, border, border-gray-200, rad-md, p-4" HBox.hgrow="ALWAYS">
+
+                    <Label styleClass="text-sm, text-gray-500" text="Empleados que marcaron" />
+
+                    <Label fx:id="lblCantidadEmpleados" styleClass="text-2xl, font-bold, text-blue-700" text="0" />
+                </VBox>
+
+                <VBox spacing="5.0" styleClass="bg-white, border, border-gray-200, rad-md, p-4" HBox.hgrow="ALWAYS">
+
+                    <Label styleClass="text-sm, text-gray-500" text="Total de marcas" />
+
+                    <Label fx:id="lblTotalMarcas" styleClass="text-2xl, font-bold, text-blue-700" text="0" />
+                </VBox>
+
+                <VBox spacing="5.0" styleClass="bg-white, border, border-gray-200, rad-md, p-4" HBox.hgrow="ALWAYS">
+
+                    <Label styleClass="text-sm, text-gray-500" text="Total de horas trabajadas" />
+
+                    <Label fx:id="lblTotalHoras" styleClass="text-2xl, font-bold, text-blue-700" text="0 h 0 min" />
+                </VBox>
+            </HBox>
+
+            <VBox spacing="10.0" styleClass="bg-white, border, border-gray-200, rad-md, p-4" VBox.vgrow="ALWAYS">
+
+                <Label styleClass="text-lg, font-semibold, text-gray-800" text="Detalle de jornadas" />
+
+                <TableView fx:id="tblJornadas" styleClass="table-modern" VBox.vgrow="ALWAYS">
+
+                    <placeholder>
+                        <Label styleClass="text-gray-500" text="No se encontraron jornadas." />
+                    </placeholder>
+
+                    <columns>
+                        <TableColumn fx:id="colFecha" prefWidth="110.0" text="Fecha" />
+
+                        <TableColumn fx:id="colFolio" prefWidth="100.0" text="Folio" />
+
+                        <TableColumn fx:id="colEmpleado" prefWidth="210.0" text="Empleado" />
+
+                        <TableColumn fx:id="colEntrada" prefWidth="100.0" text="Entrada" />
+
+                        <TableColumn fx:id="colSalida" prefWidth="100.0" text="Salida" />
+
+                        <TableColumn fx:id="colHoras" prefWidth="100.0" text="Horas" />
+
+                        <TableColumn fx:id="colEstado" prefWidth="110.0" text="Estado" />
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                <Region HBox.hgrow="ALWAYS" />
+
+                <MFXButton fx:id="btnExportarExcel" disable="true" onAction="#exportarExcel" prefWidth="180.0" styleClass="success" text="Exportar a Excel" />
+            </HBox>
+
+        </VBox>
+    </children>
+   <stylesheets>
+      <URL value="@css/MFXOverrides.css" />
+      <URL value="@css/Styles.css" />
+      <URL value="@css/Table.css" />
+      <URL value="@css/TabPane.css" />
+      <URL value="@css/UtilStyles.css" />
+   </stylesheets>
+</AnchorPane>

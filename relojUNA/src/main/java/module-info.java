@@ -10,6 +10,9 @@ module cr.ac.una.relojuna {
     requires jakarta.xml.ws;
     requires org.jvnet.staxex;
     requires org.jvnet.mimepull;
+    
+    requires org.apache.poi.poi; 
+    requires org.apache.poi.ooxml;
 
     opens cr.ac.una.relojuna to javafx.fxml;
     opens cr.ac.una.relojuna.controller to javafx.fxml;

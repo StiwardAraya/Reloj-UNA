@@ -1,16 +1,25 @@
 package cr.ac.una.relojuna.controller;
 
+import cr.ac.una.relojuna.model.MarcaViewModel;
+import cr.ac.una.relojuna.service.MarcaService;
 import cr.ac.una.relojuna.util.FXAnimator;
 import cr.ac.una.relojuna.util.NotificationColor;
+import cr.ac.una.relojuna.util.Respuesta;
 import cr.ac.una.relojuna.util.UIRouter;
+import cr.ac.una.relojuna.ws.MarcaDTO;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -56,9 +65,15 @@ public class MarcasController extends Controller {
 
     private final static Logger LOG = Logger.getLogger(MarcasController.class.getName());
 
+    private final ObservableList<MarcaViewModel> marcas = FXCollections.observableArrayList();
+    private final FilteredList<MarcaViewModel> marcasFiltradas = new FilteredList<>(marcas, m -> true);
+
     @Override
     public void initialize() {
         FXAnimator.slideInFromRight(root, 20);
+        Platform.runLater(() -> {
+            updateLanguageTexts(bundle);
+        });
     }
 
     @Override
@@ -93,18 +108,78 @@ public class MarcasController extends Controller {
         }
     }
 
+    // Main
+    private void cargarMarcas() {
+        // TODO
+    }
+
+    private void buscarMarcas() {
+        // TODO
+    }
+
+    private void agregarMarca() {
+        // TODO
+    }
+
+    private void guardarFila(MarcaViewModel row) {
+        // TODO
+    }
+
+    private void cancelarEdicionFila(MarcaViewModel row) {
+        // TODO
+    }
+
+    private void editarMarca(MarcaViewModel row) {
+        // TODO
+    }
+
+    private void eliminarMarca(MarcaViewModel row) {
+        // TODO
+    }
+
+    private void revalidarMarcas() {
+        // TODO
+    }
+
+    private void filtrarInconsistencias(boolean soloInconsistentes) {
+        // TODO
+    }
+
+    // Helpers
+    private void configurarTabla() {
+        // TODO
+    }
+
+    private void refrescarDatos(List<MarcaDTO> dtos) {
+        // TODO
+    }
+
+    private void manejarRespuesta(Respuesta respuesta, Runnable siExito) {
+        // TODO
+    }
+
+    private boolean validarFila(MarcaViewModel row) {
+        // TODO
+        return false;
+    }
+
     @FXML
     private void onActionBtnBuscar(ActionEvent event) {
-        //falta agregar esto
+        buscarMarcas();
     }
 
     @FXML
     private void onActionBtnAgregar(ActionEvent event) {
-        //falta agregar esto
+        agregarMarca();
     }
 
     @FXML
     private void onActionBtnRevalidar(ActionEvent event) {
-        //falta agregar esto
+        revalidarMarcas();
+    }
+
+    @FXML
+    private void onActionChkVerInconsistencias(ActionEvent event) {
+        filtrarInconsistencias(chkVerInconsistencias.isSelected());
     }
 }

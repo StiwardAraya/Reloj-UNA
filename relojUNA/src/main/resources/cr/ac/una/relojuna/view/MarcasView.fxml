@@ -99,7 +99,7 @@
                   </ScrollPane>
                   <HBox styleClass="align-left">
                      <children>
-                        <MFXCheckbox fx:id="chkVerInconsistencias" styleClass="md" text="Ver solo inconsistencias" />
+                        <MFXCheckbox fx:id="chkVerInconsistencias" onAction="#onActionChkVerInconsistencias" styleClass="md" text="Ver solo inconsistencias" />
                         <HBox styleClass="align-right" HBox.hgrow="ALWAYS">
                            <children>
                               <MFXButton fx:id="btnRevalidar" onAction="#onActionBtnRevalidar" styleClass="primary" text="Revalidar inconsistencias">

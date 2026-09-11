@@ -95,13 +95,16 @@ public class MarcasController extends Controller {
 
     @FXML
     private void onActionBtnBuscar(ActionEvent event) {
+        //falta agregar esto
     }
 
     @FXML
     private void onActionBtnAgregar(ActionEvent event) {
+        //falta agregar esto
     }
 
     @FXML
     private void onActionBtnRevalidar(ActionEvent event) {
+        //falta agregar esto
     }
 }

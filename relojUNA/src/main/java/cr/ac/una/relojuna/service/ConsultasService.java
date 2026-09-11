@@ -22,8 +22,7 @@ import java.util.List;
  */
 public class ConsultasService {
 
-    private static final Logger LOG
-            = Logger.getLogger(ConsultasService.class.getName());
+    private static final Logger LOG = Logger.getLogger(ConsultasService.class.getName());
 
     public Respuesta consultarResumen(LocalDate desde, LocalDate hasta, String folioEmpleado) {
         Respuesta validacion = validarFechas(desde, hasta);
@@ -78,10 +77,10 @@ public class ConsultasService {
 
     private Respuesta validarFechas(LocalDate desde, LocalDate hasta) {
         if (desde == null || hasta == null) {
-            return new Respuesta(false, "Debe seleccionar la fecha inicial y la fecha final.", "ReporteService: fechas incompletas");
+            return new Respuesta(false, "Por favor debe seleccionar la fecha inicial y la fecha final.", "ReporteService: fechas incompletas");
         }
         if (hasta.isBefore(desde)) {
-            return new Respuesta(false, "La fecha final no puede ser anterior a la inicial.", "ReporteService: rango de fechas inválido");
+            return new Respuesta(false, "Recuerde que la fecha final no puede ser anterior a la inicial.", "ReporteService: rango de fechas inválido");
         }
         return null;
     }

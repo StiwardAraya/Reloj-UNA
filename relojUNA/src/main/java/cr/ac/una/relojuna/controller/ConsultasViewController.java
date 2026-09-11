@@ -104,32 +104,27 @@ public class ConsultasViewController extends Controller {
     }
 
     private void configurarTabla() {
-        colFecha.setCellValueFactory(datos
-                -> new SimpleStringProperty(
+        colFecha.setCellValueFactory(datos -> new SimpleStringProperty(
                         valorSeguro(datos.getValue().getFecha())
                 )
         );
 
-        colFolio.setCellValueFactory(datos
-                -> new SimpleStringProperty(
+        colFolio.setCellValueFactory(datos -> new SimpleStringProperty(
                         valorSeguro(datos.getValue().getFolioEmpleado())
                 )
         );
 
-        colEmpleado.setCellValueFactory(datos
-                -> new SimpleStringProperty(
+        colEmpleado.setCellValueFactory(datos -> new SimpleStringProperty(
                         valorSeguro(datos.getValue().getNombreEmpleado())
                 )
         );
 
-        colEntrada.setCellValueFactory(datos
-                -> new SimpleStringProperty(
+        colEntrada.setCellValueFactory(datos -> new SimpleStringProperty(
                         obtenerHoraEntrada(datos.getValue())
                 )
         );
 
-        colSalida.setCellValueFactory(datos
-                -> new SimpleStringProperty(
+        colSalida.setCellValueFactory(datos -> new SimpleStringProperty(
                         obtenerHoraSalida(datos.getValue())
                 )
         );
@@ -243,7 +238,7 @@ public class ConsultasViewController extends Controller {
             return "-";
         }
 
-        //esto es por el formato de como el WS, envia la hora
+        //esto es por el formato de como el WS, me devuelve la hora
         if (fechaHora.length() >= 16 && fechaHora.contains("T")) {
             return fechaHora.substring(11, 16);
         }
@@ -283,8 +278,7 @@ public class ConsultasViewController extends Controller {
         }
 
         if (!archivo.getName().toLowerCase().endsWith(".xlsx")) {
-            archivo = new File(
-                    archivo.getParentFile(),
+            archivo = new File( archivo.getParentFile(),
                     archivo.getName() + ".xlsx"
             );
         }
@@ -301,9 +295,7 @@ public class ConsultasViewController extends Controller {
                     "El archivo Excel se generó correctamente."
             );
         } catch (IOException ex) {
-            mostrarError(
-                    "No se pudo guardar el archivo Excel: "
-                    + ex.getMessage()
+            mostrarError( "No se pudo guardar el archivo Excel: " + ex.getMessage()
             );
         }
     }

@@ -17,237 +17,142 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="root"
-            prefHeight="720.0"
-            prefWidth="1000.0"
-            styleClass="bg-gray-50"
-            xmlns="http://javafx.com/javafx/26"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="cr.ac.una.relojuna.controller.ConsultasViewController">
-
+<AnchorPane fx:id="root" prefHeight="720.0" prefWidth="1000.0" styleClass="bg-gray-50" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.ConsultasController">
     <children>
-        <VBox spacing="16.0"
-              AnchorPane.topAnchor="0.0"
-              AnchorPane.bottomAnchor="0.0"
-              AnchorPane.leftAnchor="0.0"
-              AnchorPane.rightAnchor="0.0">
-
+        <VBox spacing="16.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <padding>
-                <Insets top="20.0"
-                        right="24.0"
-                        bottom="20.0"
-                        left="24.0"/>
+                <Insets bottom="20.0" left="24.0" right="24.0" top="20.0" />
             </padding>
-
-            <!-- Título de la pantalla -->
             <VBox spacing="4.0">
-
-                <Label fx:id="lblTituloConsulta"
-                       text="Consulta y exportación de marcas">
-
+                <Label fx:id="lblTituloConsulta" text="Consulta y exportación de marcas">
                     <styleClass>
-                        <String fx:value="font-bold"/>
-                        <String fx:value="text-4xl"/>
-                        <String fx:value="text-blue-900"/>
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-4xl" />
+                        <String fx:value="text-blue-900" />
                     </styleClass>
                 </Label>
-
-                <Label fx:id="lblDescripcionConsulta"
-                       text="Consulte las jornadas por rango de fechas y expórtelas a Excel.">
-
+                <Label fx:id="lblDescripcionConsulta" text="Consulte las jornadas por rango de fechas y expórtelas a Excel.">
                     <styleClass>
-                        <String fx:value="text-xl"/>
-                        <String fx:value="text-gray-500"/>
+                        <String fx:value="text-xl" />
+                        <String fx:value="text-gray-500" />
                     </styleClass>
                 </Label>
             </VBox>
-
-            <!-- Filtros -->
-            <VBox spacing="14.0"
-                  styleClass="bg-white, border, border-gray-200, rad-md, p-4">
-
-                <Label fx:id="lblTituloFiltros"
-                       text="Filtros de consulta"
-                       styleClass="text-lg, font-semibold, text-gray-800"/>
-
+            <VBox spacing="14.0" styleClass="bg-white, border, border-gray-200, rad-md, p-4">
+                <Label fx:id="lblTituloFiltros" text="Filtros de consulta">
+               <styleClass>
+                  <String fx:value="text-3xl" />
+                  <String fx:value="font-bold" />
+                  <String fx:value="text-blue-900" />
+               </styleClass></Label>
                 <GridPane hgap="14.0" vgap="8.0">
 
                     <columnConstraints>
-                        <ColumnConstraints percentWidth="30.0"/>
-                        <ColumnConstraints percentWidth="30.0"/>
-                        <ColumnConstraints percentWidth="25.0"/>
-                        <ColumnConstraints percentWidth="15.0"/>
+                        <ColumnConstraints percentWidth="30.0" />
+                        <ColumnConstraints percentWidth="30.0" />
+                        <ColumnConstraints percentWidth="25.0" />
+                        <ColumnConstraints percentWidth="15.0" />
                     </columnConstraints>
 
                     <rowConstraints>
-                        <RowConstraints/>
-                        <RowConstraints/>
+                        <RowConstraints />
+                        <RowConstraints />
                     </rowConstraints>
 
-                    <Label fx:id="lblFechaInicio"
-                           text="Fecha inicial"
-                           styleClass="font-semibold, text-gray-700"
-                           GridPane.columnIndex="0"
-                           GridPane.rowIndex="0"/>
+                    <Label fx:id="lblFechaInicio" text="Fecha inicial" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                  <styleClass>
+                     <String fx:value="text-blue-900" />
+                     <String fx:value="font-bold" />
+                     <String fx:value="text-lg" />
+                  </styleClass></Label>
 
-                    <Label fx:id="lblFechaFin"
-                           text="Fecha final"
-                           styleClass="font-semibold, text-gray-700"
-                           GridPane.columnIndex="1"
-                           GridPane.rowIndex="0"/>
+                    <Label fx:id="lblFechaFin" text="Fecha final" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                  <styleClass>
+                     <String fx:value="text-lg" />
+                     <String fx:value="font-bold" />
+                     <String fx:value="text-blue-900" />
+                  </styleClass></Label>
 
-                    <Label fx:id="lblFolio"
-                           text="Folio"
-                           styleClass="font-semibold, text-gray-700"
-                           GridPane.columnIndex="2"
-                           GridPane.rowIndex="0"/>
+                    <Label fx:id="lblFolio" text="Folio" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                  <styleClass>
+                     <String fx:value="text-lg" />
+                     <String fx:value="font-bold" />
+                     <String fx:value="text-blue-900" />
+                  </styleClass></Label>
 
-                    <MFXDatePicker fx:id="dpFechaInicio"
-                                   maxWidth="Infinity"
-                                   promptText="Fecha inicial"
-                                   styleClass="outlined"
-                                   GridPane.columnIndex="0"
-                                   GridPane.rowIndex="1"/>
+                    <MFXDatePicker fx:id="dpFechaInicio" maxWidth="Infinity" promptText="Fecha inicial" styleClass="outlined" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
-                    <MFXDatePicker fx:id="dpFechaFin"
-                                   maxWidth="Infinity"
-                                   promptText="Fecha final"
-                                   styleClass="outlined"
-                                   GridPane.columnIndex="1"
-                                   GridPane.rowIndex="1"/>
+                    <MFXDatePicker fx:id="dpFechaFin" maxWidth="Infinity" promptText="Fecha final" styleClass="outlined" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                    <MFXTextField fx:id="txtFolio"
-                                  maxWidth="Infinity"
-                                  floatingText="Folio del empleado"
-                                  promptText="Vacío para todos"
-                                  styleClass="outlined"
-                                  GridPane.columnIndex="2"
-                                  GridPane.rowIndex="1"/>
+                    <MFXTextField fx:id="txtFolio" floatingText="Folio del empleado" maxWidth="Infinity" promptText="Vacío para todos" styleClass="outlined" GridPane.columnIndex="2" GridPane.rowIndex="1" />
 
-                    <MFXButton fx:id="btnConsultar"
-                               maxWidth="Infinity"
-                               text="Consultar"
-                               styleClass="primary"
-                               onAction="#consultar"
-                               GridPane.columnIndex="3"
-                               GridPane.rowIndex="1"/>
+                    <MFXButton fx:id="btnConsultar" maxWidth="Infinity" onAction="#consultar" styleClass="primary" text="Consultar" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                 </GridPane>
             </VBox>
-
-            <!-- Resumen -->
             <HBox spacing="14.0">
-
-                <VBox spacing="5.0"
-                      styleClass="bg-white, border, border-gray-200, rad-md, p-4"
-                      HBox.hgrow="ALWAYS">
-
-                    <Label fx:id="lblTextoCantidadEmpleados"
-                           text="Empleados que marcaron"
-                           styleClass="text-sm, text-gray-500"/>
-
-                    <Label fx:id="lblCantidadEmpleados"
-                           text="0"
-                           styleClass="text-2xl, font-bold, text-blue-700"/>
+                <VBox spacing="5.0" styleClass="bg-white, border, border-gray-200, rad-md, p-4" HBox.hgrow="ALWAYS">
+                    <Label fx:id="lblTextoCantidadEmpleados" text="Empleados que marcaron">
+                  <styleClass>
+                     <String fx:value="font-bold" />
+                     <String fx:value="text-gray-600" />
+                     <String fx:value="text-lg" />
+                  </styleClass></Label>
+                    <Label fx:id="lblCantidadEmpleados" styleClass="text-2xl, font-bold, text-blue-700" text="0" />
                 </VBox>
-
-                <VBox spacing="5.0"
-                      styleClass="bg-white, border, border-gray-200, rad-md, p-4"
-                      HBox.hgrow="ALWAYS">
-
-                    <Label fx:id="lblTextoTotalMarcas"
-                           text="Total de marcas"
-                           styleClass="text-sm, text-gray-500"/>
-
-                    <Label fx:id="lblTotalMarcas"
-                           text="0"
-                           styleClass="text-2xl, font-bold, text-blue-700"/>
+                <VBox spacing="5.0" styleClass="bg-white, border, border-gray-200, rad-md, p-4" HBox.hgrow="ALWAYS">
+                    <Label fx:id="lblTextoTotalMarcas" text="Total de marcas">
+                  <styleClass>
+                     <String fx:value="font-bold" />
+                     <String fx:value="text-gray-600" />
+                     <String fx:value="text-lg" />
+                  </styleClass></Label>
+                    <Label fx:id="lblTotalMarcas" styleClass="text-2xl, font-bold, text-blue-700" text="0" />
                 </VBox>
-
-                <VBox spacing="5.0"
-                      styleClass="bg-white, border, border-gray-200, rad-md, p-4"
-                      HBox.hgrow="ALWAYS">
-
-                    <Label fx:id="lblTextoTotalHoras"
-                           text="Total de horas trabajadas"
-                           styleClass="text-sm, text-gray-500"/>
-
-                    <Label fx:id="lblTotalHoras"
-                           text="0 h 0 min"
-                           styleClass="text-2xl, font-bold, text-blue-700"/>
+                <VBox spacing="5.0" styleClass="bg-white, border, border-gray-200, rad-md, p-4" HBox.hgrow="ALWAYS">
+                    <Label fx:id="lblTextoTotalHoras" text="Total de horas trabajadas">
+                  <styleClass>
+                     <String fx:value="font-bold" />
+                     <String fx:value="text-gray-600" />
+                     <String fx:value="text-lg" />
+                  </styleClass></Label>
+                    <Label fx:id="lblTotalHoras" styleClass="text-2xl, font-bold, text-blue-700" text="0 h 0 min" />
                 </VBox>
             </HBox>
 
             <!-- Detalle de jornadas -->
-            <VBox spacing="10.0"
-                  styleClass="bg-white, border, border-gray-200, rad-md, p-4"
-                  VBox.vgrow="ALWAYS">
-
-                <Label fx:id="lblTituloDetalle"
-                       text="Detalle de jornadas"
-                       styleClass="text-lg, font-semibold, text-gray-800"/>
-
-                <TableView fx:id="tblJornadas"
-                           styleClass="table-modern"
-                           VBox.vgrow="ALWAYS">
-
+            <VBox spacing="10.0" styleClass="bg-white, border, border-gray-200, rad-md, p-4" VBox.vgrow="ALWAYS">
+                <Label fx:id="lblTituloDetalle" text="Detalle de jornadas">
+               <styleClass>
+                  <String fx:value="text-3xl" />
+                  <String fx:value="font-bold" />
+                  <String fx:value="text-blue-900" />
+               </styleClass></Label>
+                <TableView fx:id="tblJornadas" styleClass="table-modern" VBox.vgrow="ALWAYS">
                     <placeholder>
-                        <Label fx:id="lblSinJornadas"
-                               text="No se encontraron jornadas."
-                               styleClass="text-gray-500"/>
+                        <Label fx:id="lblSinJornadas" styleClass="text-gray-500" text="No se encontraron jornadas." />
                     </placeholder>
-
                     <columns>
-                        <TableColumn fx:id="colFecha"
-                                     prefWidth="110.0"
-                                     text="Fecha"/>
-
-                        <TableColumn fx:id="colFolio"
-                                     prefWidth="100.0"
-                                     text="Folio"/>
-
-                        <TableColumn fx:id="colEmpleado"
-                                     prefWidth="210.0"
-                                     text="Empleado"/>
-
-                        <TableColumn fx:id="colEntrada"
-                                     prefWidth="100.0"
-                                     text="Entrada"/>
-
-                        <TableColumn fx:id="colSalida"
-                                     prefWidth="100.0"
-                                     text="Salida"/>
-
-                        <TableColumn fx:id="colHoras"
-                                     prefWidth="100.0"
-                                     text="Horas"/>
-
-                        <TableColumn fx:id="colEstado"
-                                     prefWidth="110.0"
-                                     text="Estado"/>
+                        <TableColumn fx:id="colFecha" prefWidth="110.0" text="Fecha" />
+                        <TableColumn fx:id="colFolio" prefWidth="100.0" text="Folio" />
+                        <TableColumn fx:id="colEmpleado" prefWidth="210.0" text="Empleado" />
+                        <TableColumn fx:id="colEntrada" prefWidth="100.0" text="Entrada" />
+                        <TableColumn fx:id="colSalida" prefWidth="100.0" text="Salida" />
+                        <TableColumn fx:id="colHoras" prefWidth="100.0" text="Horas" />
+                        <TableColumn fx:id="colEstado" prefWidth="110.0" text="Estado" />
                     </columns>
                 </TableView>
             </VBox>
-
-            <!-- Botón Excel -->
             <HBox alignment="CENTER_RIGHT" spacing="12.0">
-
-                <Region HBox.hgrow="ALWAYS"/>
-
-                <MFXButton fx:id="btnExportarExcel"
-                           disable="true"
-                           prefWidth="180.0"
-                           text="Exportar a Excel"
-                           styleClass="success"
-                           onAction="#exportarExcel"/>
+                <Region HBox.hgrow="ALWAYS" />
+                <MFXButton fx:id="btnExportarExcel" disable="true" onAction="#exportarExcel" prefWidth="180.0" styleClass="success" text="Exportar a Excel" />
             </HBox>
         </VBox>
     </children>
-
     <stylesheets>
-        <URL value="@css/MFXOverrides.css"/>
-        <URL value="@css/Styles.css"/>
-        <URL value="@css/Table.css"/>
-        <URL value="@css/TabPane.css"/>
-        <URL value="@css/UtilStyles.css"/>
+        <URL value="@css/MFXOverrides.css" />
+        <URL value="@css/Styles.css" />
+        <URL value="@css/Table.css" />
+        <URL value="@css/TabPane.css" />
+        <URL value="@css/UtilStyles.css" />
     </stylesheets>
 </AnchorPane>

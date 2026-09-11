@@ -11,7 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 
-public class ReporteViewController extends Controller {
+public class ReporteController extends Controller {
 
     @FXML
     private AnchorPane root;
@@ -32,36 +32,26 @@ public class ReporteViewController extends Controller {
     private MFXButton btnReporteMarcas;
 
     @Override
-    public void initialize() {
-        dpFechaInicio.setValue(
-                LocalDate.now().withDayOfMonth(1)
-        );
-
+    public void initialize() { dpFechaInicio.setValue( LocalDate.now().withDayOfMonth(1) );
         dpFechaFin.setValue(LocalDate.now());
     }
-
     @FXML
     private void generarReporteEmpleados(ActionEvent event) {
-        mostrarInformacion(
-                "La pantalla está lista. Ahora falta conectar " + "el reporte Jasper de empleados."
-        );
+        mostrarInformacion( "La pantalla está lista. Ahora falta conectar " + "el reporte Jasper de empleados." );
     }
-
     @FXML
     private void generarReporteMarcas(ActionEvent event) {
         LocalDate desde = dpFechaInicio.getValue();
         LocalDate hasta = dpFechaFin.getValue();
-
         if (desde == null || hasta == null) {
             mostrarError("Debe indicar ambas fechas.");
             return;
         }
-
         if (hasta.isBefore(desde)) {
             mostrarError( "La fecha final no puede ser anterior " + "a la fecha inicial." );
             return;
         }
-
+        
         mostrarInformacion( "La pantalla está lista. Ahora falta conectar " + "el reporte Jasper de marcas." );
     }
 

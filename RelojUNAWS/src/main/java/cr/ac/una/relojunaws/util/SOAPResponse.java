@@ -48,9 +48,6 @@ public class SOAPResponse<T> implements Serializable {
         return new SOAPResponse(true, mensajeUsuario, "OK", resultado, null);
     }
 
-//    public static <T> SOAPResponse<T> exito(String mensajeUsuario, String mensajeTecnico) {
-//        return new SOAPResponse(true, mensajeUsuario, "OK", null, null);
-//    }
     public static <T> SOAPResponse<T> exito(String mensajeUsuario, String mensajeTecnico) {//el metodo anterior recibe mensaje tecnico pero lo ignora
         return new SOAPResponse<>(true, mensajeUsuario, mensajeTecnico, null, null);
     }

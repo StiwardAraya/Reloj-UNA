@@ -2,6 +2,7 @@ package cr.ac.una.relojuna.controller;
 
 import cr.ac.una.relojuna.service.ConsultasService;
 import cr.ac.una.relojuna.service.ExcelService;
+import cr.ac.una.relojuna.util.FXAnimator;
 import cr.ac.una.relojuna.util.NotificationColor;
 import cr.ac.una.relojuna.util.Respuesta;
 import cr.ac.una.relojuna.util.UIRouter;
@@ -99,36 +100,38 @@ public class ConsultasController extends Controller {
 
     @Override
     public void initialize() {
+        FXAnimator.slideInFromRight(root, 20);
+        Platform.runLater(() -> {
+            updateLanguageTexts(bundle);
+        });
         configurarTabla();
 
-        tblJornadas.setColumnResizePolicy( TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN );
-        dpFechaInicio.setValue( LocalDate.now().withDayOfMonth(1) );
+        tblJornadas.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+        dpFechaInicio.setValue(LocalDate.now().withDayOfMonth(1));
         dpFechaFin.setValue(LocalDate.now());
         tblJornadas.setItems(jornadas);
         btnExportarExcel.setDisable(true);
 
-        Platform.runLater(() -> { updateLanguageTexts(bundle);
-        });
     }
 
     private void configurarTabla() {
-        colFecha.setCellValueFactory(datos -> new SimpleStringProperty( valorSeguro( datos.getValue().getFecha() )
-                )
+        colFecha.setCellValueFactory(datos -> new SimpleStringProperty(valorSeguro(datos.getValue().getFecha())
+        )
         );
         colFolio.setCellValueFactory(datos
-                -> new SimpleStringProperty( valorSeguro( datos.getValue().getFolioEmpleado() )
+                -> new SimpleStringProperty(valorSeguro(datos.getValue().getFolioEmpleado())
                 )
         );
         colEmpleado.setCellValueFactory(datos
-                -> new SimpleStringProperty( valorSeguro(datos.getValue().getNombreEmpleado() )
+                -> new SimpleStringProperty(valorSeguro(datos.getValue().getNombreEmpleado())
                 )
         );
         colEntrada.setCellValueFactory(datos
-                -> new SimpleStringProperty( obtenerHoraEntrada(datos.getValue())
+                -> new SimpleStringProperty(obtenerHoraEntrada(datos.getValue())
                 )
         );
         colSalida.setCellValueFactory(datos
-                -> new SimpleStringProperty( obtenerHoraSalida(datos.getValue())
+                -> new SimpleStringProperty(obtenerHoraSalida(datos.getValue())
                 )
         );
         colHoras.setCellValueFactory(datos -> {
@@ -137,15 +140,16 @@ public class ConsultasController extends Controller {
             if (horas == null) {
                 texto = "-";
             } else {
-                texto = String.format( bundle.getString(
-                                "consultas.formato.horas"
-                            ),
-                            horas
+                texto = String.format(bundle.getString(
+                        "consultas.formato.horas"
+                ),
+                        horas
                 );
             }
             return new SimpleStringProperty(texto);
         });
-        colEstado.setCellValueFactory(datos -> { Boolean completa = datos.getValue().isCompleta();
+        colEstado.setCellValueFactory(datos -> {
+            Boolean completa = datos.getValue().isCompleta();
             String estado = Boolean.TRUE.equals(completa)
                     ? bundle.getString("consultas.estado.completa")
                     : bundle.getString("consultas.estado.incompleta");
@@ -161,7 +165,7 @@ public class ConsultasController extends Controller {
                 ? "" : txtFolio.getText().trim();
         if (desde == null || hasta == null) {
             mostrarError(
-                    bundle.getString( "consultas.error.fechasrequeridas" )
+                    bundle.getString("consultas.error.fechasrequeridas")
             );
             return;
         }
@@ -226,17 +230,17 @@ public class ConsultasController extends Controller {
             lblCantidadEmpleados.setText("0");
             lblTotalMarcas.setText("0");
             lblTotalHoras.setText(
-                    bundle.getString( "consultas.formato.horascero" )
+                    bundle.getString("consultas.formato.horascero")
             );
             return;
         }
         resumenActual = resumen;
-        lblCantidadEmpleados.setText( String.valueOf( resumen.getCantidadEmpleados() )
+        lblCantidadEmpleados.setText(String.valueOf(resumen.getCantidadEmpleados())
         );
-        lblTotalMarcas.setText( String.valueOf( resumen.getTotalMarcas() )
+        lblTotalMarcas.setText(String.valueOf(resumen.getTotalMarcas())
         );
         lblTotalHoras.setText(
-                String.format( bundle.getString( "consultas.formato.totalhoras" ),
+                String.format(bundle.getString("consultas.formato.totalhoras"),
                         resumen.getTotalHorasTrabajadas(),
                         resumen.getTotalMinutosTrabajados()
                 )
@@ -248,7 +252,7 @@ public class ConsultasController extends Controller {
         if (jornada.getMarcaEntrada() == null) {
             return "-";
         }
-        return extraerHora( jornada.getMarcaEntrada().getFechaHora() );
+        return extraerHora(jornada.getMarcaEntrada().getFechaHora());
     }
 
     private String obtenerHoraSalida(
@@ -256,7 +260,7 @@ public class ConsultasController extends Controller {
         if (jornada.getMarcaSalida() == null) {
             return "-";
         }
-        return extraerHora( jornada.getMarcaSalida().getFechaHora() );
+        return extraerHora(jornada.getMarcaSalida().getFechaHora());
     }
 
     private String extraerHora(String fechaHora) {
@@ -280,32 +284,32 @@ public class ConsultasController extends Controller {
     private void exportarExcel(ActionEvent event) {
         if (jornadas.isEmpty() || resumenActual == null) {
 
-            mostrarError( bundle.getString( "consultas.error.sinresultados" ) );
+            mostrarError(bundle.getString("consultas.error.sinresultados"));
             return;
         }
 
         FileChooser selector = new FileChooser();
-            selector.setTitle( bundle.getString( "consultas.excel.titulo" )
+        selector.setTitle(bundle.getString("consultas.excel.titulo")
         );
-            selector.getExtensionFilters().add(
+        selector.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter(
-                        bundle.getString( "consultas.excel.tipoarchivo" ),
+                        bundle.getString("consultas.excel.tipoarchivo"),
                         "*.xlsx"
                 )
         );
-            selector.setInitialFileName(
+        selector.setInitialFileName(
                 "ConsultaMarcas_"
                 + dpFechaInicio.getValue()
                 + "_al_"
                 + dpFechaFin.getValue()
                 + ".xlsx"
         );
-        File archivo = selector.showSaveDialog( root.getScene().getWindow() );
+        File archivo = selector.showSaveDialog(root.getScene().getWindow());
         if (archivo == null) {
             return;
         }
-        if (!archivo.getName() .toLowerCase() .endsWith(".xlsx")) {
-            archivo = new File( archivo.getAbsolutePath() + ".xlsx" );
+        if (!archivo.getName().toLowerCase().endsWith(".xlsx")) {
+            archivo = new File(archivo.getAbsolutePath() + ".xlsx");
         }
         try {
             excelService.generarExcel(
@@ -316,24 +320,24 @@ public class ConsultasController extends Controller {
                     txtFolio.getText(),
                     resumenActual
             );
-            mostrarInformacion( bundle.getString( "consultas.excel.exito" ) );
+            mostrarInformacion(bundle.getString("consultas.excel.exito"));
         } catch (IOException ex) {
-            LOG.log( Level.SEVERE, "Error generando el archivo Excel", ex );
-            mostrarError( bundle.getString(  "consultas.excel.error" ) + " " + ex.getMessage() );
+            LOG.log(Level.SEVERE, "Error generando el archivo Excel", ex);
+            mostrarError(bundle.getString("consultas.excel.error") + " " + ex.getMessage());
         }
     }
 
     private void mostrarError(String mensaje) {
         Alert alerta = new Alert(Alert.AlertType.ERROR);
-        alerta.setTitle( bundle.getString( "consultas.alerta.error.titulo" ) );
-        alerta.setHeaderText( bundle.getString( "consultas.alerta.error.encabezado" ) );
+        alerta.setTitle(bundle.getString("consultas.alerta.error.titulo"));
+        alerta.setHeaderText(bundle.getString("consultas.alerta.error.encabezado"));
         alerta.setContentText(mensaje);
         alerta.showAndWait();
     }
 
     private void mostrarInformacion(String mensaje) {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle( bundle.getString( "consultas.alerta.info.titulo" ) );
+        alerta.setTitle(bundle.getString("consultas.alerta.info.titulo"));
         alerta.setHeaderText(null);
         alerta.setContentText(mensaje);
         alerta.showAndWait();
@@ -347,37 +351,37 @@ public class ConsultasController extends Controller {
     @Override
     protected void updateLanguageTexts(ResourceBundle bundle) {
         try {
-            lblTituloConsulta.setText( bundle.getString("consultas.lbl.titulo") );
-            lblDescripcionConsulta.setText( bundle.getString("consultas.lbl.descripcion") );
+            lblTituloConsulta.setText(bundle.getString("consultas.lbl.titulo"));
+            lblDescripcionConsulta.setText(bundle.getString("consultas.lbl.descripcion"));
             lblTituloFiltros.setText(bundle.getString("consultas.lbl.filtros"));
-            lblFechaInicio.setText( bundle.getString("consultas.lbl.fechainicio") );          
-            lblFechaFin.setText( bundle.getString("consultas.lbl.fechafin") );
-            lblFolio.setText( bundle.getString("consultas.lbl.folio") );
-            lblTextoCantidadEmpleados.setText( bundle.getString("consultas.lbl.empleados") );
-            lblTextoTotalMarcas.setText( bundle.getString("consultas.lbl.totalmarcas") );
-            lblTextoTotalHoras.setText( bundle.getString("consultas.lbl.totalhoras") );
-            lblTituloDetalle.setText( bundle.getString("consultas.lbl.detalle") );
-            lblSinJornadas.setText( bundle.getString("consultas.lbl.sinjornadas") );
-            txtFolio.setFloatingText( bundle.getString("consultas.txt.folio") );
-            txtFolio.setPromptText( bundle.getString("consultas.txt.todos") );
-            btnConsultar.setText( bundle.getString("consultas.btn.consultar") );
-            btnExportarExcel.setText( bundle.getString("consultas.btn.excel") );
-            colFecha.setText( bundle.getString("consultas.col.fecha") );
-            colFolio.setText( bundle.getString("consultas.col.folio") );
-            colEmpleado.setText( bundle.getString("consultas.col.empleado") );
-            colEntrada.setText( bundle.getString("consultas.col.entrada") );
-            colSalida.setText( bundle.getString("consultas.col.salida") );
-            colHoras.setText( bundle.getString("consultas.col.horas") );
-            colEstado.setText( bundle.getString("consultas.col.estado") );
+            lblFechaInicio.setText(bundle.getString("consultas.lbl.fechainicio"));
+            lblFechaFin.setText(bundle.getString("consultas.lbl.fechafin"));
+            lblFolio.setText(bundle.getString("consultas.lbl.folio"));
+            lblTextoCantidadEmpleados.setText(bundle.getString("consultas.lbl.empleados"));
+            lblTextoTotalMarcas.setText(bundle.getString("consultas.lbl.totalmarcas"));
+            lblTextoTotalHoras.setText(bundle.getString("consultas.lbl.totalhoras"));
+            lblTituloDetalle.setText(bundle.getString("consultas.lbl.detalle"));
+            lblSinJornadas.setText(bundle.getString("consultas.lbl.sinjornadas"));
+            txtFolio.setFloatingText(bundle.getString("consultas.txt.folio"));
+            txtFolio.setPromptText(bundle.getString("consultas.txt.todos"));
+            btnConsultar.setText(bundle.getString("consultas.btn.consultar"));
+            btnExportarExcel.setText(bundle.getString("consultas.btn.excel"));
+            colFecha.setText(bundle.getString("consultas.col.fecha"));
+            colFolio.setText(bundle.getString("consultas.col.folio"));
+            colEmpleado.setText(bundle.getString("consultas.col.empleado"));
+            colEntrada.setText(bundle.getString("consultas.col.entrada"));
+            colSalida.setText(bundle.getString("consultas.col.salida"));
+            colHoras.setText(bundle.getString("consultas.col.horas"));
+            colEstado.setText(bundle.getString("consultas.col.estado"));
             tblJornadas.refresh();// Actualiza Completa/Incompleta en la tabla.
 
         } catch (MissingResourceException ex) {
-            LOG.log( Level.SEVERE, "Exception configuring view language at " + "ConsultasViewController.updateLanguageTexts", ex );
+            LOG.log(Level.SEVERE, "Exception configuring view language at " + "ConsultasViewController.updateLanguageTexts", ex);
             UIRouter.getInstance().notify(
                     UIRouter.NotificationPosition.BOTTOM_RIGHT,
                     NotificationColor.WARNING,
-                    bundle.getString( "general.notification.language.errortitle" ),
-                    bundle.getString( "general.notification.language.errormsg" )
+                    bundle.getString("general.notification.language.errortitle"),
+                    bundle.getString("general.notification.language.errormsg")
             );
         }
     }

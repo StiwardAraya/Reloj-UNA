@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.relojunaws.controller;
+
 import cr.ac.una.relojunaws.model.dto.EmpleadoDTO;
 import cr.ac.una.relojunaws.model.dto.EmpleadoListDTO;
 import cr.ac.una.relojunaws.model.dto.JornadaListDTO;
@@ -22,18 +19,12 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Tames
- */
-
 @WebService(
         endpointInterface = "cr.ac.una.relojunaws.controller.RelojUNASOAP",
         serviceName = "RelojUNASOAPService",
         portName = "RelojUNASOAPPort",
         targetNamespace = "http://controller.una.ac.cr/relojuna"
 )
-
 public class RelojUNAController implements RelojUNASOAP {
 
     @EJB
@@ -48,86 +39,87 @@ public class RelojUNAController implements RelojUNASOAP {
     @Override
     public SOAPResponse<EmpleadoDTO> autenticarEmpleado(LoginRequestDTO loginRequest) {
         if (loginRequest == null || loginRequest.getFolio() == null || loginRequest.getFolio().isBlank()
-                || loginRequest.getClave() == null|| loginRequest.getClave().isBlank()) {
-            return SOAPResponse.error("Debe indicar el folio y la clave.","autenticarEmpleado: datos incompletos");
+                || loginRequest.getClave() == null || loginRequest.getClave().isBlank()) {
+            return SOAPResponse.error("Debe indicar el folio y la clave.", "autenticarEmpleado: datos incompletos");
         }
-        return ejecutar("autenticarEmpleado",() -> empleadoService.autenticarEmpleado(loginRequest.getFolio(),
-                loginRequest.getClave()),respuesta -> (EmpleadoDTO) respuesta.getResultado("Empleado"));
+        return ejecutar("autenticarEmpleado", () -> empleadoService.autenticarEmpleado(loginRequest.getFolio(),
+                loginRequest.getClave()), respuesta -> (EmpleadoDTO) respuesta.getResultado("Empleado"));
     }
 
     @Override
     public SOAPResponse<EmpleadoDTO> getEmpleado(String id) {
-        return ejecutar("getEmpleado",() -> empleadoService.getEmpleado(Long.valueOf(id)),respuesta -> (EmpleadoDTO) respuesta.getResultado("Empleado"));
+        return ejecutar("getEmpleado", () -> empleadoService.getEmpleado(Long.valueOf(id)), respuesta -> (EmpleadoDTO) respuesta.getResultado("Empleado"));
     }
 
     @Override
     public SOAPResponse<EmpleadoDTO> getEmpleadoIdFolio(String id, String folio) {
-        return ejecutar("getEmpleadoIdFolio",() -> {Long idEmpleado = (id == null || id.isBlank())? 0L: Long.valueOf(id);
-                    return empleadoService.getEmpleadoIdFolio(idEmpleado, folio);
-                },respuesta -> (EmpleadoDTO) respuesta.getResultado("Empleado"));
+        return ejecutar("getEmpleadoIdFolio", () -> {
+            Long idEmpleado = (id == null || id.isBlank()) ? 0L : Long.valueOf(id);
+            return empleadoService.getEmpleadoIdFolio(idEmpleado, folio);
+        }, respuesta -> (EmpleadoDTO) respuesta.getResultado("Empleado"));
     }
 
     @Override
     public SOAPResponse<EmpleadoListDTO> getEmpleados() {
-        return ejecutar("getEmpleados",() -> empleadoService.getEmpleados(),respuesta -> (EmpleadoListDTO) respuesta.getResultado());
+        return ejecutar("getEmpleados", () -> empleadoService.getEmpleados(), respuesta -> (EmpleadoListDTO) respuesta.getResultado());
     }
 
     @Override
-    public SOAPResponse<EmpleadoListDTO> getEmpleadosByFilters(String correo,String cedula,String nombre,String primerApellido,String segundoApellido) {
-        return ejecutar("getEmpleadosByFilters",() -> empleadoService
-                .getEmpleadosByFilters(correo,cedula,nombre,primerApellido,segundoApellido),respuesta -> (EmpleadoListDTO) respuesta.getResultado());
+    public SOAPResponse<EmpleadoListDTO> getEmpleadosByFilters(String correo, String cedula, String nombre, String primerApellido, String segundoApellido) {
+        return ejecutar("getEmpleadosByFilters", () -> empleadoService
+                .getEmpleadosByFilters(correo, cedula, nombre, primerApellido, segundoApellido), respuesta -> (EmpleadoListDTO) respuesta.getResultado());
     }
 
     @Override
     public SOAPResponse<EmpleadoListDTO> getEmpleadosActivos() {
-        return ejecutar("getEmpleadosActivos",() -> empleadoService.getEmpleadosActivos(),respuesta -> (EmpleadoListDTO) respuesta.getResultado());
+        return ejecutar("getEmpleadosActivos", () -> empleadoService.getEmpleadosActivos(), respuesta -> (EmpleadoListDTO) respuesta.getResultado());
     }
 
     @Override
     public SOAPResponse<EmpleadoDTO> guardarEmpleado(EmpleadoDTO empleado) {
         if (empleado == null) {
-            return SOAPResponse.error("Debe indicar los datos del empleado.","guardarEmpleado: empleado nulo");
+            return SOAPResponse.error("Debe indicar los datos del empleado.", "guardarEmpleado: empleado nulo");
         }
-        return ejecutar("guardarEmpleado",() -> empleadoService.guardarEmpleado(empleado),
+        return ejecutar("guardarEmpleado", () -> empleadoService.guardarEmpleado(empleado),
                 respuesta -> (EmpleadoDTO) respuesta.getResultado("Empleado"));
     }
-    
+
     @Override
     public SOAPResponse<EmpleadoDTO> eliminarEmpleado(String id) {
-        return ejecutar("eliminarEmpleado",() -> empleadoService.eliminarEmpleado(Long.valueOf(id)),respuesta -> null);
+        return ejecutar("eliminarEmpleado", () -> empleadoService.eliminarEmpleado(Long.valueOf(id)), respuesta -> null);
     }
 
     //MARCAS CONTROLLER SOAP
     @Override
-    public SOAPResponse<MarcaDTO> registrarMarca(String folio) {
+    public SOAPResponse<EmpleadoDTO> registrarMarca(String folio) {
         if (folio == null || folio.isBlank()) {
-            return SOAPResponse.error("Debe indicar el folio del empleado.","registrarMarca: folio vacío");
+            return SOAPResponse.error("Debe indicar el folio del empleado.", "registrarMarca: folio vacío");
         }
-        return ejecutar("registrarMarca",() -> marcaService.registrarMarca(folio),respuesta -> (MarcaDTO) respuesta.getResultado("Marca"));
+        return ejecutar("registrarMarca", () -> marcaService.registrarMarca(folio), respuesta -> (EmpleadoDTO) respuesta.getResultado("Empleado"));
     }
 
     @Override
     public SOAPResponse<MarcaListDTO> obtenerPorFechas(LocalDate desde, LocalDate hasta) {
-        return ejecutar("obtenerPorFechas",() -> marcaService.obtenerPorFechas(desde, hasta),
+        return ejecutar("obtenerPorFechas", () -> marcaService.obtenerPorFechas(desde, hasta),
                 respuesta -> (MarcaListDTO) respuesta.getResultado());
     }
 
     @Override
     public SOAPResponse<MarcaDTO> guardarMarca(MarcaDTO marca) {
         if (marca == null) {
-            return SOAPResponse.error("Debe indicar los datos de la marca.","guardarMarca: marca nula");
+            return SOAPResponse.error("Debe indicar los datos de la marca.", "guardarMarca: marca nula");
         }
-        return ejecutar("guardarMarca",() -> marcaService.guardarMarca(marca),respuesta -> (MarcaDTO) respuesta.getResultado("Marca"));
+        return ejecutar("guardarMarca", () -> marcaService.guardarMarca(marca), respuesta -> (MarcaDTO) respuesta.getResultado("Marca"));
     }
 
     @Override
     public SOAPResponse<MarcaDTO> eliminarMarca(Long id) {
-        return ejecutar("eliminarMarca",() -> marcaService.eliminarMarca(id),respuesta -> null);
+        return ejecutar("eliminarMarca", () -> marcaService.eliminarMarca(id), respuesta -> null);
     }
 
     @Override
     public SOAPResponse<MarcaListDTO> obtenerMarcasInconsistentes(LocalDate desde, LocalDate hasta) {
-        return ejecutar("obtenerMarcasInconsistentes",() -> marcaService.obtenerMarcasInconsistentes(desde, hasta),respuesta -> (MarcaListDTO) respuesta.getResultado());
+        return ejecutar("obtenerMarcasInconsistentes", () -> marcaService.obtenerMarcasInconsistentes(desde, hasta), respuesta -> (MarcaListDTO) respuesta.getResultado());
     }
 
     //RESUMEN Y JORNADAS CONTROLLER SOAP
@@ -136,28 +128,29 @@ public class RelojUNAController implements RelojUNASOAP {
             LocalDate desde,
             LocalDate hasta,
             String folioEmpleado) {
-        String filtroFolio =(folioEmpleado == null || folioEmpleado.isBlank())? null: folioEmpleado;
-        return ejecutar("consultarResumen",() -> marcaService.consultarResumen(desde, hasta, filtroFolio),
-                respuesta -> (ResumenMarcasDTO)respuesta.getResultado("ResumenMarcas"));
+        String filtroFolio = (folioEmpleado == null || folioEmpleado.isBlank()) ? null : folioEmpleado;
+        return ejecutar("consultarResumen", () -> marcaService.consultarResumen(desde, hasta, filtroFolio),
+                respuesta -> (ResumenMarcasDTO) respuesta.getResultado("ResumenMarcas"));
     }
+
     @Override
-    public SOAPResponse<JornadaListDTO> obtenerJornadas(LocalDate desde,LocalDate hasta,String folioEmpleado) {
-        String filtroFolio =
-                (folioEmpleado == null || folioEmpleado.isBlank())? "": folioEmpleado;
-        return ejecutar("obtenerJornadas",() -> marcaService.obtenerJornadas(desde, hasta, filtroFolio),respuesta -> (JornadaListDTO) respuesta.getResultado());
+    public SOAPResponse<JornadaListDTO> obtenerJornadas(LocalDate desde, LocalDate hasta, String folioEmpleado) {
+        String filtroFolio
+                = (folioEmpleado == null || folioEmpleado.isBlank()) ? "" : folioEmpleado;
+        return ejecutar("obtenerJornadas", () -> marcaService.obtenerJornadas(desde, hasta, filtroFolio), respuesta -> (JornadaListDTO) respuesta.getResultado());
     }
 
     //MÉTODO AUXILIAR CONTROLLER SOAP
-
-    private <T> SOAPResponse<T> ejecutar(String operacion,Supplier<Respuesta> llamadaServicio,Function<Respuesta, T> obtenerResultado) {
+    private <T> SOAPResponse<T> ejecutar(String operacion, Supplier<Respuesta> llamadaServicio, Function<Respuesta, T> obtenerResultado) {
         try {
             Respuesta respuesta = llamadaServicio.get();
             if (!respuesta.getEstado()) {
-                return SOAPResponse.error(respuesta.getMensaje(),respuesta.getMensajeInterno());
+                return SOAPResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
             }
-            return SOAPResponse.exito(obtenerResultado.apply(respuesta),respuesta.getMensaje(),respuesta.getMensajeInterno());
-        } catch (Exception ex) {LOG.log(Level.SEVERE,"RelojUNAController." + operacion,ex);
-            return SOAPResponse.error("No se pudo completar la operación.","RelojUNAController." + operacion+ ": " + ex.getClass().getSimpleName());
+            return SOAPResponse.exito(obtenerResultado.apply(respuesta), respuesta.getMensaje(), respuesta.getMensajeInterno());
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "RelojUNAController." + operacion, ex);
+            return SOAPResponse.error("No se pudo completar la operación.", "RelojUNAController." + operacion + ": " + ex.getClass().getSimpleName());
         }
     }
 }

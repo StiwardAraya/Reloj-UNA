@@ -12,7 +12,7 @@ public class EmpleadoService {
     private final RelojUNASOAP port;
 
     public EmpleadoService() {
-         RelojUNASOAPService service = new RelojUNASOAPService();
+        RelojUNASOAPService service = new RelojUNASOAPService();
         this.port = service.getRelojUNASOAPPort();
     }
 

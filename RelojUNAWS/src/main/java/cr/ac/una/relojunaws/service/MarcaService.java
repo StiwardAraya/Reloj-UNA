@@ -3,6 +3,7 @@ package cr.ac.una.relojunaws.service;
 import cr.ac.una.relojunaws.model.Empleado;
 import cr.ac.una.relojunaws.model.JornadaPOJO;
 import cr.ac.una.relojunaws.model.Marca;
+import cr.ac.una.relojunaws.model.dto.EmpleadoDTO;
 import cr.ac.una.relojunaws.model.dto.JornadaDTO;
 import cr.ac.una.relojunaws.model.dto.JornadaListDTO;
 import cr.ac.una.relojunaws.model.dto.MarcaDTO;
@@ -62,10 +63,8 @@ public class MarcaService {
 
             em.persist(marca);
             em.flush();
-            //return new Respuesta(true, "marca.registrar.exito", "Marca registrada");
-            
-            // con esto el controlador puede devolver la marca, recien registrada mediante getResultado("Marca")
-            return new Respuesta(true,"marca.registrar.exito","Marca registrada", "Marca",new MarcaDTO(marca));        
+
+            return new Respuesta(true, "marca.registrar.exito", "Marca registrada", "Empleado", new EmpleadoDTO(empleado));
         } catch (IllegalArgumentException ex) {
             return new Respuesta(false, "marca.registrar.notfound", "registrarMarca " + ex.getMessage());
         } catch (IllegalStateException ex) {
@@ -216,13 +215,11 @@ public class MarcaService {
 
             List<Marca> marcasFiltradas = todasLasMarcas.stream()
                     .filter(marcaEnRango(desde, hasta))
-                    //.filter(m -> folioEmpleado == null || m.getEmpleado().getFolio().equalsIgnoreCase(folioEmpleado))
-                    .filter(m -> folioEmpleado == null || folioEmpleado.isBlank()|| m.getEmpleado().getFolio().equalsIgnoreCase(folioEmpleado.trim()))
+                    .filter(m -> folioEmpleado.isBlank() || m.getEmpleado().getFolio().equalsIgnoreCase(folioEmpleado.trim()))
                     .toList();
 
             Long cantidadEmpleados = contarEmpleadosDistintos(marcasFiltradas);
-            //Long totalMarcas = (long) marcasFiltradas.size();
-            Long totalMarcas = marcasFiltradas.stream().count();//conteo mediante streams, tal como pide el punto 7
+            Long totalMarcas = marcasFiltradas.stream().count();
 
             Map<Empleado, List<Marca>> porEmpleado = marcasFiltradas.stream()
                     .collect(Collectors.groupingBy(Marca::getEmpleado));
@@ -266,8 +263,7 @@ public class MarcaService {
 
             List<Marca> marcasFiltradas = todasLasMarcas.stream()
                     .filter(marcaEnRango(desde, hasta))
-                    //.filter(m -> folioEmpleado.isBlank() || m.getEmpleado().getFolio().equals(folioEmpleado))
-                    .filter(m -> folioEmpleado == null || folioEmpleado.isBlank()|| m.getEmpleado().getFolio().equalsIgnoreCase(folioEmpleado.trim()))
+                    .filter(m -> folioEmpleado.isBlank() || m.getEmpleado().getFolio().equals(folioEmpleado))
                     .toList();
 
             Map<Empleado, List<Marca>> porEmpleado = marcasFiltradas.stream()

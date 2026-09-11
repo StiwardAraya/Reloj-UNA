@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.relojuna.service;
 
 import cr.ac.una.relojuna.ws.JornadaDTO;
@@ -25,17 +21,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-/**
- *
- * @author Tames
- */
 public class ExcelService {
-    
-    public void generarExcel(File archivo, List<JornadaDTO> jornadas, LocalDate desde, 
+
+    public void generarExcel(File archivo, List<JornadaDTO> jornadas, LocalDate desde,
             LocalDate hasta, String folio, ResumenMarcasDTO resumen) throws IOException {
-        
-        try (Workbook libroEXCEL = new XSSFWorkbook();
-             FileOutputStream salida = new FileOutputStream(archivo)) {
+
+        try (Workbook libroEXCEL = new XSSFWorkbook(); FileOutputStream salida = new FileOutputStream(archivo)) {
 
             Sheet hoja = libroEXCEL.createSheet("Consulta de marcas");
 
@@ -47,7 +38,6 @@ public class ExcelService {
 
             int numeroFila = 0;
 
-            // Título principal
             Row filaTitulo = hoja.createRow(numeroFila++);
             filaTitulo.setHeightInPoints(28);
 
@@ -61,7 +51,6 @@ public class ExcelService {
                     new CellRangeAddress(0, 0, 0, 6)
             );
 
-            // Filtros utilizados
             crearFilaInformacion(
                     hoja,
                     numeroFila++,
@@ -78,8 +67,8 @@ public class ExcelService {
                     estiloTexto
             );
 
-            String empleadoConsultado =
-                    folio == null || folio.isBlank()
+            String empleadoConsultado
+                    = folio == null || folio.isBlank()
                     ? "Todos los empleados"
                     : folio.trim();
 
@@ -93,7 +82,6 @@ public class ExcelService {
 
             numeroFila++;
 
-            // Encabezados de la tabla
             int filaEncabezado = numeroFila;
 
             Row encabezado = hoja.createRow(numeroFila++);
@@ -113,7 +101,6 @@ public class ExcelService {
                 celda.setCellStyle(estiloEncabezado);
             }
 
-            // Contenido de las jornadas
             for (JornadaDTO jornada : jornadas) {
                 Row fila = hoja.createRow(numeroFila++);
 
@@ -172,7 +159,6 @@ public class ExcelService {
                 );
             }
 
-            // Filtro automático en los encabezados
             if (!jornadas.isEmpty()) {
                 hoja.setAutoFilter(
                         new CellRangeAddress(
@@ -186,7 +172,6 @@ public class ExcelService {
 
             numeroFila++;
 
-            // Resumen final
             crearFilaResumen(
                     hoja,
                     numeroFila++,
@@ -214,10 +199,8 @@ public class ExcelService {
                     estiloResumen
             );
 
-            // Mantiene visibles los encabezados al desplazarse
             hoja.createFreezePane(0, filaEncabezado + 1);
 
-            // Ajusta automáticamente el ancho de las columnas
             for (int columna = 0; columna < columnas.length; columna++) {
                 hoja.autoSizeColumn(columna);
                 hoja.setColumnWidth(
@@ -387,4 +370,3 @@ public class ExcelService {
         return valor == null ? "-" : valor.toString();
     }
 }
-

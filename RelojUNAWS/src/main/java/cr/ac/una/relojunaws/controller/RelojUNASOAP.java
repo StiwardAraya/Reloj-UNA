@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.relojunaws.controller;
 
 import cr.ac.una.relojunaws.model.dto.EmpleadoDTO;
@@ -23,22 +19,16 @@ import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 
-
-
-/**
- *
- * @author Tames
- */
-
 @WebService(
         name = "RelojUNASOAP",
         targetNamespace = "http://controller.una.ac.cr/relojuna"
 )
-
-@SOAPBinding(style = SOAPBinding.Style.DOCUMENT,use = SOAPBinding.Use.LITERAL)
-@XmlSeeAlso({EmpleadoDTO.class,EmpleadoListDTO.class,LoginRequestDTO.class,
-    MarcaDTO.class,MarcaListDTO.class,JornadaDTO.class,JornadaListDTO.class,ResumenMarcasDTO.class})
-
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
+@XmlSeeAlso({
+    EmpleadoDTO.class, EmpleadoListDTO.class, LoginRequestDTO.class,
+    MarcaDTO.class, MarcaListDTO.class, JornadaDTO.class, JornadaListDTO.class,
+    ResumenMarcasDTO.class
+})
 public interface RelojUNASOAP {
 
     //IMPLEMENTACION DE LOS METODOS DE EMPLEADO
@@ -46,87 +36,72 @@ public interface RelojUNASOAP {
     @WebResult(name = "SOAPResponse")
     SOAPResponse<EmpleadoDTO> autenticarEmpleado(@WebParam(name = "loginRequest") LoginRequestDTO loginRequest);
 
-    
     @WebMethod(operationName = "getEmpleado")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<EmpleadoDTO> getEmpleado(@WebParam(name = "id") String id);
 
-    
     @WebMethod(operationName = "getEmpleadoIdFolio")
     @WebResult(name = "SOAPResponse")
-    SOAPResponse<EmpleadoDTO> getEmpleadoIdFolio(@WebParam(name = "id") String id,@WebParam(name = "folio") String folio);
+    SOAPResponse<EmpleadoDTO> getEmpleadoIdFolio(@WebParam(name = "id") String id, @WebParam(name = "folio") String folio);
 
-    
     @WebMethod(operationName = "getEmpleados")
-    @WebResult(name = "SOAPResponse")SOAPResponse<EmpleadoListDTO> getEmpleados();
+    @WebResult(name = "SOAPResponse")
+    SOAPResponse<EmpleadoListDTO> getEmpleados();
 
-    
     @WebMethod(operationName = "getEmpleadosByFilters")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<EmpleadoListDTO> getEmpleadosByFilters(@WebParam(name = "correo") String correo,
-        @WebParam(name = "cedula") String cedula,@WebParam(name = "nombre") 
-        String nombre,@WebParam(name = "primerApellido") String primerApellido,@WebParam(name = "segundoApellido") String segundoApellido);
+            @WebParam(name = "cedula") String cedula, @WebParam(name = "nombre") String nombre, @WebParam(name = "primerApellido") String primerApellido, @WebParam(name = "segundoApellido") String segundoApellido);
 
-    
     @WebMethod(operationName = "getEmpleadosActivos")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<EmpleadoListDTO> getEmpleadosActivos();
 
-    
     @WebMethod(operationName = "guardarEmpleado")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<EmpleadoDTO> guardarEmpleado(@WebParam(name = "empleado") EmpleadoDTO empleado);
 
-    
     @WebMethod(operationName = "eliminarEmpleado")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<EmpleadoDTO> eliminarEmpleado(@WebParam(name = "id") String id);
 
-    
-    
     //IMPLEMENTACION DE LOS METODOS DE MARCAS
     @WebMethod(operationName = "registrarMarca")
     @WebResult(name = "SOAPResponse")
-    SOAPResponse<MarcaDTO> registrarMarca(@WebParam(name = "folio") String folio);
+    SOAPResponse<EmpleadoDTO> registrarMarca(@WebParam(name = "folio") String folio);
 
-    
     @WebMethod(operationName = "obtenerPorFechas")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<MarcaListDTO> obtenerPorFechas(
-            @WebParam(name = "desde")@XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate desde,
-            @WebParam(name = "hasta")@XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta);
+            @WebParam(name = "desde") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate desde,
+            @WebParam(name = "hasta") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta);
 
-    
     @WebMethod(operationName = "guardarMarca")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<MarcaDTO> guardarMarca(@WebParam(name = "marca") MarcaDTO marca);
 
-    
     @WebMethod(operationName = "eliminarMarca")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<MarcaDTO> eliminarMarca(@WebParam(name = "id") Long id);
 
-    
     @WebMethod(operationName = "obtenerMarcasInconsistentes")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<MarcaListDTO> obtenerMarcasInconsistentes(
-            @WebParam(name = "desde")@XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate desde,
-            @WebParam(name = "hasta")@XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta);
+            @WebParam(name = "desde") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate desde,
+            @WebParam(name = "hasta") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta);
 
-    
     //IMPLEMENTACION DE LOS METODOS DE RESUMEN Y JORNADAS
     @WebMethod(operationName = "consultarResumen")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<ResumenMarcasDTO> consultarResumen(
-            @WebParam(name = "desde")@XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate desde,
-            @WebParam(name = "hasta")@XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta,
+            @WebParam(name = "desde") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate desde,
+            @WebParam(name = "hasta") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta,
             @WebParam(name = "folioEmpleado") String folioEmpleado);
 
-    
     @WebMethod(operationName = "obtenerJornadas")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<JornadaListDTO> obtenerJornadas(
-            @WebParam(name = "desde")@XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate desde,
-            @WebParam(name = "hasta")@XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta,
+            @WebParam(name = "desde") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate desde,
+            @WebParam(name = "hasta") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta,
             @WebParam(name = "folioEmpleado") String folioEmpleado);
 }

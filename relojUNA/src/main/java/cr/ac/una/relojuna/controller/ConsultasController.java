@@ -268,7 +268,6 @@ public class ConsultasController extends Controller {
                 || fechaHora.isBlank()) {
             return "-";
         }
-        //esto es por el formato de como el WS devuelve la fecha y hora =2026-09-11T08:30:00
         if (fechaHora.length() >= 16 && fechaHora.contains("T")) {
             return fechaHora.substring(11, 16);
         }
@@ -279,7 +278,6 @@ public class ConsultasController extends Controller {
         return valor == null ? "-" : valor.toString();
     }
 
-    //Aqui utilizo el boton para IMPRIMO EXCEL
     @FXML
     private void exportarExcel(ActionEvent event) {
         if (jornadas.isEmpty() || resumenActual == null) {

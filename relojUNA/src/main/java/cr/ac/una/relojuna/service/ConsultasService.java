@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.relojuna.service;
 
 import cr.ac.una.relojuna.util.Respuesta;
@@ -16,10 +12,6 @@ import cr.ac.una.relojuna.ws.JornadaDTO;
 import cr.ac.una.relojuna.ws.JornadaListDTO;
 import java.util.List;
 
-/**
- *
- * @author Tames
- */
 public class ConsultasService {
 
     private static final Logger LOG = Logger.getLogger(ConsultasService.class.getName());
@@ -30,7 +22,7 @@ public class ConsultasService {
             return validacion;
         }
         try {
-            RelojUNASOAP port = crearPuerto();//aqui obtenemos al objeto,para llamar los metodos del WS desde aqui
+            RelojUNASOAP port = crearPuerto();
             SOAPResponse resultado = port.consultarResumen(desde.toString(), hasta.toString(), normalizarFolio(folioEmpleado));
             if (!resultado.isExito()) {
                 return new Respuesta(false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
@@ -55,11 +47,11 @@ public class ConsultasService {
             }
 
             if (!(resultado.getResultado() instanceof JornadaListDTO jornadasDTO)) {
-                return new Respuesta(false,"El servidor no devolvió las jornadas esperadas.",
+                return new Respuesta(false, "El servidor no devolvió las jornadas esperadas.",
                         "obtenerJornadas: resultado nulo o de tipo incorrecto");
             }
             List<JornadaDTO> jornadas = jornadasDTO.getJornadas();
-            return new Respuesta(true,resultado.getMensajeUsuario(),resultado.getMensajeTecnico(),"Jornadas",jornadas);
+            return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Jornadas", jornadas);
         } catch (WebServiceException ex) {
             LOG.log(Level.SEVERE, "Error al obtener las jornadas", ex);
             return new Respuesta(false, "No se pudieron obtener las jornadas. " + "Verifique la conexión con el servidor.", ex.toString());

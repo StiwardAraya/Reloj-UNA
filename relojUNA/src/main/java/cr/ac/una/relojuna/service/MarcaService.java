@@ -4,6 +4,7 @@ import cr.ac.una.relojuna.util.Respuesta;
 import cr.ac.una.relojuna.ws.MarcaDTO;
 import cr.ac.una.relojuna.ws.RelojUNASOAP;
 import cr.ac.una.relojuna.ws.RelojUNASOAPService;
+import cr.ac.una.relojuna.ws.SOAPResponse;
 import java.time.LocalDate;
 
 public class MarcaService {
@@ -16,32 +17,51 @@ public class MarcaService {
     }
 
     public Respuesta registrarMarca(String folio) {
-        // TODO: Implementar
-        return null;
+        SOAPResponse resultado = port.registrarMarca(folio);
+        if (!resultado.isExito()) {
+            return new Respuesta(false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
+        }
+        return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Empleado", resultado.getResultado());
     }
 
     public Respuesta obtenerPorFechas(LocalDate desde, LocalDate hasta) {
-        // TODO: Implementar
-        return null;
+        SOAPResponse resultado = port.obtenerPorFechas(desde.toString(), hasta.toString());
+        if (!resultado.isExito()) {
+            return new Respuesta(false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
+        }
+        return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Marcas", resultado.getResultado());
+        
     }
 
     public Respuesta guardarMarca(MarcaDTO dto) {
-        // TODO: Implementar
-        return null;
+        SOAPResponse resultado = port.guardarMarca(dto);
+        if (!resultado.isExito()) {
+            return new Respuesta(false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
+        }
+        return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Marca", resultado.getResultado());
     }
 
     public Respuesta eliminarMarca(Long id) {
-        // TODO: Implementar
-        return null;
+        SOAPResponse resultado = port.eliminarMarca(id);
+        if (!resultado.isExito()) {
+            return new Respuesta(false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
+        }
+        return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Marca", resultado.getResultado());
     }
 
     public Respuesta obtenerMarcasInconsistentes(LocalDate desde, LocalDate hasta) {
-        // TODO: Implementar
-        return null;
+        SOAPResponse resultado = port.obtenerMarcasInconsistentes(desde.toString(), hasta.toString());
+        if (!resultado.isExito()) {
+            return new Respuesta(false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
+        }
+        return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Marcas", resultado.getResultado());
     }
 
     public Respuesta obtenerJornadas(LocalDate desde, LocalDate hasta, String folioEmpleado) {
-        // TODO: Implementar
-        return null;
+        SOAPResponse resultado = port.obtenerJornadas(desde.toString(), hasta.toString(), folioEmpleado);
+        if (!resultado.isExito()) {
+            return new Respuesta(false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
+        }
+        return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Jornadas", resultado.getResultado());
     }
 }

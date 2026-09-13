@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
@@ -10,54 +12,128 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="root" prefHeight="720.0" prefWidth="1000.0" styleClass="bg-gray-50" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.ReporteController">
-
     <children>
-        <VBox spacing="18.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-
+        <VBox spacing="18.0" 
+              AnchorPane.bottomAnchor="0.0" 
+              AnchorPane.leftAnchor="0.0"  
+              AnchorPane.rightAnchor="0.0" 
+              AnchorPane.topAnchor="0.0">
             <padding>
-                <Insets bottom="20.0" left="24.0" right="24.0" top="20.0" />
-            </padding>
+                <Insets bottom="20.0"
+                        left="24.0"
+                        right="24.0"
+                        top="20.0"/>
+            </padding> 
             <VBox spacing="4.0">
                 <Label text="Reportes JasperReports">
-               <styleClass>
-                  <String fx:value="text-4xl" />
-                  <String fx:value="font-bold" />
-                  <String fx:value="text-blue-900" />
-               </styleClass></Label> 
+                    <styleClass>
+                        <String fx:value="text-4xl"/>
+                        <String fx:value="font-bold"/>
+                        <String fx:value="text-blue-900"/>
+                    </styleClass>
+                </Label>
                 <Label text="Genere los reportes de empleados y marcas del sistema.">
-               <styleClass>
-                  <String fx:value="text-xl" />
-                  <String fx:value="text-gray-500" />
-               </styleClass></Label>
+                    <styleClass>
+                        <String fx:value="text-xl"/>
+                        <String fx:value="text-gray-500"/>
+                    </styleClass>
+                </Label>
             </VBox>
-            <VBox spacing="14.0" styleClass="bg-white, border, border-gray-200, rad-md, p-4">
+            <VBox spacing="14.0"
+                  styleClass="bg-white, border, border-gray-200, rad-md, p-4">
                 <Label text="Reporte de empleados">
-               <styleClass>
-                  <String fx:value="text-3xl" />
-                  <String fx:value="font-bold" />
-                  <String fx:value="text-blue-900" />
-               </styleClass></Label>
-                <Label text="Muestra la información general de todos los empleados registrados." wrapText="true">
-               <styleClass>
-                  <String fx:value="text-md" />
-                  <String fx:value="text-gray-500" />
-               </styleClass></Label>
+                    <styleClass>
+                        <String fx:value="text-3xl"/>
+                        <String fx:value="font-bold"/>
+                        <String fx:value="text-blue-900"/>
+                    </styleClass>
+                </Label>
+                <Label text="Muestra la información general de todos los empleados registrados."
+                       wrapText="true">
+                    <styleClass>
+                        <String fx:value="text-md"/>
+                        <String fx:value="text-gray-500"/>
+                    </styleClass>
+                </Label>
+                <Label text="Formato de salida: PDF"
+                       wrapText="true">
+                    <styleClass>
+                        <String fx:value="text-md"/>
+                        <String fx:value="text-gray-500"/>
+                    </styleClass>
+                </Label>
                 <HBox alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="btnReporteEmpleados" onAction="#generarReporteEmpleados" prefWidth="230.0" styleClass="primary" text="Generar reporte de empleados" />
+                    <MFXButton fx:id="btnReporteEmpleados" onAction="#generarReporteEmpleados" prefWidth="230.0" styleClass="primary" text="Generar reporte de empleados"/>
                 </HBox>
             </VBox>
-            <Label text="Los reportes se mostrarán en el visor de JasperReports y podrán exportarse a PDF." wrapText="true">
-            <styleClass>
-               <String fx:value="text-md" />
-               <String fx:value="text-gray-500" />
-            </styleClass></Label>
+            <VBox spacing="14.0" styleClass="bg-white, border, border-gray-200, rad-md, p-4">
+                <Label text="Reporte de marcas">
+                    <styleClass>
+                        <String fx:value="text-3xl"/>
+                        <String fx:value="font-bold"/>
+                        <String fx:value="text-blue-900"/>
+                    </styleClass>
+                </Label>
+                <Label text="Muestra las marcas y las horas trabajadas de un empleado específico o de todos, dentro de un rango de fechas."wrapText="true">
+                    <styleClass>
+                        <String fx:value="text-md"/>
+                        <String fx:value="text-gray-500"/>
+                    </styleClass>
+                </Label>
+                <HBox spacing="16.0"> 
+                    <VBox spacing="6.0">
+                        <Label text="Fecha inicial">
+                            <styleClass>
+                                <String fx:value="text-md"/>
+                                <String fx:value="font-bold"/>
+                            </styleClass>
+                        </Label>
+                        <MFXDatePicker fx:id="dpFechaInicio" prefWidth="220.0"/>
+                    </VBox>
+                    <VBox spacing="6.0">
+                        <Label text="Fecha final">
+                            <styleClass>
+                                <String fx:value="text-md"/>
+                                <String fx:value="font-bold"/>
+                            </styleClass>
+                        </Label>
+                        <MFXDatePicker fx:id="dpFechaFin" prefWidth="220.0"/>
+                    </VBox>
+                    <VBox spacing="6.0">
+                        <Label text="Folio">
+                            <styleClass>
+                                <String fx:value="text-md"/>
+                                <String fx:value="font-bold"/>
+                            </styleClass>
+                        </Label>
+                        <MFXTextField fx:id="txtFolio" prefWidth="220.0" promptText="Vacío para todos"/>
+                    </VBox>
+                </HBox>
+                <Label text="Si deja el folio vacío, el reporte incluirá las marcas de todos los empleados."
+                       wrapText="true">
+                    <styleClass>
+                        <String fx:value="text-md"/>
+                        <String fx:value="text-gray-500"/>
+                    </styleClass>
+                </Label>
+                <HBox alignment="CENTER_RIGHT">
+                    <MFXButton fx:id="btnReporteMarcas"onAction="#generarReporteMarcas"  prefWidth="230.0" styleClass="primary" text="Generar reporte de marcas"/>
+                </HBox>
+            </VBox>
+            <Label text="Los reportes son generados mediante JasperReports y se guardan en formato PDF."
+                   wrapText="true">
+                <styleClass>
+                    <String fx:value="text-md"/>
+                    <String fx:value="text-gray-500"/>
+                </styleClass>
+            </Label>
         </VBox>
     </children>
-   <stylesheets>
-      <URL value="@css/MFXOverrides.css" />
-      <URL value="@css/Styles.css" />
-      <URL value="@css/Table.css" />
-      <URL value="@css/TabPane.css" />
-      <URL value="@css/UtilStyles.css" />
-   </stylesheets>
+    <stylesheets>
+        <URL value="@css/MFXOverrides.css"/>
+        <URL value="@css/Styles.css"/>
+        <URL value="@css/Table.css"/>
+        <URL value="@css/TabPane.css"/>
+        <URL value="@css/UtilStyles.css"/>
+    </stylesheets>
 </AnchorPane>

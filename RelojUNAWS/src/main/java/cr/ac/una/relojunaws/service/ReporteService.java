@@ -19,6 +19,15 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import cr.ac.una.relojunaws.model.dto.ArchivoDTO;
+import cr.ac.una.relojunaws.model.dto.EmpleadoListDTO;
+import java.io.InputStream;
+import java.util.HashMap;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Stateless
 @LocalBean
@@ -26,6 +35,8 @@ public class ReporteService {
 
     @EJB
     private MarcaService marcaService;//necesito reutilizar metodos de marca
+    @EJB
+    private EmpleadoService empleadoService;
     private static final Logger LOG = Logger.getLogger(ReporteService.class.getName());
 
     public Respuesta generarExcelMarcas(LocalDate desde, LocalDate hasta, String folioEmpleado) {
@@ -40,7 +51,7 @@ public class ReporteService {
                 return respuestaResumen;
             }
             ResumenMarcasDTO resumen = (ResumenMarcasDTO) respuestaResumen.getResultado("ResumenMarcas");
-            byte[] contenido = crearExcelMarcas( jornadasDTO, resumen, desde, hasta, folioEmpleado );
+            byte[] contenido = crearExcelMarcas(jornadasDTO, resumen, desde, hasta, folioEmpleado);
 
             String nombreArchivo
                     = "ConsultaMarcas_"
@@ -49,10 +60,10 @@ public class ReporteService {
                     + hasta
                     + ".xlsx";
 
-            ArchivoDTO archivo = new ArchivoDTO( 
-                    nombreArchivo, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", contenido );
-            return new Respuesta( true, "reporte.excel.exito", "", "Archivo", archivo );
-            
+            ArchivoDTO archivo = new ArchivoDTO(
+                    nombreArchivo, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", contenido);
+            return new Respuesta(true, "reporte.excel.exito", "", "Archivo", archivo);
+
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "Ocurrió un error al generar el Excel de marcas", ex);
             return new Respuesta(false, "reporte.excel.error", "generarExcelMarcas Exception " + ex.getMessage()
@@ -63,8 +74,7 @@ public class ReporteService {
 
     private byte[] crearExcelMarcas(JornadaListDTO jornadasDTO, ResumenMarcasDTO resumen,
             LocalDate desde, LocalDate hasta, String folioEmpleado) throws Exception {
-        try (XSSFWorkbook libroTrabajo = new XSSFWorkbook(); 
-            ByteArrayOutputStream salida = new ByteArrayOutputStream()) {
+        try (XSSFWorkbook libroTrabajo = new XSSFWorkbook(); ByteArrayOutputStream salida = new ByteArrayOutputStream()) {
             Sheet hoja = libroTrabajo.createSheet("Consulta de marcas");
 
             Font fuenteTitulo = libroTrabajo.createFont();
@@ -95,7 +105,7 @@ public class ReporteService {
 
             Row filaFolio = hoja.createRow(filaActual++);
             filaFolio.createCell(0).setCellValue("Folio");
-            filaFolio.createCell(1).setCellValue(folioEmpleado == null || folioEmpleado.isBlank() 
+            filaFolio.createCell(1).setCellValue(folioEmpleado == null || folioEmpleado.isBlank()
                     ? "Todos" : folioEmpleado.trim());
             filaActual++;
 
@@ -139,14 +149,14 @@ public class ReporteService {
                     fila.createCell(4).setCellValue(obtenerHoraSalida(jornada));
                     Cell celdaHoras = fila.createCell(5);
                     if (jornada.getHorasTrabajadas() != null) {
-                        celdaHoras.setCellValue( jornada.getHorasTrabajadas() );
+                        celdaHoras.setCellValue(jornada.getHorasTrabajadas());
                     } else {
                         celdaHoras.setCellValue("-");
                     }
                     fila.createCell(6).setCellValue(
-                            Boolean.TRUE.equals(jornada.getCompleta()) 
-                                    ? "Completa" 
-                                    : "Incompleta"
+                            Boolean.TRUE.equals(jornada.getCompleta())
+                            ? "Completa"
+                            : "Incompleta"
                     );
                 }
             }
@@ -179,5 +189,68 @@ public class ReporteService {
 
     private String valorSeguro(Object valor) {
         return valor == null ? "-" : valor.toString();
+    }
+
+    public Respuesta generarReporteEmpleados() {
+        try {
+            Respuesta respuestaEmpleados = empleadoService.getEmpleados();
+            if (!respuestaEmpleados.getEstado()) {
+                return respuestaEmpleados;
+            }
+
+            EmpleadoListDTO empleadosDTO = (EmpleadoListDTO) respuestaEmpleados.getResultado();
+            if (empleadosDTO == null || empleadosDTO.getEmpleados() == null) {
+                return new Respuesta(false, "reporte.empleados.error", "No se obtuvo la lista de empleados");
+            }
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(empleadosDTO.getEmpleados());
+            InputStream archivoJrxml = ReporteService.class.getResourceAsStream("/reportes/ReporteEmpleados.jrxml");
+
+            if (archivoJrxml == null) {
+                return new Respuesta(false, "reporte.empleados.error", "No se encontró ReporteEmpleados.jrxml");
+            }
+            JasperReport reporte = JasperCompileManager.compileReport(archivoJrxml);
+            JasperPrint impresion = JasperFillManager.fillReport(reporte, new HashMap<>(), dataSource);
+
+            byte[] contenido = JasperExportManager.exportReportToPdf(impresion);
+
+            ArchivoDTO archivo = new ArchivoDTO("ReporteEmpleados.pdf", "application/pdf", contenido);
+            return new Respuesta(true, "reporte.empleados.exito", "", "Archivo", archivo);
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Ocurrió un error al generar " + "el reporte de empleados", ex);
+            return new Respuesta(false, "reporte.empleados.error", "generarReporteEmpleados Exception " + ex.getMessage());
+        }
+    }
+
+    public Respuesta generarReporteMarcas( LocalDate desde, LocalDate hasta,  String folioEmpleado) {
+
+        try {
+            Respuesta respuestaJornadas  = marcaService.obtenerJornadas(  desde,  hasta, folioEmpleado );
+            if (!respuestaJornadas.getEstado()) {
+                return respuestaJornadas;
+            }
+            JornadaListDTO jornadasDTO = (JornadaListDTO) respuestaJornadas.getResultado();
+            if (jornadasDTO == null || jornadasDTO.getJornadas() == null) {
+                return new Respuesta( false, "reporte.marcas.error",  "No se obtuvo la lista de jornadas" );
+            }
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource( jornadasDTO.getJornadas() );
+            InputStream archivoJrxml  = ReporteService.class.getResourceAsStream( "/reportes/ReporteMarcas.jrxml" );
+            if (archivoJrxml == null) {
+                return new Respuesta( false, "reporte.marcas.error", "No se encontró ReporteMarcas.jrxml" );
+            }
+
+            HashMap<String, Object> parametros  = new HashMap<>();
+            parametros.put( "FECHA_INICIO", desde != null ? desde.toString() : "" );
+            parametros.put( "FECHA_FIN", hasta != null  ? hasta.toString() : ""  );
+            parametros.put(  "FOLIO", folioEmpleado == null || folioEmpleado.isBlank() ? "Todos" : folioEmpleado.trim() );
+            JasperReport reporte= JasperCompileManager.compileReport( archivoJrxml  );
+            JasperPrint impresion = JasperFillManager.fillReport( reporte, parametros, dataSource  );
+            byte[] contenido  = JasperExportManager .exportReportToPdf( impresion );
+            String nombreArchivo = "ReporteMarcas_" + desde + "_" + hasta + ".pdf";
+            ArchivoDTO archivo  = new ArchivoDTO( nombreArchivo, "application/pdf", contenido  );
+            return new Respuesta( true, "reporte.marcas.exito", "", "Archivo", archivo );
+        } catch (Exception ex) {
+            LOG.log( Level.SEVERE,  "Ocurrió un error al generar " + "el reporte de marcas", ex  );
+            return new Respuesta( false, "reporte.marcas.error", "generarReporteMarcas Exception " + ex.getMessage() );
+        }
     }
 }

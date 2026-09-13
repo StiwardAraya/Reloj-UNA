@@ -22,6 +22,7 @@ import cr.ac.una.relojunaws.model.dto.ArchivoDTO;
 import cr.ac.una.relojunaws.service.ReporteService;
 import cr.ac.una.relojunaws.util.ArchivoResponse;
 
+
 @WebService(
         endpointInterface = "cr.ac.una.relojunaws.controller.RelojUNASOAP",
         serviceName = "RelojUNASOAPService",
@@ -151,17 +152,33 @@ public class RelojUNAController implements RelojUNASOAP {
     }
 
     @Override
-    public ArchivoResponse generarExcelMarcas( LocalDate desde, LocalDate hasta, String folioEmpleado) {
+    public ArchivoResponse generarExcelMarcas(LocalDate desde, LocalDate hasta, String folioEmpleado) {
         try {
-            Respuesta respuesta = reporteService.generarExcelMarcas( desde, hasta, folioEmpleado );
+            Respuesta respuesta = reporteService.generarExcelMarcas(desde, hasta, folioEmpleado);
+            if (!respuesta.getEstado()) {
+                return ArchivoResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
+            }
+            ArchivoDTO archivo = (ArchivoDTO) respuesta.getResultado("Archivo");
+            return ArchivoResponse.exito(archivo, respuesta.getMensaje(), respuesta.getMensajeInterno());
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Error en generarExcelMarcas", ex);
+            return ArchivoResponse.error("reporte.excel.error", ex.getMessage());
+        }
+    }
+
+    @Override
+    public ArchivoResponse generarReporteEmpleados() {
+        try {
+            Respuesta respuesta = reporteService.generarReporteEmpleados();
             if (!respuesta.getEstado()) {
                 return ArchivoResponse.error( respuesta.getMensaje(), respuesta.getMensajeInterno() );
-            }
+            } 
             ArchivoDTO archivo = (ArchivoDTO) respuesta.getResultado("Archivo");
             return ArchivoResponse.exito( archivo, respuesta.getMensaje(), respuesta.getMensajeInterno() );
         } catch (Exception ex) {
-            LOG.log( Level.SEVERE, "Error en generarExcelMarcas", ex );
-            return ArchivoResponse.error( "reporte.excel.error",  ex.getMessage() );
+            LOG.log( Level.SEVERE, "Error en generarReporteEmpleados", ex );
+            return ArchivoResponse.error( "reporte.empleados.error", ex.getMessage() );
         }
     }
+
 }

@@ -21,6 +21,7 @@ public class MarcaViewModel {
     private final ObjectProperty<TipoMarca> tipo = new SimpleObjectProperty<>();
     private final BooleanProperty inconsistente = new SimpleBooleanProperty();
     private final BooleanProperty editando = new SimpleBooleanProperty();
+    private Long version;
     private final boolean nueva;
 
     public MarcaViewModel(MarcaDTO dto) {
@@ -32,7 +33,8 @@ public class MarcaViewModel {
             fecha.set(fechaHoraParsed.toLocalDate());
             hora.set(fechaHoraParsed.toLocalTime());
             tipo.set(TipoMarca.fromCodigo(dto.getTipo()));
-            inconsistente.set(dto.isInconsistente());
+            inconsistente.set(Boolean.TRUE.equals(dto.isInconsistente()));
+            version = dto.getVersion();
         }
     }
 
@@ -66,6 +68,14 @@ public class MarcaViewModel {
 
     public BooleanProperty editandoProperty() {
         return editando;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
 }

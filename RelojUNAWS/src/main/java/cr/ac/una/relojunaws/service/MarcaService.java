@@ -3,7 +3,6 @@ package cr.ac.una.relojunaws.service;
 import cr.ac.una.relojunaws.model.Empleado;
 import cr.ac.una.relojunaws.model.JornadaPOJO;
 import cr.ac.una.relojunaws.model.Marca;
-import cr.ac.una.relojunaws.model.dto.EmpleadoDTO;
 import cr.ac.una.relojunaws.model.dto.JornadaDTO;
 import cr.ac.una.relojunaws.model.dto.JornadaListDTO;
 import cr.ac.una.relojunaws.model.dto.MarcaDTO;
@@ -89,10 +88,18 @@ public class MarcaService {
             Query qry = em.createNamedQuery("Marca.findAll", Marca.class);
             List<Marca> todasLasMarcas = (List<Marca>) qry.getResultList();
 
-            List<MarcaDTO> marcasDTO = todasLasMarcas.stream()
+            Map<Empleado, List<Marca>> porEmpleado = todasLasMarcas.stream()
                     .filter(marcaEnRango(desde, hasta))
-                    .sorted(Comparator.comparing(Marca::getFechaHora))
-                    .map(MarcaDTO::new)
+                    .collect(Collectors.groupingBy(Marca::getEmpleado));
+
+            List<MarcaDTO> marcasDTO = porEmpleado.values().stream()
+                    .flatMap(marcasDelEmpleado -> {
+                        List<Marca> ordenadas = marcasDelEmpleado.stream()
+                                .sorted(Comparator.comparing(Marca::getFechaHora))
+                                .toList();
+                        return marcarConInconsistencia(ordenadas).stream();
+                    })
+                    .sorted(Comparator.comparing(MarcaDTO::getFechaHora))
                     .toList();
 
             MarcaListDTO dtoList = new MarcaListDTO(marcasDTO);
@@ -412,5 +419,17 @@ public class MarcaService {
             LocalDate fecha = marca.getFechaHora().toLocalDate();
             return !fecha.isBefore(desde) && !fecha.isAfter(hasta);
         };
+    }
+
+    private List<MarcaDTO> marcarConInconsistencia(List<Marca> marcasOrdenadas) {
+        List<MarcaDTO> resultado = new ArrayList<>();
+        for (int i = 0; i < marcasOrdenadas.size(); i++) {
+            Marca actual = marcasOrdenadas.get(i);
+            Marca anterior = (i > 0) ? marcasOrdenadas.get(i - 1) : null;
+            MarcaDTO dto = new MarcaDTO(actual);
+            dto.setInconsistente(esMarcaInconsistente(actual, anterior));
+            resultado.add(dto);
+        }
+        return resultado;
     }
 }

@@ -32,7 +32,7 @@ public class MarcaViewModel {
             fecha.set(fechaHoraParsed.toLocalDate());
             hora.set(fechaHoraParsed.toLocalTime());
             tipo.set(TipoMarca.fromCodigo(dto.getTipo()));
-            //IMPLEMENT: inconsistente.set(dto.isInconsistente());
+            inconsistente.set(dto.isInconsistente());
         }
     }
 

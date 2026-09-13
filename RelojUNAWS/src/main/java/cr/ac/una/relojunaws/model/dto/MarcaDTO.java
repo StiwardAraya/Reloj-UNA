@@ -14,7 +14,7 @@ import java.util.Objects;
 
 @XmlRootElement(name = "marca")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MarcaDTO", propOrder = {"id", "tipo", "fechaHora", "version", "folioEmpleado"})
+@XmlType(name = "MarcaDTO", propOrder = {"id", "tipo", "fechaHora", "version", "folioEmpleado", "inconsistente"})
 public class MarcaDTO implements Serializable {
 
     @XmlElement(name = "id")
@@ -32,6 +32,9 @@ public class MarcaDTO implements Serializable {
 
     @XmlElement(name = "folioEmpleado")
     private String folioEmpleado;
+
+    @XmlElement(name = "inconsistente")
+    private Boolean inconsistente;
 
     public MarcaDTO() {
     }
@@ -87,6 +90,14 @@ public class MarcaDTO implements Serializable {
 
     public void setFolioEmpleado(String folioEmpleado) {
         this.folioEmpleado = folioEmpleado;
+    }
+
+    public Boolean esInconsistente() {
+        return inconsistente;
+    }
+
+    public void setInconsistente(Boolean inconsistente) {
+        this.inconsistente = inconsistente;
     }
 
     @Override

@@ -64,7 +64,7 @@ public class MarcaService {
             em.persist(marca);
             em.flush();
 
-            return new Respuesta(true, "marca.registrar.exito", "Marca registrada", "Empleado", new EmpleadoDTO(empleado));
+            return new Respuesta(true, "marca.registrar.exito", "Marca registrada", "Marca", new MarcaDTO(marca));
         } catch (IllegalArgumentException ex) {
             return new Respuesta(false, "marca.registrar.notfound", "registrarMarca " + ex.getMessage());
         } catch (IllegalStateException ex) {

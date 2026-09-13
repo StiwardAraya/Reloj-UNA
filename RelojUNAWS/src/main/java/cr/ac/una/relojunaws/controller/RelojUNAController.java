@@ -91,11 +91,11 @@ public class RelojUNAController implements RelojUNASOAP {
 
     //MARCAS CONTROLLER SOAP
     @Override
-    public SOAPResponse<EmpleadoDTO> registrarMarca(String folio) {
+    public SOAPResponse<MarcaDTO> registrarMarca(String folio) {
         if (folio == null || folio.isBlank()) {
             return SOAPResponse.error("Debe indicar el folio del empleado.", "registrarMarca: folio vacío");
         }
-        return ejecutar("registrarMarca", () -> marcaService.registrarMarca(folio), respuesta -> (EmpleadoDTO) respuesta.getResultado("Empleado"));
+        return ejecutar("registrarMarca", () -> marcaService.registrarMarca(folio), respuesta -> (MarcaDTO) respuesta.getResultado("Marca"));
     }
 
     @Override

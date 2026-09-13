@@ -68,7 +68,7 @@ public interface RelojUNASOAP {
     //IMPLEMENTACION DE LOS METODOS DE MARCAS
     @WebMethod(operationName = "registrarMarca")
     @WebResult(name = "SOAPResponse")
-    SOAPResponse<EmpleadoDTO> registrarMarca(@WebParam(name = "folio") String folio);
+    SOAPResponse<MarcaDTO> registrarMarca(@WebParam(name = "folio") String folio);
 
     @WebMethod(operationName = "obtenerPorFechas")
     @WebResult(name = "SOAPResponse")

@@ -1,11 +1,17 @@
 package cr.ac.una.relojuna.controller;
 
+import cr.ac.una.relojuna.service.EmpleadoService;
+import cr.ac.una.relojuna.service.MarcaService;
+import cr.ac.una.relojuna.util.AppContext;
 import cr.ac.una.relojuna.util.FXAnimator;
 import cr.ac.una.relojuna.util.FieldFormat;
 import cr.ac.una.relojuna.util.FormValidator;
 import cr.ac.una.relojuna.util.Mensaje;
 import cr.ac.una.relojuna.util.NotificationColor;
+import cr.ac.una.relojuna.util.Respuesta;
 import cr.ac.una.relojuna.util.UIRouter;
+import cr.ac.una.relojuna.ws.EmpleadoDTO;
+import cr.ac.una.relojuna.ws.MarcaDTO;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.time.LocalTime;
@@ -23,6 +29,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
@@ -80,7 +88,7 @@ public class MarcadorController extends Controller {
             btnContinuar.setText(bundle.getString("marcador.btn.continuar"));
             lblContacto.setText(bundle.getString("marcador.lbl.contacto"));
         } catch (MissingResourceException ex) {
-            LOG.log(Level.SEVERE, "Exception configuring view language at MainHeaderController.updateLanguageTexts", ex);
+            LOG.log(Level.SEVERE, "Exception configuring view language at MarcadorController.updateLanguageTexts", ex);
             UIRouter.getInstance().notify(
                     UIRouter.NotificationPosition.BOTTOM_RIGHT,
                     NotificationColor.WARNING,
@@ -91,11 +99,29 @@ public class MarcadorController extends Controller {
 
     // Main
     private void marcarFolio() {
-        if (!validarCampos()) {
-            return;
-        }
+        try {
+            if (!validarCampos()) {
+                return;
+            }
 
-        // TODO: Procesar marca
+            MarcaService service = new MarcaService();
+            Respuesta respuesta = service.registrarMarca(txtFolio.getText());
+            if (!respuesta.getEstado()) {
+                UIRouter.getInstance().notify(UIRouter.NotificationPosition.BOTTOM_RIGHT, NotificationColor.ERROR, bundle.getString("marcas.error.title"), bundle.getString(respuesta.getMensaje()));
+                return;
+            }
+
+            MarcaDTO marcaDto = (MarcaDTO) respuesta.getResultado("Marca");
+            EmpleadoDTO empleadoDto = obtenerDatosEmpleado(marcaDto.getFolioEmpleado());
+            AppContext.getInstance().set("empleadoRegistrado", empleadoDto);
+            AppContext.getInstance().set("marcaRegistrada", marcaDto);
+
+            UIRouter.getInstance().showModalAndWait("MarcaRegistradaView");
+            txtFolio.clear();
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Error registrando la marca.", ex);
+            new Mensaje().show(Alert.AlertType.ERROR, bundle.getString("marcas.error.title"), bundle.getString("marcas.registrar.error"));
+        }
     }
 
     // Helpers
@@ -124,10 +150,32 @@ public class MarcadorController extends Controller {
         timeline.play();
     }
 
+    private EmpleadoDTO obtenerDatosEmpleado(String folio) {
+        try {
+            EmpleadoService service = new EmpleadoService();
+            Respuesta respuesta = service.getEmpleadoIdFolio(null, folio);
+            if (!respuesta.getEstado()) {
+                new Mensaje().showModal(Alert.AlertType.ERROR, bundle.getString("empleados.error.title"), getStage(), bundle.getString(respuesta.getMensaje()));
+                return null;
+            }
+            return (EmpleadoDTO) respuesta.getResultado("Empleado");
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Error obteniendo los datos del empleado", ex);
+            new Mensaje().show(Alert.AlertType.ERROR, bundle.getString("marcas.error.title"), bundle.getString("marcas.error.datosempleado"));
+            return null;
+        }
+    }
+
     @FXML
     private void onActionBtnContinuar(ActionEvent event) {
         marcarFolio();
     }
-    //falta enviar un mensaje cuando se registra correctamente la entrada del folio
+
+    @FXML
+    private void onKeyPressedTxtFolio(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER)) {
+            marcarFolio();
+        }
+    }
 
 }

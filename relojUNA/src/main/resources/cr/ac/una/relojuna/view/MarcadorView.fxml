@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane id="AnchorPane" fx:id="root" prefHeight="400.0" prefWidth="600.0" stylesheets="@css/UtilStyles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="cr.ac.una.relojuna.controller.MarcadorController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="400.0" prefWidth="600.0" stylesheets="@css/UtilStyles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.MarcadorController">
    <children>
       <VBox layoutX="235.0" layoutY="85.0" prefHeight="200.0" prefWidth="100.0" stylesheets="@css/Styles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <styleClass>
@@ -97,7 +96,7 @@
                         <Label fx:id="lblDireccionEntrada" styleClass="text-gray-400" text="Utilice el teclado o el lector de codigo de barras" />
                         <HBox styleClass="align-center">
                            <children>
-                              <MFXTextField fx:id="txtFolio" floatingText="Folio" maxWidth="400.0" HBox.hgrow="ALWAYS">
+                              <MFXTextField fx:id="txtFolio" floatingText="Folio" maxWidth="400.0" onKeyPressed="#onKeyPressedTxtFolio" HBox.hgrow="ALWAYS">
                                  <styleClass>
                                     <String fx:value="text-center" />
                                     <String fx:value="required-field" />

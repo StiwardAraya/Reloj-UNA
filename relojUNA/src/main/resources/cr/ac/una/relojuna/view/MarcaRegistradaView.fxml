@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane id="AnchorPane" fx:id="root" maxHeight="400.0" maxWidth="600.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@css/UtilStyles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="cr.ac.una.relojuna.controller.MarcaRegistradaController">
+   <styleClass>
+      <String fx:value="rad-md" />
+      <String fx:value="bg-gray-100" />
+      <String fx:value="shadow-md" />
+   </styleClass>
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <styleClass>
+            <String fx:value="p-4" />
+            <String fx:value="align-top" />
+            <String fx:value="gap-2" />
+         </styleClass>
+         <children>
+            <HBox styleClass="align-left" VBox.vgrow="NEVER">
+               <children>
+                  <Label fx:id="lblSaludoDespedida" maxWidth="1.7976931348623157E308" text="Bienvenido" HBox.hgrow="ALWAYS">
+                     <styleClass>
+                        <String fx:value="h1" />
+                        <String fx:value="text-blue-900" />
+                     </styleClass>
+                  </Label>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/circle-icon-blue-24.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lblFolio" text="Folio">
+                     <styleClass>
+                        <String fx:value="h2" />
+                        <String fx:value="text-blue-900" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </HBox>
+            <Separator prefWidth="200.0" />
+            <HBox styleClass="gap-3" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox HBox.hgrow="ALWAYS">
+                     <children>
+                        <ImageView fx:id="imvFoto" fitHeight="175.0" fitWidth="150.0" pickOnBounds="true">
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </ImageView>
+                        <Label fx:id="lblNombreApellidos" text="Nombre Apellido Apellido">
+                           <styleClass>
+                              <String fx:value="text-xl" />
+                              <String fx:value="font-bold" />
+                              <String fx:value="text-blue-900" />
+                           </styleClass>
+                        </Label>
+                        <Label fx:id="lblCedula" layoutX="57.0" layoutY="223.0" text="Cedula">
+                           <styleClass>
+                              <String fx:value="text-lg" />
+                              <String fx:value="text-gray-500" />
+                           </styleClass>
+                        </Label>
+                     </children>
+                     <styleClass>
+                        <String fx:value="align-center" />
+                        <String fx:value="gap-1" />
+                     </styleClass>
+                  </VBox>
+                  <VBox layoutX="10.0" layoutY="10.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="lblFecha" maxWidth="1.7976931348623157E308" text="dd - mm - aaaa">
+                           <styleClass>
+                              <String fx:value="text-blue-900" />
+                              <String fx:value="text-xl" />
+                              <String fx:value="font-bold" />
+                           </styleClass>
+                        </Label>
+                        <VBox styleClass="align-center" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label fx:id="lblRegistrada" text="Marca registrada a las">
+                                 <styleClass>
+                                    <String fx:value="text-blue-900" />
+                                    <String fx:value="text-lg" />
+                                    <String fx:value="font-bold" />
+                                 </styleClass>
+                              </Label>
+                              <Label fx:id="lblHora" layoutX="10.0" layoutY="105.0" text="Hora">
+                                 <styleClass>
+                                    <String fx:value="text-3xl" />
+                                    <String fx:value="font-bold" />
+                                 </styleClass>
+                                 <VBox.margin>
+                                    <Insets top="15.0" />
+                                 </VBox.margin>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                     <styleClass>
+                        <String fx:value="align-top" />
+                        <String fx:value="gap-1" />
+                        <String fx:value="bg-white" />
+                        <String fx:value="rad-md" />
+                        <String fx:value="shadow-md" />
+                        <String fx:value="p-4" />
+                     </styleClass>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

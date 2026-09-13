@@ -21,7 +21,7 @@ public class MarcaService {
         if (!resultado.isExito()) {
             return new Respuesta(false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
         }
-        return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Empleado", resultado.getResultado());
+        return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Marca", resultado.getResultado());
     }
 
     public Respuesta obtenerPorFechas(LocalDate desde, LocalDate hasta) {
@@ -30,7 +30,7 @@ public class MarcaService {
             return new Respuesta(false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
         }
         return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Marcas", resultado.getResultado());
-        
+
     }
 
     public Respuesta guardarMarca(MarcaDTO dto) {

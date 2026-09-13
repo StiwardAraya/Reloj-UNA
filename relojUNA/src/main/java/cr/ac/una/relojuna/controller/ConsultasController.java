@@ -1,20 +1,17 @@
 package cr.ac.una.relojuna.controller;
 
-import cr.ac.una.relojuna.service.ConsultasService;
-import cr.ac.una.relojuna.service.ExcelService;
+import cr.ac.una.relojuna.service.ConsultaService;
 import cr.ac.una.relojuna.util.FXAnimator;
 import cr.ac.una.relojuna.util.NotificationColor;
 import cr.ac.una.relojuna.util.Respuesta;
 import cr.ac.una.relojuna.util.UIRouter;
 import cr.ac.una.relojuna.ws.JornadaDTO;
+import cr.ac.una.relojuna.ws.JornadaListDTO;
 import cr.ac.una.relojuna.ws.ResumenMarcasDTO;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-import java.io.File;
-import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -31,6 +28,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import cr.ac.una.relojuna.ws.ArchivoDTO;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import javafx.stage.FileChooser;
 
 public class ConsultasController extends Controller {
@@ -92,10 +93,8 @@ public class ConsultasController extends Controller {
 
     @FXML
     private TableColumn<JornadaDTO, String> colEstado;
-    private final ConsultasService consultasService = new ConsultasService();
-    private final ExcelService excelService = new ExcelService();
+    private final ConsultaService consultaService = new ConsultaService();
     private final ObservableList<JornadaDTO> jornadas = FXCollections.observableArrayList();
-    private ResumenMarcasDTO resumenActual;
     private static final Logger LOG = Logger.getLogger(ConsultasController.class.getName());
 
     @Override
@@ -115,25 +114,11 @@ public class ConsultasController extends Controller {
     }
 
     private void configurarTabla() {
-        colFecha.setCellValueFactory(datos -> new SimpleStringProperty(valorSeguro(datos.getValue().getFecha())
-        )
-        );
-        colFolio.setCellValueFactory(datos
-                -> new SimpleStringProperty(valorSeguro(datos.getValue().getFolioEmpleado())
-                )
-        );
-        colEmpleado.setCellValueFactory(datos
-                -> new SimpleStringProperty(valorSeguro(datos.getValue().getNombreEmpleado())
-                )
-        );
-        colEntrada.setCellValueFactory(datos
-                -> new SimpleStringProperty(obtenerHoraEntrada(datos.getValue())
-                )
-        );
-        colSalida.setCellValueFactory(datos
-                -> new SimpleStringProperty(obtenerHoraSalida(datos.getValue())
-                )
-        );
+        colFecha.setCellValueFactory(datos -> new SimpleStringProperty(valorSeguro(datos.getValue().getFecha())));
+        colFolio.setCellValueFactory(datos -> new SimpleStringProperty(valorSeguro(datos.getValue().getFolioEmpleado())));
+        colEmpleado.setCellValueFactory(datos -> new SimpleStringProperty(valorSeguro(datos.getValue().getNombreEmpleado())));
+        colEntrada.setCellValueFactory(datos -> new SimpleStringProperty(obtenerHoraEntrada(datos.getValue())));
+        colSalida.setCellValueFactory(datos -> new SimpleStringProperty(obtenerHoraSalida(datos.getValue())));
         colHoras.setCellValueFactory(datos -> {
             Double horas = datos.getValue().getHorasTrabajadas();
             String texto;
@@ -159,74 +144,91 @@ public class ConsultasController extends Controller {
 
     @FXML
     private void consultar(ActionEvent event) {
+
         LocalDate desde = dpFechaInicio.getValue();
         LocalDate hasta = dpFechaFin.getValue();
-        String folio = txtFolio.getText() == null
-                ? "" : txtFolio.getText().trim();
-        if (desde == null || hasta == null) {
-            mostrarError(
-                    bundle.getString("consultas.error.fechasrequeridas")
-            );
-            return;
-        }
-        if (hasta.isBefore(desde)) {
-            mostrarError(
-                    bundle.getString(
-                            "consultas.error.rangofechas"
-                    )
-            );
-            return;
-        }
-        Respuesta respuestaJornadas
-                = consultasService.obtenerJornadas(
-                        desde,
-                        hasta,
-                        folio
-                );
+        String folio = txtFolio.getText();
+
+        Respuesta respuestaJornadas = consultaService.obtenerJornadas(desde, hasta, folio);
 
         if (!respuestaJornadas.getEstado()) {
-            mostrarError(
-                    respuestaJornadas.getMensaje()
-            );
+            mostrarError(traducirMensaje(respuestaJornadas.getMensaje()));
             return;
         }
-        Respuesta respuestaResumen
-                = consultasService.consultarResumen(
-                        desde,
-                        hasta,
-                        folio
-                );
+        Respuesta respuestaResumen = consultaService.consultarResumen(desde, hasta, folio);
+
         if (!respuestaResumen.getEstado()) {
-            mostrarError(
-                    respuestaResumen.getMensaje()
-            );
+            mostrarError(respuestaResumen.getMensaje());
             return;
         }
         cargarJornadas(respuestaJornadas);
         cargarResumen(respuestaResumen);
-        btnExportarExcel.setDisable(
-                jornadas.isEmpty()
-        );
+        btnExportarExcel.setDisable(jornadas.isEmpty());
     }
 
-    @SuppressWarnings("unchecked")
+    @FXML
+    private void exportarExcel(ActionEvent event) {
+
+        LocalDate desde = dpFechaInicio.getValue();
+        LocalDate hasta = dpFechaFin.getValue();
+        String folio = txtFolio.getText();
+
+        Respuesta respuesta = consultaService.obtenerExcelMarcas(desde, hasta, folio);
+        if (!respuesta.getEstado()) {
+            mostrarError(respuesta.getMensaje());
+            return;
+        }
+
+        Object resultado = respuesta.getResultado("Archivo");
+        if (!(resultado instanceof ArchivoDTO archivo)) {
+            mostrarError("El servidor no devolvió el archivo esperado.");
+            return;
+        }
+        if (archivo.getContenido() == null || archivo.getContenido().length == 0) {
+            mostrarError("El archivo Excel recibido está vacío.");
+            return;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Guardar archivo Excel");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos Excel (*.xlsx)", "*.xlsx"));
+        String nombreArchivo = archivo.getNombreArchivo();
+        if (nombreArchivo == null || nombreArchivo.isBlank()) {
+            nombreArchivo = "ConsultaMarcas.xlsx";
+        }
+
+        fileChooser.setInitialFileName(nombreArchivo);
+        File destino = fileChooser.showSaveDialog(root.getScene().getWindow());
+        if (destino == null) {
+            return;
+        }
+        if (!destino.getName().toLowerCase().endsWith(".xlsx")) {
+            destino = new File(destino.getParentFile(), destino.getName() + ".xlsx");
+        }
+
+        try {
+                Files.write(destino.toPath(), archivo.getContenido());
+            mostrarInformacion("El archivo Excel se guardó correctamente.");
+        } catch (IOException ex) {
+            LOG.log(Level.SEVERE, "Error al guardar el Excel", ex);
+            mostrarError("No se pudo guardar el archivo Excel.");
+        }
+    }
+
     private void cargarJornadas(Respuesta respuesta) {
         Object resultado = respuesta.getResultado("Jornadas");
 
-        if (resultado instanceof List<?> lista) {
-            jornadas.setAll(
-                    (List<JornadaDTO>) lista
-            );
-        } else {
+        if (!(resultado instanceof JornadaListDTO dto)) {
             jornadas.clear();
+            return;
         }
+        jornadas.setAll(dto.getJornadas());
     }
 
     private void cargarResumen(Respuesta respuesta) {
         Object resultado = respuesta.getResultado("ResumenMarcas");
 
         if (!(resultado instanceof ResumenMarcasDTO resumen)) {
-            resumenActual = null;
             lblCantidadEmpleados.setText("0");
             lblTotalMarcas.setText("0");
             lblTotalHoras.setText(
@@ -234,29 +236,20 @@ public class ConsultasController extends Controller {
             );
             return;
         }
-        resumenActual = resumen;
-        lblCantidadEmpleados.setText(String.valueOf(resumen.getCantidadEmpleados())
-        );
-        lblTotalMarcas.setText(String.valueOf(resumen.getTotalMarcas())
-        );
-        lblTotalHoras.setText(
-                String.format(bundle.getString("consultas.formato.totalhoras"),
-                        resumen.getTotalHorasTrabajadas(),
-                        resumen.getTotalMinutosTrabajados()
-                )
+        lblCantidadEmpleados.setText(String.valueOf(resumen.getCantidadEmpleados()));
+        lblTotalMarcas.setText(String.valueOf(resumen.getTotalMarcas()));
+        lblTotalHoras.setText(String.format(bundle.getString("consultas.formato.totalhoras"), resumen.getTotalHorasTrabajadas(), resumen.getTotalMinutosTrabajados())
         );
     }
 
-    private String obtenerHoraEntrada(
-            JornadaDTO jornada) {
+    private String obtenerHoraEntrada(JornadaDTO jornada) {
         if (jornada.getMarcaEntrada() == null) {
             return "-";
         }
         return extraerHora(jornada.getMarcaEntrada().getFechaHora());
     }
 
-    private String obtenerHoraSalida(
-            JornadaDTO jornada) {
+    private String obtenerHoraSalida(JornadaDTO jornada) {
         if (jornada.getMarcaSalida() == null) {
             return "-";
         }
@@ -276,53 +269,6 @@ public class ConsultasController extends Controller {
 
     private String valorSeguro(Object valor) {
         return valor == null ? "-" : valor.toString();
-    }
-
-    @FXML
-    private void exportarExcel(ActionEvent event) {
-        if (jornadas.isEmpty() || resumenActual == null) {
-
-            mostrarError(bundle.getString("consultas.error.sinresultados"));
-            return;
-        }
-
-        FileChooser selector = new FileChooser();
-        selector.setTitle(bundle.getString("consultas.excel.titulo")
-        );
-        selector.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter(
-                        bundle.getString("consultas.excel.tipoarchivo"),
-                        "*.xlsx"
-                )
-        );
-        selector.setInitialFileName(
-                "ConsultaMarcas_"
-                + dpFechaInicio.getValue()
-                + "_al_"
-                + dpFechaFin.getValue()
-                + ".xlsx"
-        );
-        File archivo = selector.showSaveDialog(root.getScene().getWindow());
-        if (archivo == null) {
-            return;
-        }
-        if (!archivo.getName().toLowerCase().endsWith(".xlsx")) {
-            archivo = new File(archivo.getAbsolutePath() + ".xlsx");
-        }
-        try {
-            excelService.generarExcel(
-                    archivo,
-                    jornadas,
-                    dpFechaInicio.getValue(),
-                    dpFechaFin.getValue(),
-                    txtFolio.getText(),
-                    resumenActual
-            );
-            mostrarInformacion(bundle.getString("consultas.excel.exito"));
-        } catch (IOException ex) {
-            LOG.log(Level.SEVERE, "Error generando el archivo Excel", ex);
-            mostrarError(bundle.getString("consultas.excel.error") + " " + ex.getMessage());
-        }
     }
 
     private void mostrarError(String mensaje) {
@@ -371,7 +317,7 @@ public class ConsultasController extends Controller {
             colSalida.setText(bundle.getString("consultas.col.salida"));
             colHoras.setText(bundle.getString("consultas.col.horas"));
             colEstado.setText(bundle.getString("consultas.col.estado"));
-            tblJornadas.refresh();// Actualiza Completa/Incompleta en la tabla.
+            tblJornadas.refresh(); 
 
         } catch (MissingResourceException ex) {
             LOG.log(Level.SEVERE, "Exception configuring view language at " + "ConsultasViewController.updateLanguageTexts", ex);
@@ -381,6 +327,17 @@ public class ConsultasController extends Controller {
                     bundle.getString("general.notification.language.errortitle"),
                     bundle.getString("general.notification.language.errormsg")
             );
+        }
+    }
+
+    private String traducirMensaje(String clave) {
+        if (clave == null || clave.isBlank()) {
+            return "";
+        }
+        try {
+            return bundle.getString(clave);
+        } catch (MissingResourceException ex) {
+            return clave;
         }
     }
 }

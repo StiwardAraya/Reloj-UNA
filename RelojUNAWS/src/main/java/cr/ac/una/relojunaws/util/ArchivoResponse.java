@@ -1,41 +1,43 @@
 package cr.ac.una.relojunaws.util;
 
-import java.io.Serializable;
-import jakarta.xml.bind.annotation.XmlAccessorType;
+import cr.ac.una.relojunaws.model.dto.ArchivoDTO;
 import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "SOAPResponse", propOrder = {"exito", "mensajeUsuario", "mensajeTecnico", "resultado", "codigo", "fecha"})
-public class SOAPResponse<T> implements Serializable {
+@XmlType(name = "ArchivoResponse", propOrder = {"exito", "mensajeUsuario", "mensajeTecnico", "resultado", "codigo", "fecha"})
+public class ArchivoResponse implements Serializable {
 
     @XmlElement(name = "exito")
     private boolean exito;
-
     @XmlElement(name = "mensajeUsuario")
     private String mensajeUsuario;
-
     @XmlElement(name = "mensajeTecnico")
     private String mensajeTecnico;
-
     @XmlElement(name = "resultado")
-    private T resultado;
-
+    private ArchivoDTO resultado;
     @XmlElement(name = "codigo")
     private String codigo;
-
     @XmlElement(name = "fecha")
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate fecha;
 
-    public SOAPResponse() {
+    public ArchivoResponse() {
         this.fecha = LocalDate.now();
     }
 
-    public SOAPResponse(boolean exito, String mensajeUsuario, String mensajeTecnico, T resultado, String codigo) {
+    public ArchivoResponse(
+            boolean exito,
+            String mensajeUsuario,
+            String mensajeTecnico,
+            ArchivoDTO resultado,
+            String codigo) {
+
         this.exito = exito;
         this.mensajeUsuario = mensajeUsuario;
         this.mensajeTecnico = mensajeTecnico;
@@ -44,24 +46,12 @@ public class SOAPResponse<T> implements Serializable {
         this.fecha = LocalDate.now();
     }
 
-    public static <T> SOAPResponse<T> exito(T resultado, String mensajeUsuario) {
-        return new SOAPResponse(true, mensajeUsuario, "OK", resultado, null);
+    public static ArchivoResponse exito(ArchivoDTO resultado, String mensajeUsuario, String mensajeTecnico) {
+        return new ArchivoResponse(true, mensajeUsuario, mensajeTecnico, resultado, null);
     }
 
-    public static <T> SOAPResponse<T> exito(String mensajeUsuario, String mensajeTecnico){
-        return new SOAPResponse<>(true, mensajeUsuario, mensajeTecnico, null, null);
-    }
-
-    public static <T> SOAPResponse<T> exito(T resultado, String mensajeUsuario, String mensajeTecnico) {
-        return new SOAPResponse(true, mensajeUsuario, mensajeTecnico, resultado, null);
-    }
-
-    public static <T> SOAPResponse<T> error(String mensajeUsuario, String mensajeTecnico) {
-        return new SOAPResponse(false, mensajeUsuario, mensajeTecnico, null, null);
-    }
-
-    public static <T> SOAPResponse<T> error(String mensajeUsuario, String mensajeTecnico, String codigo) {
-        return new SOAPResponse(false, mensajeUsuario, mensajeTecnico, null, codigo);
+    public static ArchivoResponse error(String mensajeUsuario, String mensajeTecnico) {
+        return new ArchivoResponse(false, mensajeUsuario, mensajeTecnico, null, null);
     }
 
     public boolean isExito() {
@@ -88,11 +78,11 @@ public class SOAPResponse<T> implements Serializable {
         this.mensajeTecnico = mensajeTecnico;
     }
 
-    public T getResultado() {
+    public ArchivoDTO getResultado() {
         return resultado;
     }
 
-    public void setResultado(T resultado) {
+    public void setResultado(ArchivoDTO resultado) {
         this.resultado = resultado;
     }
 
@@ -111,5 +101,4 @@ public class SOAPResponse<T> implements Serializable {
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
-
 }

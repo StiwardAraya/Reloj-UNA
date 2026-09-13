@@ -2,7 +2,6 @@ package cr.ac.una.relojuna.controller;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -15,30 +14,24 @@ public class ReporteController extends Controller {
 
     @FXML
     private AnchorPane root;
-
     @FXML
     private MFXDatePicker dpFechaInicio;
-
     @FXML
     private MFXDatePicker dpFechaFin;
-
-    @FXML
-    private MFXTextField txtFolio;
-
     @FXML
     private MFXButton btnReporteEmpleados;
-
-    @FXML
-    private MFXButton btnReporteMarcas;
-
+    
+    //private final ReporteService reporteService = new ReporteService();
+    
     @Override
-    public void initialize() { dpFechaInicio.setValue( LocalDate.now().withDayOfMonth(1) );
-        dpFechaFin.setValue(LocalDate.now());
+    public void initialize() {
     }
+    
     @FXML
     private void generarReporteEmpleados(ActionEvent event) {
-        mostrarInformacion( "La pantalla está lista. Ahora falta conectar " + "el reporte Jasper de empleados." );
+        //Respuesta respuesta = reporteService.
     }
+    
     @FXML
     private void generarReporteMarcas(ActionEvent event) {
         LocalDate desde = dpFechaInicio.getValue();

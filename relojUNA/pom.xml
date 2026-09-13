@@ -73,14 +73,6 @@
             <artifactId>expressly</artifactId>
             <version>6.0.0</version>
         </dependency>
-        
-        <!-- Generación de archivos Excel .xlsx --> 
-        <dependency> 
-            <groupId>org.apache.poi</groupId> 
-            <artifactId>poi-ooxml</artifactId> 
-            <version>5.5.1</version> 
-        </dependency>
-
     </dependencies>
     <build>
         <plugins>

@@ -18,6 +18,8 @@ import jakarta.jws.soap.SOAPBinding;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
+import cr.ac.una.relojunaws.util.ArchivoResponse;
+import cr.ac.una.relojunaws.model.dto.ArchivoDTO;
 
 @WebService(
         name = "RelojUNASOAP",
@@ -27,11 +29,10 @@ import java.time.LocalDate;
 @XmlSeeAlso({
     EmpleadoDTO.class, EmpleadoListDTO.class, LoginRequestDTO.class,
     MarcaDTO.class, MarcaListDTO.class, JornadaDTO.class, JornadaListDTO.class,
-    ResumenMarcasDTO.class
+    ResumenMarcasDTO.class, ArchivoDTO.class, ArchivoResponse.class
 })
 public interface RelojUNASOAP {
 
-    //IMPLEMENTACION DE LOS METODOS DE EMPLEADO
     @WebMethod(operationName = "autenticarEmpleado")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<EmpleadoDTO> autenticarEmpleado(@WebParam(name = "loginRequest") LoginRequestDTO loginRequest);
@@ -65,7 +66,6 @@ public interface RelojUNASOAP {
     @WebResult(name = "SOAPResponse")
     SOAPResponse<EmpleadoDTO> eliminarEmpleado(@WebParam(name = "id") String id);
 
-    //IMPLEMENTACION DE LOS METODOS DE MARCAS
     @WebMethod(operationName = "registrarMarca")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<MarcaDTO> registrarMarca(@WebParam(name = "folio") String folio);
@@ -90,7 +90,6 @@ public interface RelojUNASOAP {
             @WebParam(name = "desde") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate desde,
             @WebParam(name = "hasta") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta);
 
-    //IMPLEMENTACION DE LOS METODOS DE RESUMEN Y JORNADAS
     @WebMethod(operationName = "consultarResumen")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<ResumenMarcasDTO> consultarResumen(
@@ -101,6 +100,13 @@ public interface RelojUNASOAP {
     @WebMethod(operationName = "obtenerJornadas")
     @WebResult(name = "SOAPResponse")
     SOAPResponse<JornadaListDTO> obtenerJornadas(
+            @WebParam(name = "desde") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate desde,
+            @WebParam(name = "hasta") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta,
+            @WebParam(name = "folioEmpleado") String folioEmpleado);
+
+    @WebMethod(operationName = "generarExcelMarcas")
+    @WebResult(name = "ArchivoResponse")
+    ArchivoResponse generarExcelMarcas(
             @WebParam(name = "desde") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate desde,
             @WebParam(name = "hasta") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta,
             @WebParam(name = "folioEmpleado") String folioEmpleado);

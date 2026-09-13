@@ -18,6 +18,9 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import cr.ac.una.relojunaws.model.dto.ArchivoDTO;
+import cr.ac.una.relojunaws.service.ReporteService;
+import cr.ac.una.relojunaws.util.ArchivoResponse;
 
 @WebService(
         endpointInterface = "cr.ac.una.relojunaws.controller.RelojUNASOAP",
@@ -29,13 +32,13 @@ public class RelojUNAController implements RelojUNASOAP {
 
     @EJB
     private EmpleadoService empleadoService;
-
     @EJB
     private MarcaService marcaService;
+    @EJB
+    private ReporteService reporteService;
 
     private static final Logger LOG = Logger.getLogger(RelojUNAController.class.getName());
 
-    // EMPLEADOS CONTROLLER SOAP
     @Override
     public SOAPResponse<EmpleadoDTO> autenticarEmpleado(LoginRequestDTO loginRequest) {
         if (loginRequest == null || loginRequest.getFolio() == null || loginRequest.getFolio().isBlank()
@@ -89,7 +92,6 @@ public class RelojUNAController implements RelojUNASOAP {
         return ejecutar("eliminarEmpleado", () -> empleadoService.eliminarEmpleado(Long.valueOf(id)), respuesta -> null);
     }
 
-    //MARCAS CONTROLLER SOAP
     @Override
     public SOAPResponse<MarcaDTO> registrarMarca(String folio) {
         if (folio == null || folio.isBlank()) {
@@ -122,25 +124,19 @@ public class RelojUNAController implements RelojUNASOAP {
         return ejecutar("obtenerMarcasInconsistentes", () -> marcaService.obtenerMarcasInconsistentes(desde, hasta), respuesta -> (MarcaListDTO) respuesta.getResultado());
     }
 
-    //RESUMEN Y JORNADAS CONTROLLER SOAP
     @Override
-    public SOAPResponse<ResumenMarcasDTO> consultarResumen(
-            LocalDate desde,
-            LocalDate hasta,
-            String folioEmpleado) {
-        String filtroFolio = (folioEmpleado == null || folioEmpleado.isBlank()) ? null : folioEmpleado;
-        return ejecutar("consultarResumen", () -> marcaService.consultarResumen(desde, hasta, filtroFolio),
-                respuesta -> (ResumenMarcasDTO) respuesta.getResultado("ResumenMarcas"));
+    public SOAPResponse<ResumenMarcasDTO> consultarResumen(LocalDate desde, LocalDate hasta, String folioEmpleado) {
+        return ejecutar("consultarResumen", () -> marcaService.consultarResumen(desde, hasta, folioEmpleado),
+                respuesta -> (ResumenMarcasDTO) respuesta.getResultado("ResumenMarcas")
+        );
     }
 
     @Override
     public SOAPResponse<JornadaListDTO> obtenerJornadas(LocalDate desde, LocalDate hasta, String folioEmpleado) {
-        String filtroFolio
-                = (folioEmpleado == null || folioEmpleado.isBlank()) ? "" : folioEmpleado;
-        return ejecutar("obtenerJornadas", () -> marcaService.obtenerJornadas(desde, hasta, filtroFolio), respuesta -> (JornadaListDTO) respuesta.getResultado());
+        return ejecutar("obtenerJornadas", () -> marcaService.obtenerJornadas(desde, hasta, folioEmpleado),
+                respuesta -> (JornadaListDTO) respuesta.getResultado());
     }
 
-    //MÉTODO AUXILIAR CONTROLLER SOAP
     private <T> SOAPResponse<T> ejecutar(String operacion, Supplier<Respuesta> llamadaServicio, Function<Respuesta, T> obtenerResultado) {
         try {
             Respuesta respuesta = llamadaServicio.get();
@@ -151,6 +147,21 @@ public class RelojUNAController implements RelojUNASOAP {
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "RelojUNAController." + operacion, ex);
             return SOAPResponse.error("No se pudo completar la operación.", "RelojUNAController." + operacion + ": " + ex.getClass().getSimpleName());
+        }
+    }
+
+    @Override
+    public ArchivoResponse generarExcelMarcas( LocalDate desde, LocalDate hasta, String folioEmpleado) {
+        try {
+            Respuesta respuesta = reporteService.generarExcelMarcas( desde, hasta, folioEmpleado );
+            if (!respuesta.getEstado()) {
+                return ArchivoResponse.error( respuesta.getMensaje(), respuesta.getMensajeInterno() );
+            }
+            ArchivoDTO archivo = (ArchivoDTO) respuesta.getResultado("Archivo");
+            return ArchivoResponse.exito( archivo, respuesta.getMensaje(), respuesta.getMensajeInterno() );
+        } catch (Exception ex) {
+            LOG.log( Level.SEVERE, "Error en generarExcelMarcas", ex );
+            return ArchivoResponse.error( "reporte.excel.error",  ex.getMessage() );
         }
     }
 }

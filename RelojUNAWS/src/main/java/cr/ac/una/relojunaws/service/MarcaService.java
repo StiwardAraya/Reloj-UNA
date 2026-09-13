@@ -42,12 +42,13 @@ public class MarcaService {
 
     public Respuesta registrarMarca(String folio) {
         try {
-            if (folio.isBlank()) {
+            String folioNormalizado = normalizarFolio(folio);
+            if (folioNormalizado == null || folioNormalizado.isBlank()) {
                 return new Respuesta(false, "marca.registrar.idrequerido", "registrarMarca sin folio");
             }
 
             Query qry = em.createNamedQuery("Empleado.findByFolio", Empleado.class);
-            qry.setParameter("folio", folio);
+            qry.setParameter("folio", folioNormalizado);
             Empleado empleado = (Empleado) qry.getSingleResult();
             validarEmpleadoActivo(empleado);
 
@@ -112,7 +113,10 @@ public class MarcaService {
 
     public Respuesta guardarMarca(MarcaDTO dto) {
         try {
-            if (dto.getFolioEmpleado() == null) {
+            if (dto == null) {
+                return new Respuesta(false, "marca.guardar.datosrequeridos", "guardarMarca dto nulo");
+            }
+            if (dto.getFolioEmpleado() == null || dto.getFolioEmpleado().isBlank()) {
                 return new Respuesta(false, "marca.guardar.idempleadorequerido", "guardarMarca sin folio");
             }
 
@@ -120,6 +124,7 @@ public class MarcaService {
                 return new Respuesta(false, "marca.guardar.tipoinvalido", "guardarMarca tipo invalido: " + dto.getTipo());
             }
 
+            String folio = dto.getFolioEmpleado().trim();
             Query qry = em.createNamedQuery("Empleado.findByFolio", Empleado.class);
             qry.setParameter("folio", dto.getFolioEmpleado());
             Empleado empleado = (Empleado) qry.getSingleResult();
@@ -211,18 +216,19 @@ public class MarcaService {
     public Respuesta consultarResumen(LocalDate desde, LocalDate hasta, String folioEmpleado) {
         try {
             if (desde == null || hasta == null) {
-                return new Respuesta(false, "marca.obtener.fechasrequeridas", "obtenerMarcasInconsistentes fechas nulas");
+                return new Respuesta(false, "marca.obtener.fechasrequeridas", "consultarResumen fechas nulas");
             }
             if (hasta.isBefore(desde)) {
-                return new Respuesta(false, "marca.obtener.rangoinvalido", "obtenerMarcasInconsistentes hasta anterior a desde");
+                return new Respuesta(false, "marca.obtener.rangoinvalido", "consultarResumen hasta anterior a desde");
             }
-
+            
+            String folio = normalizarFolio(folioEmpleado);
             Query qry = em.createNamedQuery("Marca.findAll", Marca.class);
             List<Marca> todasLasMarcas = qry.getResultList();
 
             List<Marca> marcasFiltradas = todasLasMarcas.stream()
                     .filter(marcaEnRango(desde, hasta))
-                    .filter(m -> folioEmpleado.isBlank() || m.getEmpleado().getFolio().equalsIgnoreCase(folioEmpleado.trim()))
+                    .filter(m -> folio == null || m.getEmpleado().getFolio().equalsIgnoreCase(folio))
                     .toList();
 
             Long cantidadEmpleados = contarEmpleadosDistintos(marcasFiltradas);
@@ -259,18 +265,19 @@ public class MarcaService {
     public Respuesta obtenerJornadas(LocalDate desde, LocalDate hasta, String folioEmpleado) {
         try {
             if (desde == null || hasta == null) {
-                return new Respuesta(false, "marca.obtener.fechasrequeridas", "obtenerMarcasInconsistentes fechas nulas");
+                return new Respuesta(false, "marca.obtener.fechasrequeridas", "obtenerJornadas fechas nulas");
             }
             if (hasta.isBefore(desde)) {
-                return new Respuesta(false, "marca.obtener.rangoinvalido", "obtenerMarcasInconsistentes hasta anterior a desde");
+                return new Respuesta(false, "marca.obtener.rangoinvalido", "obtenerJornadas hasta anterior a desde");
             }
 
+            String folio = normalizarFolio(folioEmpleado);
             Query qry = em.createNamedQuery("Marca.findAll", Marca.class);
             List<Marca> todasLasMarcas = qry.getResultList();
 
             List<Marca> marcasFiltradas = todasLasMarcas.stream()
                     .filter(marcaEnRango(desde, hasta))
-                    .filter(m -> folioEmpleado.isBlank() || m.getEmpleado().getFolio().equals(folioEmpleado))
+                    .filter(m -> folio == null || m.getEmpleado().getFolio().equalsIgnoreCase(folio))
                     .toList();
 
             Map<Empleado, List<Marca>> porEmpleado = marcasFiltradas.stream()
@@ -343,6 +350,14 @@ public class MarcaService {
         }
     }
 
+    private String normalizarFolio(String folioEmpleado) {
+        if (folioEmpleado == null || folioEmpleado.isBlank()) {
+            return null;
+        }
+        return folioEmpleado.trim();
+    }
+
+
     private List<JornadaPOJO> construirJornadas(List<Marca> marcasOrdenadas) {
         List<JornadaPOJO> jornadas = new ArrayList<>();
         if (marcasOrdenadas == null || marcasOrdenadas.isEmpty()) {
@@ -352,9 +367,10 @@ public class MarcaService {
         int i = 0;
         while (i < marcasOrdenadas.size()) {
             Marca actual = marcasOrdenadas.get(i);
+
             if (actual.getTipo().equalsIgnoreCase("E")) {
                 Marca siguiente = (i + 1 < marcasOrdenadas.size()) ? marcasOrdenadas.get(i + 1) : null;
-                if (siguiente != null && siguiente.getTipo().equalsIgnoreCase("S")) {
+                if (siguiente != null && siguiente.getTipo().equalsIgnoreCase("S") ) {
                     jornadas.add(emparejarEntradaSalida(actual, siguiente));
                     i += 2;
                 } else {
@@ -389,10 +405,7 @@ public class MarcaService {
     }
 
     private Long contarEmpleadosDistintos(List<Marca> marcas) {
-        return marcas.stream()
-                .map(Marca::getEmpleado)
-                .distinct()
-                .count();
+        return marcas.stream().map(Marca::getEmpleado).distinct().count();
     }
 
     private Duration sumarHorasTrabajadas(List<JornadaPOJO> jornadas) {

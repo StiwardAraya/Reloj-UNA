@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- ReporteEmpleados corregido para Jaspersoft Studio 7 / JasperReports 7 -->
 
-<jasperReport name="ReporteEmpleados" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20"bottomMargin="20">
+<jasperReport
+    name="ReporteEmpleados"
+    language="java"
+    columnCount="1"
+    pageWidth="842"
+    pageHeight="595"
+    orientation="Landscape"
+    columnWidth="802"
+    leftMargin="20"
+    rightMargin="20"
+    topMargin="20"
+    bottomMargin="20">
+
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    <property name="com.jaspersoft.studio.unit." value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+
+    <query language="sql"><![CDATA[]]></query>
+
     <field name="folio" class="java.lang.String"/>
     <field name="cedula" class="java.lang.String"/>
     <field name="nombre" class="java.lang.String"/>
@@ -10,154 +36,116 @@
     <field name="salarioHora" class="java.math.BigDecimal"/>
     <field name="esAdmin" class="java.lang.String"/>
     <field name="activo" class="java.lang.String"/>
+    <field name="fechaBaja" class="java.time.LocalDate"/>
 
-    <title height="75">
-        <element kind="staticText"
-                 x="0"
-                 y="5"
-                 width="802"
-                 height="25"
-                 fontSize="18"
-                 bold="true"
-                 hTextAlign="Center">
+    <background splitType="Stretch"/>
+
+    <title height="105" splitType="Stretch">
+        <element kind="rectangle" x="0" y="0" width="802" height="65"
+                 backcolor="#06245C" mode="Opaque"/>
+
+        <element kind="staticText" x="20" y="10" width="400" height="25"
+                 forecolor="#FFFFFF" fontSize="18" bold="true">
             <text><![CDATA[UNIVERSIDAD NACIONAL]]></text>
         </element>
-        <element kind="staticText"
-                 x="0"
-                 y="32"
-                 width="802"
-                 height="22"
-                 fontSize="14"
-                 bold="true"
-                 hTextAlign="Center">
-            <text><![CDATA[Reporte de Empleados]]></text>
+
+        <element kind="staticText" x="20" y="37" width="400" height="18"
+                 forecolor="#D9EAF7" fontSize="10">
+            <text><![CDATA[RelojUNA · Sistema de Control de Asistencia]]></text>
         </element>
-        <element kind="staticText"
-                 x="0"
-                 y="55"
-                 width="802"
-                 height="15"
-                 fontSize="9"
-                 hTextAlign="Center">
-            <text><![CDATA[RelojUNA - Control de marcas]]></text>
+
+        <element kind="textField" x="555" y="17" width="225" height="20"
+                 forecolor="#FFFFFF" fontSize="9"
+                 hTextAlign="Right" vTextAlign="Middle">
+            <expression><![CDATA[
+                "Generado: "
+                + new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm")
+                    .format(new java.util.Date())
+            ]]></expression>
+        </element>
+
+        <element kind="staticText" x="0" y="75" width="450" height="25"
+                 forecolor="#06245C" fontSize="16" bold="true">
+            <text><![CDATA[REPORTE GENERAL DE EMPLEADOS]]></text>
+        </element>
+
+        <element kind="staticText" x="500" y="78" width="302" height="18"
+                 forecolor="#666666" fontSize="9" hTextAlign="Right">
+            <text><![CDATA[Información registrada en el sistema]]></text>
         </element>
     </title>
-    <columnHeader height="30">
 
-        <element kind="staticText"
-                 x="0"
-                 y="0"
-                 width="60"
-                 height="30"
-                 mode="Opaque"
-                 backcolor="#D9EAF7"
-                 bold="true"
-                 hTextAlign="Center"
-                 vTextAlign="Middle">
-            <text><![CDATA[Folio]]></text>
+    <columnHeader height="32" splitType="Stretch">
+        <element kind="rectangle" x="0" y="0" width="802" height="30"
+                 backcolor="#2563EB" mode="Opaque"/>
+
+        <element kind="staticText" x="0" y="0" width="55" height="30"
+                 forecolor="#FFFFFF" fontSize="9" bold="true"
+                 hTextAlign="Center" vTextAlign="Middle">
+            <text><![CDATA[FOLIO]]></text>
         </element>
 
-        <element kind="staticText"
-                 x="60"
-                 y="0"
-                 width="85"
-                 height="30"
-                 mode="Opaque"
-                 backcolor="#D9EAF7"
-                 bold="true"
-                 hTextAlign="Center"
-                 vTextAlign="Middle">
-            <text><![CDATA[Cédula]]></text>
-        </element>
-        <element kind="staticText"
-                 x="145"
-                 y="0"
-                 width="190"
-                 height="30"
-                 mode="Opaque"
-                 backcolor="#D9EAF7"
-                 bold="true"
-                 hTextAlign="Center"
-                 vTextAlign="Middle">
-            <text><![CDATA[Empleado]]></text>
-        </element>
-        <element kind="staticText"
-                 x="335"
-                 y="0"
-                 width="220"
-                 height="30"
-                 mode="Opaque"
-                 backcolor="#D9EAF7"
-                 bold="true"
-                 hTextAlign="Center"
-                 vTextAlign="Middle">
-            <text><![CDATA[Correo]]></text>
-        </element>
-        <element kind="staticText"
-                 x="555"
-                 y="0"
-                 width="90"
-                 height="30"
-                 mode="Opaque"
-                 backcolor="#D9EAF7"
-                 bold="true"
-                 hTextAlign="Center"
-                 vTextAlign="Middle">
-            <text><![CDATA[Salario/h]]></text>
-        </element>
-        <element kind="staticText"
-                 x="645"
-                 y="0"
-                 width="80"
-                 height="30"
-                 mode="Opaque"
-                 backcolor="#D9EAF7"
-                 bold="true"
-                 hTextAlign="Center"
-                 vTextAlign="Middle">
-            <text><![CDATA[Admin]]></text>
-        </element>
-        <element kind="staticText"
-                 x="725"
-                 y="0"
-                 width="77"
-                 height="30"
-                 mode="Opaque"
-                 backcolor="#D9EAF7"
-                 bold="true"
-                 hTextAlign="Center"
-                 vTextAlign="Middle">
-            <text><![CDATA[Activo]]></text>
+        <element kind="staticText" x="55" y="0" width="90" height="30"
+                 forecolor="#FFFFFF" fontSize="9" bold="true"
+                 hTextAlign="Center" vTextAlign="Middle">
+            <text><![CDATA[CÉDULA]]></text>
         </element>
 
+        <element kind="staticText" x="145" y="0" width="190" height="30"
+                 forecolor="#FFFFFF" fontSize="9" bold="true"
+                 hTextAlign="Center" vTextAlign="Middle">
+            <text><![CDATA[EMPLEADO]]></text>
+        </element>
+
+        <element kind="staticText" x="335" y="0" width="220" height="30"
+                 forecolor="#FFFFFF" fontSize="9" bold="true"
+                 hTextAlign="Center" vTextAlign="Middle">
+            <text><![CDATA[CORREO]]></text>
+        </element>
+
+        <element kind="staticText" x="555" y="0" width="85" height="30"
+                 forecolor="#FFFFFF" fontSize="9" bold="true"
+                 hTextAlign="Center" vTextAlign="Middle">
+            <text><![CDATA[SALARIO/H]]></text>
+        </element>
+
+        <element kind="staticText" x="640" y="0" width="55" height="30"
+                 forecolor="#FFFFFF" fontSize="9" bold="true"
+                 hTextAlign="Center" vTextAlign="Middle">
+            <text><![CDATA[ADMIN]]></text>
+        </element>
+
+        <element kind="staticText" x="695" y="0" width="65" height="30"
+                 forecolor="#FFFFFF" fontSize="9" bold="true"
+                 hTextAlign="Center" vTextAlign="Middle">
+            <text><![CDATA[ESTADO]]></text>
+        </element>
+
+        <element kind="staticText" x="760" y="0" width="42" height="30"
+                 forecolor="#FFFFFF" fontSize="7" bold="true"
+                 hTextAlign="Center" vTextAlign="Middle">
+            <text><![CDATA[BAJA]]></text>
+        </element>
     </columnHeader>
+
     <detail>
-        <band height="25">
-            <element kind="textField"
-                     x="0"
-                     y="0"
-                     width="60"
-                     height="25"
-                     hTextAlign="Center"
-                     vTextAlign="Middle">
+        <band height="28">
+            <element kind="line" x="0" y="27" width="802" height="1"
+                     forecolor="#DADDE3"/>
+
+            <element kind="textField" x="0" y="1" width="55" height="25"
+                     forecolor="#06245C" fontSize="9" bold="true"
+                     hTextAlign="Center" vTextAlign="Middle">
                 <expression><![CDATA[$F{folio}]]></expression>
             </element>
-            <element kind="textField"
-                     x="60"
-                     y="0"
-                     width="85"
-                     height="25"
-                     hTextAlign="Center"
-                     vTextAlign="Middle">
+
+            <element kind="textField" x="55" y="1" width="90" height="25"
+                     fontSize="9" hTextAlign="Center" vTextAlign="Middle">
                 <expression><![CDATA[$F{cedula}]]></expression>
             </element>
-            <element kind="textField"
-                     x="145"
-                     y="0"
-                     width="190"
-                     height="25"
-                     vTextAlign="Middle"
-                     textAdjust="StretchHeight">
+
+            <element kind="textField" x="145" y="1" width="190" height="25"
+                     fontSize="9" vTextAlign="Middle">
                 <expression><![CDATA[
                     ($F{nombre} == null ? "" : $F{nombre})
                     + " "
@@ -166,56 +154,92 @@
                     + ($F{segundoApellido} == null ? "" : $F{segundoApellido})
                 ]]></expression>
             </element>
-            <element kind="textField"
-                     x="335"
-                     y="0"
-                     width="220"
-                     height="25"
-                     vTextAlign="Middle"
-                     textAdjust="StretchHeight">
+
+            <element kind="textField" x="335" y="1" width="220" height="25"
+                     forecolor="#444444" fontSize="8" vTextAlign="Middle">
                 <expression><![CDATA[$F{correo}]]></expression>
             </element>
-            <element kind="textField"
-                     x="555"
-                     y="0"
-                     width="90"
-                     height="25"
-                     hTextAlign="Right"
-                     vTextAlign="Middle"
-                     pattern="#,##0.00">
+
+            <element kind="textField" x="555" y="1" width="85" height="25"
+                     fontSize="9" pattern="₡ #,##0.00"
+                     hTextAlign="Right" vTextAlign="Middle">
                 <expression><![CDATA[$F{salarioHora}]]></expression>
             </element>
-            <element kind="textField"
-                     x="645"
-                     y="0"
-                     width="80"
-                     height="25"
-                     hTextAlign="Center"
-                     vTextAlign="Middle">
-                <expression><![CDATA[$F{esAdmin}]]></expression>
+
+            <element kind="textField" x="640" y="1" width="55" height="25"
+                     fontSize="9" hTextAlign="Center" vTextAlign="Middle">
+                <expression><![CDATA[
+                    $F{esAdmin} == null
+                    ? ""
+                    : (
+                        "S".equalsIgnoreCase($F{esAdmin})
+                        || "1".equals($F{esAdmin})
+                        || "true".equalsIgnoreCase($F{esAdmin})
+                        ? "Sí"
+                        : "No"
+                    )
+                ]]></expression>
             </element>
-            <element kind="textField"
-                     x="725"
-                     y="0"
-                     width="77"
-                     height="25"
-                     hTextAlign="Center"
-                     vTextAlign="Middle">
-                <expression><![CDATA[$F{activo}]]></expression>
+
+            <element kind="textField" x="695" y="1" width="65" height="25"
+                     fontSize="9" bold="true"
+                     hTextAlign="Center" vTextAlign="Middle">
+                <expression><![CDATA[
+                    $F{activo} == null
+                    ? ""
+                    : (
+                        "S".equalsIgnoreCase($F{activo})
+                        || "1".equals($F{activo})
+                        || "true".equalsIgnoreCase($F{activo})
+                        ? "Activo"
+                        : "Inactivo"
+                    )
+                ]]></expression>
+            </element>
+
+            <element kind="textField" x="760" y="1" width="42" height="25"
+                     fontSize="7" hTextAlign="Center" vTextAlign="Middle">
+                <expression><![CDATA[
+                    $F{fechaBaja} == null
+                    ? ""
+                    : $F{fechaBaja}.format(
+                        java.time.format.DateTimeFormatter.ofPattern("dd/MM/yy")
+                      )
+                ]]></expression>
             </element>
         </band>
     </detail>
-    <pageFooter height="25">
-        <element kind="textField"
-                 x="652"
-                 y="5"
-                 width="150"
-                 height="15"
-                 fontSize="9"
-                 hTextAlign="Right">
-            <expression><![CDATA[
-                "Página " + $V{PAGE_NUMBER}
-            ]]></expression>
+
+    <pageFooter height="32" splitType="Stretch">
+        <element kind="line" x="0" y="2" width="802" height="1"
+                 forecolor="#B8C2D1"/>
+
+        <element kind="staticText" x="0" y="10" width="350" height="15"
+                 forecolor="#777777" fontSize="8">
+            <text><![CDATA[Universidad Nacional · RelojUNA]]></text>
+        </element>
+
+        <element kind="textField" x="600" y="10" width="202" height="15"
+                 forecolor="#555555" fontSize="8" hTextAlign="Right">
+            <expression><![CDATA["Página " + $V{PAGE_NUMBER}]]></expression>
         </element>
     </pageFooter>
+
+    <summary height="48" splitType="Stretch">
+        <element kind="rectangle" x="0" y="8" width="235" height="32"
+                 backcolor="#F1F5F9" mode="Opaque"/>
+
+        <element kind="staticText" x="15" y="14" width="125" height="20"
+                 forecolor="#06245C" fontSize="10" bold="true"
+                 vTextAlign="Middle">
+            <text><![CDATA[Total de empleados:]]></text>
+        </element>
+
+        <element kind="textField" x="140" y="14" width="75" height="20"
+                 forecolor="#2563EB" fontSize="11" bold="true"
+                 hTextAlign="Center" vTextAlign="Middle">
+            <expression><![CDATA[$V{REPORT_COUNT}]]></expression>
+        </element>
+    </summary>
+
 </jasperReport>

@@ -48,18 +48,8 @@ public class ReporteController extends Controller {
 
         Respuesta respuesta = reporteService.obtenerReporteEmpleados();
         if (!respuesta.getEstado()) {
-
-            LOG.severe(
-                    "Error reporte empleados: "
-                    + respuesta.getMensajeInterno()
-            );
-
-            mostrarError(
-                    respuesta.getMensaje()
-                    + "\n\nDetalle:\n"
-                    + respuesta.getMensajeInterno()
-            );
-
+            LOG.severe("Error reporte empleados: " + respuesta.getMensajeInterno());
+            mostrarError(respuesta.getMensaje() + "\n\nDetalle:\n" + respuesta.getMensajeInterno());
             return;
         }
 
@@ -104,6 +94,7 @@ public class ReporteController extends Controller {
     private void generarReporteMarcas(ActionEvent event) {
         LocalDate desde = dpFechaInicio.getValue();
         LocalDate hasta = dpFechaFin.getValue();
+        String folio = txtFolio.getText();
         if (desde == null || hasta == null) {
             mostrarError("Debe indicar ambas fechas.");
             return;
@@ -113,7 +104,47 @@ public class ReporteController extends Controller {
             return;
         }
 
-        mostrarInformacion("La pantalla está lista. Ahora falta conectar " + "el reporte Jasper de marcas.");
+        Respuesta respuesta = reporteService.obtenerReporteMarcas(desde, hasta, folio);
+        if (!respuesta.getEstado()) {
+            LOG.severe("Error reporte marcas: " + respuesta.getMensajeInterno());
+            mostrarError(respuesta.getMensaje() + "\n\nDetalle:\n" + respuesta.getMensajeInterno());
+            return;
+        }
+
+        Object resultado = respuesta.getResultado("Archivo");
+        if (!(resultado instanceof ArchivoDTO archivo)) {
+            mostrarError("No se recibió el reporte de marcas.");
+            return;
+        }
+        if (archivo.getContenido() == null || archivo.getContenido().length == 0) {
+            mostrarError("El reporte recibido está vacío.");
+            return;
+        }
+        
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Guardar reporte de marcas");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Documento PDF (*.pdf)", "*.pdf"));
+        String nombreArchivo = archivo.getNombreArchivo();
+        if (nombreArchivo == null || nombreArchivo.isBlank()) {
+            nombreArchivo = "ReporteMarcas_" + desde + "_" + hasta + ".pdf";
+        }
+        
+        fileChooser.setInitialFileName(nombreArchivo);
+        File destino = fileChooser.showSaveDialog(root.getScene().getWindow());
+        if (destino == null) {
+            return;
+        }
+        if (!destino.getName().toLowerCase().endsWith(".pdf")) {
+
+            destino = new File(destino.getParentFile(), destino.getName() + ".pdf");
+        }
+        try {
+            Files.write(destino.toPath(), archivo.getContenido());
+            mostrarInformacion("Reporte de marcas generado correctamente.");
+        } catch (IOException ex) {
+            LOG.log(Level.SEVERE, "Error al guardar el reporte de marcas", ex);
+            mostrarError("No se pudo guardar el reporte.");
+        }
     }
 
     private void mostrarError(String mensaje) {

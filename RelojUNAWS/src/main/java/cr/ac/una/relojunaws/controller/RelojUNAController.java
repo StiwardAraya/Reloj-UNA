@@ -181,4 +181,18 @@ public class RelojUNAController implements RelojUNASOAP {
         }
     }
 
+    @Override
+    public ArchivoResponse generarReporteMarcas(LocalDate desde, LocalDate hasta, String folioEmpleado) {
+        try{
+            Respuesta respuesta = reporteService.generarReporteMarcas(desde, hasta, folioEmpleado);
+            if(!respuesta.getEstado())
+                return ArchivoResponse.error(respuesta.getMensaje(),respuesta.getMensajeInterno());
+            ArchivoDTO archivo = (ArchivoDTO) respuesta.getResultado("Archivo");
+            return ArchivoResponse.exito( archivo, respuesta.getMensaje(), respuesta.getMensajeInterno() ); 
+        }catch (Exception ex) {
+            LOG.log( Level.SEVERE, "Error en generarReporteMarcas", ex );
+            return ArchivoResponse.error( "reporte.marcas.error", ex.getMessage() );
+        }
+    }
+
 }

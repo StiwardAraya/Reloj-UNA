@@ -28,6 +28,8 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 @Stateless
 @LocalBean
@@ -221,36 +223,42 @@ public class ReporteService {
         }
     }
 
-    public Respuesta generarReporteMarcas( LocalDate desde, LocalDate hasta,  String folioEmpleado) {
-
+    public Respuesta generarReporteMarcas(LocalDate desde, LocalDate hasta, String folioEmpleado) {
         try {
-            Respuesta respuestaJornadas  = marcaService.obtenerJornadas(  desde,  hasta, folioEmpleado );
+            Respuesta respuestaJornadas = marcaService.obtenerJornadas(desde, hasta, folioEmpleado);
             if (!respuestaJornadas.getEstado()) {
                 return respuestaJornadas;
             }
             JornadaListDTO jornadasDTO = (JornadaListDTO) respuestaJornadas.getResultado();
             if (jornadasDTO == null || jornadasDTO.getJornadas() == null) {
-                return new Respuesta( false, "reporte.marcas.error",  "No se obtuvo la lista de jornadas" );
-            }
-            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource( jornadasDTO.getJornadas() );
-            InputStream archivoJrxml  = ReporteService.class.getResourceAsStream( "/reportes/ReporteMarcas.jrxml" );
-            if (archivoJrxml == null) {
-                return new Respuesta( false, "reporte.marcas.error", "No se encontró ReporteMarcas.jrxml" );
+                return new Respuesta(false, "reporte.marcas.error", "No se obtuvo la lista de jornadas");
             }
 
-            HashMap<String, Object> parametros  = new HashMap<>();
-            parametros.put( "FECHA_INICIO", desde != null ? desde.toString() : "" );
-            parametros.put( "FECHA_FIN", hasta != null  ? hasta.toString() : ""  );
-            parametros.put(  "FOLIO", folioEmpleado == null || folioEmpleado.isBlank() ? "Todos" : folioEmpleado.trim() );
-            JasperReport reporte= JasperCompileManager.compileReport( archivoJrxml  );
-            JasperPrint impresion = JasperFillManager.fillReport( reporte, parametros, dataSource  );
-            byte[] contenido  = JasperExportManager .exportReportToPdf( impresion );
+            //1-necesito obtener las jornads,ordenar folio y rango de fechas
+            List<JornadaDTO> jornadas = new ArrayList<>(jornadasDTO.getJornadas());
+            Comparator<LocalDate> ordenarFecha = Comparator.nullsLast(Comparator.naturalOrder());
+            Comparator<String> ordenarFolio = Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER);
+            jornadas.sort(Comparator.comparing(JornadaDTO::getFolioEmpleado,ordenarFolio).thenComparing(JornadaDTO::getFecha,ordenarFecha));
+            
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(jornadas);
+            
+            InputStream archivoJrxml = ReporteService.class.getResourceAsStream("/reportes/ReporteMarcas.jrxml");
+            if (archivoJrxml == null) {
+                return new Respuesta(false, "reporte.marcas.error", "No se encontró ReporteMarcas.jrxml");
+            }
+            HashMap<String, Object> parametros = new HashMap<>();
+            parametros.put("FECHA_INICIO", desde != null ? desde.toString() : "");
+            parametros.put("FECHA_FIN", hasta != null ? hasta.toString() : "");
+            parametros.put("FOLIO", folioEmpleado == null || folioEmpleado.isBlank() ? "Todos" : folioEmpleado.trim());
+            JasperReport reporte = JasperCompileManager.compileReport(archivoJrxml);
+            JasperPrint impresion = JasperFillManager.fillReport(reporte, parametros, dataSource);
+            byte[] contenido = JasperExportManager.exportReportToPdf(impresion);
             String nombreArchivo = "ReporteMarcas_" + desde + "_" + hasta + ".pdf";
-            ArchivoDTO archivo  = new ArchivoDTO( nombreArchivo, "application/pdf", contenido  );
-            return new Respuesta( true, "reporte.marcas.exito", "", "Archivo", archivo );
+            ArchivoDTO archivo = new ArchivoDTO(nombreArchivo, "application/pdf", contenido);
+            return new Respuesta(true, "reporte.marcas.exito", "", "Archivo", archivo);
         } catch (Exception ex) {
-            LOG.log( Level.SEVERE,  "Ocurrió un error al generar " + "el reporte de marcas", ex  );
-            return new Respuesta( false, "reporte.marcas.error", "generarReporteMarcas Exception " + ex.getMessage() );
+            LOG.log(Level.SEVERE, "Ocurrió un error al generar " + "el reporte de marcas", ex);
+            return new Respuesta(false, "reporte.marcas.error", "generarReporteMarcas Exception " + ex.getMessage());
         }
     }
 }

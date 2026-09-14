@@ -115,4 +115,11 @@ public interface RelojUNASOAP {
     @WebResult(name = "ArchivoResponse", targetNamespace = "")
     ArchivoResponse generarReporteEmpleados();
 
+    @WebMethod(operationName = "generarReporteMarcas")
+    @WebResult(name = "ArchivoResponse")
+    ArchivoResponse generarReporteMarcas(
+            @WebParam(name = "desde") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate desde,
+            @WebParam(name = "hasta") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta,
+            @WebParam(name = "folioEmpleado") String folioEmpleado);
+
 }

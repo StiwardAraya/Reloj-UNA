@@ -77,7 +77,7 @@ public class MarcaService {
         }
     }
 
-    public Respuesta obtenerPorFechas(LocalDate desde, LocalDate hasta) {
+    public Respuesta obtenerPorFechas(LocalDate desde, LocalDate hasta, String folio) {
         try {
             if (desde == null || hasta == null) {
                 return new Respuesta(false, "marca.obtener.fechasrequeridas", "obtenerPorFechas fechas nulas");
@@ -103,7 +103,15 @@ public class MarcaService {
                     .sorted(Comparator.comparing(MarcaDTO::getFechaHora))
                     .toList();
 
-            MarcaListDTO dtoList = new MarcaListDTO(marcasDTO);
+            MarcaListDTO dtoList;
+            List<MarcaDTO> marcasFiltradas;
+
+            if (!folio.isBlank()) {
+                marcasFiltradas = marcasDTO.stream().filter(m -> m.getFolioEmpleado().equals(folio)).toList();
+                dtoList = new MarcaListDTO(marcasFiltradas);
+            } else {
+                dtoList = new MarcaListDTO(marcasDTO);
+            }
             return new Respuesta(true, "", "", dtoList);
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "Ocurrió un error en obtenerPorFechas", ex);
@@ -221,7 +229,7 @@ public class MarcaService {
             if (hasta.isBefore(desde)) {
                 return new Respuesta(false, "marca.obtener.rangoinvalido", "consultarResumen hasta anterior a desde");
             }
-            
+
             String folio = normalizarFolio(folioEmpleado);
             Query qry = em.createNamedQuery("Marca.findAll", Marca.class);
             List<Marca> todasLasMarcas = qry.getResultList();
@@ -357,7 +365,6 @@ public class MarcaService {
         return folioEmpleado.trim();
     }
 
-
     private List<JornadaPOJO> construirJornadas(List<Marca> marcasOrdenadas) {
         List<JornadaPOJO> jornadas = new ArrayList<>();
         if (marcasOrdenadas == null || marcasOrdenadas.isEmpty()) {
@@ -370,7 +377,7 @@ public class MarcaService {
 
             if (actual.getTipo().equalsIgnoreCase("E")) {
                 Marca siguiente = (i + 1 < marcasOrdenadas.size()) ? marcasOrdenadas.get(i + 1) : null;
-                if (siguiente != null && siguiente.getTipo().equalsIgnoreCase("S") ) {
+                if (siguiente != null && siguiente.getTipo().equalsIgnoreCase("S")) {
                     jornadas.add(emparejarEntradaSalida(actual, siguiente));
                     i += 2;
                 } else {

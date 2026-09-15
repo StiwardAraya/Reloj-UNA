@@ -183,6 +183,7 @@ public class MarcaService {
         }
     }
 
+    // TODO: Incluir filtro por folio
     public Respuesta obtenerMarcasInconsistentes(LocalDate desde, LocalDate hasta) {
         try {
             if (desde == null || hasta == null) {

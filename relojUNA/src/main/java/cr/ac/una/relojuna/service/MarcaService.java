@@ -49,8 +49,8 @@ public class MarcaService {
         return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "Marca", resultado.getResultado());
     }
 
-    public Respuesta obtenerMarcasInconsistentes(LocalDate desde, LocalDate hasta) {
-        SOAPResponse resultado = port.obtenerMarcasInconsistentes(desde.toString(), hasta.toString());
+    public Respuesta obtenerMarcasInconsistentes(LocalDate desde, LocalDate hasta, String folio) {
+        SOAPResponse resultado = port.obtenerMarcasInconsistentes(desde.toString(), hasta.toString(), folio);
         if (!resultado.isExito()) {
             return new Respuesta(false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
         }

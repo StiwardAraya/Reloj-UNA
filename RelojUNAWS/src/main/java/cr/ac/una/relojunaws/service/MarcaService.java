@@ -183,8 +183,7 @@ public class MarcaService {
         }
     }
 
-    // TODO: Incluir filtro por folio
-    public Respuesta obtenerMarcasInconsistentes(LocalDate desde, LocalDate hasta) {
+    public Respuesta obtenerMarcasInconsistentes(LocalDate desde, LocalDate hasta, String folio) {
         try {
             if (desde == null || hasta == null) {
                 return new Respuesta(false, "marca.obtener.fechasrequeridas", "obtenerMarcasInconsistentes fechas nulas");
@@ -211,10 +210,21 @@ public class MarcaService {
                     .toList();
 
             List<MarcaDTO> inconsistentesDTO = inconsistentes.stream()
-                    .map(MarcaDTO::new)
+                    .map(m -> {
+                        MarcaDTO dto = new MarcaDTO(m);
+                        dto.setInconsistente(Boolean.TRUE);
+                        return dto;
+                    })
                     .toList();
 
-            MarcaListDTO dtoList = new MarcaListDTO(inconsistentesDTO);
+            MarcaListDTO dtoList;
+            List<MarcaDTO> inconsistentesPorEmpleado;
+            if (!folio.isBlank()) {
+                inconsistentesPorEmpleado = inconsistentesDTO.stream().filter(m -> m.getFolioEmpleado().equals(folio)).toList();
+                dtoList = new MarcaListDTO(inconsistentesPorEmpleado);
+            } else {
+                dtoList = new MarcaListDTO(inconsistentesDTO);
+            }
             return new Respuesta(true, "", "", dtoList);
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "Ocurrió un error en obtenerMarcasInconsistentes", ex);

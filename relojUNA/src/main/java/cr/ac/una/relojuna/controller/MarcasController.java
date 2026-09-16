@@ -128,46 +128,11 @@ public class MarcasController extends Controller {
 
     // Main
     private void cargarMarcas() {
-        LocalDate desde = dtpDesde.getValue();
-        LocalDate hasta = dtpHasta.getValue();
-        String folio = txtFolio.getText();
-
-        Respuesta respuesta = service.obtenerPorFechas(desde, hasta, folio);
-        manejarRespuesta(respuesta, () -> {
-            @SuppressWarnings("unchecked")
-            List<MarcaDTO> dtos = ((MarcaListDTO) respuesta.getResultado("Marcas")).getMarcas();
-            refrescarDatos(dtos);
-        });
+        ejecutarBusqueda();
     }
 
     private void buscarMarcas() {
-        LocalDate desde = dtpDesde.getValue();
-        LocalDate hasta = dtpHasta.getValue();
-        String folio = txtFolio.getText();
-
-        if (desde == null || hasta == null) {
-            UIRouter.getInstance().notify(
-                    UIRouter.NotificationPosition.BOTTOM_RIGHT,
-                    NotificationColor.WARNING,
-                    bundle.getString("marcas.notification.fechasrequeridas.titulo"),
-                    bundle.getString("marcas.notification.fechasrequeridas.msg"));
-            return;
-        }
-
-        if (desde.isAfter(hasta)) {
-            UIRouter.getInstance().notify(
-                    UIRouter.NotificationPosition.BOTTOM_RIGHT,
-                    NotificationColor.WARNING,
-                    bundle.getString("marcas.notification.rangoinvalido.titulo"),
-                    bundle.getString("marcas.notification.rangoinvalido.msg"));
-            return;
-        }
-
-        Respuesta respuesta = service.obtenerPorFechas(desde, hasta, folio);
-        manejarRespuesta(respuesta, () -> {
-            List<MarcaDTO> dtos = ((MarcaListDTO) respuesta.getResultado("Marcas")).getMarcas();
-            refrescarDatos(dtos);
-        });
+        ejecutarBusqueda();
     }
 
     private void agregarMarca() {
@@ -275,7 +240,7 @@ public class MarcasController extends Controller {
     }
 
     private void filtrarInconsistencias(boolean soloInconsistentes) {
-        // TODO
+        ejecutarBusqueda();
     }
 
     // Helpers
@@ -625,6 +590,41 @@ public class MarcasController extends Controller {
 
         dtpDesde.setValue(desde);
         dtpHasta.setValue(hasta);
+    }
+
+    private void ejecutarBusqueda() {
+        LocalDate desde = dtpDesde.getValue();
+        LocalDate hasta = dtpHasta.getValue();
+
+        if (desde == null || hasta == null) {
+            UIRouter.getInstance().notify(
+                    UIRouter.NotificationPosition.BOTTOM_RIGHT,
+                    NotificationColor.WARNING,
+                    bundle.getString("marcas.notification.fechasrequeridas.titulo"),
+                    bundle.getString("marcas.notification.fechasrequeridas.msg"));
+            return;
+        }
+
+        if (desde.isAfter(hasta)) {
+            UIRouter.getInstance().notify(
+                    UIRouter.NotificationPosition.BOTTOM_RIGHT,
+                    NotificationColor.WARNING,
+                    bundle.getString("marcas.notification.rangoinvalido.titulo"),
+                    bundle.getString("marcas.notification.rangoinvalido.msg"));
+            return;
+        }
+
+        String folio = txtFolio.getText() == null ? "" : txtFolio.getText().trim();
+        boolean soloInconsistentes = chkVerInconsistencias.isSelected();
+
+        Respuesta respuesta = soloInconsistentes
+                ? service.obtenerMarcasInconsistentes(desde, hasta, folio)
+                : service.obtenerPorFechas(desde, hasta, folio);
+
+        manejarRespuesta(respuesta, () -> {
+            List<MarcaDTO> dtos = ((MarcaListDTO) respuesta.getResultado("Marcas")).getMarcas();
+            refrescarDatos(dtos);
+        });
     }
 
     @FXML

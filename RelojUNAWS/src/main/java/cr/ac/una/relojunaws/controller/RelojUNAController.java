@@ -120,8 +120,8 @@ public class RelojUNAController implements RelojUNASOAP {
     }
 
     @Override
-    public SOAPResponse<MarcaListDTO> obtenerMarcasInconsistentes(LocalDate desde, LocalDate hasta) {
-        return ejecutar("obtenerMarcasInconsistentes", () -> marcaService.obtenerMarcasInconsistentes(desde, hasta), respuesta -> (MarcaListDTO) respuesta.getResultado());
+    public SOAPResponse<MarcaListDTO> obtenerMarcasInconsistentes(LocalDate desde, LocalDate hasta, String folio) {
+        return ejecutar("obtenerMarcasInconsistentes", () -> marcaService.obtenerMarcasInconsistentes(desde, hasta, folio), respuesta -> (MarcaListDTO) respuesta.getResultado());
     }
 
     @Override

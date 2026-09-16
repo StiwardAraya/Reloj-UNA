@@ -89,7 +89,8 @@ public interface RelojUNASOAP {
     @WebResult(name = "SOAPResponse")
     SOAPResponse<MarcaListDTO> obtenerMarcasInconsistentes(
             @WebParam(name = "desde") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate desde,
-            @WebParam(name = "hasta") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta);
+            @WebParam(name = "hasta") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta,
+            @WebParam(name = "folio") String folio);
 
     @WebMethod(operationName = "consultarResumen")
     @WebResult(name = "SOAPResponse")

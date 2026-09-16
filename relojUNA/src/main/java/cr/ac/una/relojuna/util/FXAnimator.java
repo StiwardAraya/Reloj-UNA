@@ -177,7 +177,6 @@ public final class FXAnimator {
     }
 
     //Cumpleaños
-
     public static void felizCumpleanos(Node node, double x, double y) {
         SFXPlayer.reproducir("cumple.mp3");
         Pane pane = (Pane) node;
@@ -207,7 +206,9 @@ public final class FXAnimator {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if (startTime[0] == -1) startTime[0] = now;
+                if (startTime[0] == -1) {
+                    startTime[0] = now;
+                }
 
                 GraphicsContext gc = canvas.getGraphicsContext2D();
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -219,8 +220,11 @@ public final class FXAnimator {
                     if (p.update()) {
                         iter.remove();
                         if (p.shouldExplodeChildren) {
-                            if (p.size == 9) fwExplodeCircle(p, newParticles, colors);
-                            else if (p.size == 8) fwExplodeSmallCircle(p, newParticles);
+                            if (p.size == 9) {
+                                fwExplodeCircle(p, newParticles, colors);
+                            } else if (p.size == 8) {
+                                fwExplodeSmallCircle(p, newParticles);
+                            }
                         }
                     }
                     p.draw(gc);
@@ -295,8 +299,10 @@ public final class FXAnimator {
                     true, false, false));
         }
     }
+
     //clase necesaria para los fireworks
     private static class FWParticle {
+
         private static final double GRAVITY = 0.06;
         double alpha, fade, posX, posY, velX, velY, lastPosX, lastPosY;
         final double easing, targetY;
@@ -307,10 +313,13 @@ public final class FXAnimator {
         FWParticle(double posX, double posY, double velX, double velY,
                 double targetX, double targetY, Paint color, int size,
                 boolean usePhysics, boolean shouldExplodeChildren, boolean hasTail) {
-            this.posX = posX; this.posY = posY;
-            this.velX = velX; this.velY = velY;
+            this.posX = posX;
+            this.posY = posY;
+            this.velX = velX;
+            this.velY = velY;
             this.targetY = targetY;
-            this.color = color; this.size = size;
+            this.color = color;
+            this.size = size;
             this.usePhysics = usePhysics;
             this.shouldExplodeChildren = shouldExplodeChildren;
             this.hasTail = hasTail;

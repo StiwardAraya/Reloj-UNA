@@ -9,6 +9,7 @@ import cr.ac.una.relojuna.util.FormValidator;
 import cr.ac.una.relojuna.util.Mensaje;
 import cr.ac.una.relojuna.util.NotificationColor;
 import cr.ac.una.relojuna.util.Respuesta;
+import cr.ac.una.relojuna.util.SFXPlayer;
 import cr.ac.una.relojuna.util.UIRouter;
 import cr.ac.una.relojuna.ws.EmpleadoDTO;
 import cr.ac.una.relojuna.ws.MarcaDTO;
@@ -64,6 +65,8 @@ public class MarcadorController extends Controller {
         FXAnimator.fadeSlideInFromBottom(root, 20);
         Platform.runLater(() -> {
             updateLanguageTexts(bundle);
+            // PRUEBA - borrar después
+            lblReloj.setOnMouseClicked(e -> FXAnimator.felizCumpleanos(root, root.getWidth() / 2, root.getHeight() / 2));
         });
 
         LOG = Logger.getLogger(MarcadorController.class.getName());
@@ -168,7 +171,7 @@ public class MarcadorController extends Controller {
 
     @FXML
     private void onActionBtnContinuar(ActionEvent event) {
-        marcarFolio();
+           marcarFolio();
     }
 
     @FXML

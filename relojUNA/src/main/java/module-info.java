@@ -1,6 +1,7 @@
 module cr.ac.una.relojuna {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.media;
     requires MaterialFX;
     requires java.logging;
     requires java.base;

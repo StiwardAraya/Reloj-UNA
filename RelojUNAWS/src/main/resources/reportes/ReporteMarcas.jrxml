@@ -23,15 +23,78 @@
 	<field name="esDiaLibre" class="java.lang.Boolean"/>
 	<field name="completa" class="java.lang.Boolean"/>
 	<variable name="TOTAL_HORAS" calculation="Sum" class="java.lang.Double">
-		<expression><![CDATA[
-            $F{horasTrabajadas} == null ? 0.0 : $F{horasTrabajadas}
-        ]]></expression>
-	</variable>
-	<variable name="TOTAL_INCONSISTENCIAS" calculation="Sum" class="java.lang.Integer">
-		<expression><![CDATA[
-            Boolean.FALSE.equals($F{completa}) ? 1 : 0
-        ]]></expression>
-	</variable>
+            <expression><![CDATA[
+                $F{horasTrabajadas} == null ? 0.0 : $F{horasTrabajadas}
+            ]]></expression>
+        </variable>
+
+        <variable name="TOTAL_INCONSISTENCIAS" calculation="Sum" class="java.lang.Integer">
+            <expression><![CDATA[
+                Boolean.FALSE.equals($F{completa}) ? 1 : 0
+            ]]></expression>
+        </variable>
+        <group name="GRUPO_EMPLEADO">
+            <expression><![CDATA[$F{folioEmpleado}]]></expression>
+            <groupHeader>
+                <band height="28">
+                    <element kind="rectangle"
+                             x="0" y="3"
+                             width="802" height="22"
+                             backcolor="#E8EEF8"
+                             mode="Opaque"/>
+
+                    <element kind="textField"
+                             x="10" y="5"
+                             width="500" height="18"
+                             forecolor="#06245C"
+                             fontSize="10.0"
+                             bold="true"
+                             vTextAlign="Middle">
+                        <expression><![CDATA[
+                            $F{folioEmpleado} + " - " + $F{nombreEmpleado}
+                        ]]></expression>
+                    </element>
+                </band>
+            </groupHeader>
+            <groupFooter>
+                <band height="30">
+                    <element kind="staticText"
+                             x="510" y="5"
+                             width="150" height="20"
+                             forecolor="#06245C"
+                             fontSize="9.0"
+                             bold="true"
+                             hTextAlign="Right"
+                             vTextAlign="Middle">
+                        <text><![CDATA[Total empleado:]]></text>
+                    </element>
+
+                    <element kind="textField"
+                             x="665" y="5"
+                             width="137" height="20"
+                             forecolor="#2563EB"
+                             fontSize="10.0"
+                             bold="true"
+                             hTextAlign="Center"
+                             vTextAlign="Middle">
+                        <expression><![CDATA[
+                            $V{HORAS_EMPLEADO} == null
+                            ? "0.00 h"
+                            : String.format("%.2f h", $V{HORAS_EMPLEADO})
+                        ]]></expression>
+                    </element>
+                </band>
+            </groupFooter>
+        </group>
+        <variable name="HORAS_EMPLEADO"
+                  class="java.lang.Double"
+                  calculation="Sum"
+                  resetType="Group"
+                  resetGroup="GRUPO_EMPLEADO">
+            <expression><![CDATA[
+                $F{horasTrabajadas} == null ? 0.0 : $F{horasTrabajadas}
+            ]]></expression>
+        </variable>
 	<background splitType="Stretch"/>
 	<title height="128" splitType="Stretch">
 		<element kind="rectangle" uuid="b5cba7c2-d079-4270-8672-62d80332b248" x="0" y="0" width="802" height="65" backcolor="#06245C" mode="Opaque"/>
@@ -125,8 +188,8 @@
 			</element>
 			<element kind="textField" uuid="25900319-fa35-42f5-987a-69cf1b657867" x="425" y="1" width="85" height="25" fontSize="9.0" hTextAlign="Center" vTextAlign="Middle">
 				<expression><![CDATA[
-                    $F{marcaEntrada} == null
-                        || $F{marcaEntrada}.getFechaHora() == null
+                    $F{marcaSalida} == null
+                        || $F{marcaSalida}.getFechaHora() == null
                         ? "-"
                     : $F{marcaSalida}.getFechaHora().format(
                         java.time.format.DateTimeFormatter.ofPattern("HH:mm")

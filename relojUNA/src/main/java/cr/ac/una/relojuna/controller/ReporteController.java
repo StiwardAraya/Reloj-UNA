@@ -1,7 +1,9 @@
 package cr.ac.una.relojuna.controller;
 
 import cr.ac.una.relojuna.service.ReporteService;
+import cr.ac.una.relojuna.util.NotificationColor;
 import cr.ac.una.relojuna.util.Respuesta;
+import cr.ac.una.relojuna.util.UIRouter;
 import cr.ac.una.relojuna.ws.ArchivoDTO;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
@@ -10,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDate;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
@@ -38,6 +42,28 @@ public class ReporteController extends Controller {
     private MFXTextField txtFolio;
     @FXML
     private MFXButton btnReporteMarcas;
+    @FXML
+    private Label lblTitulo;
+    @FXML
+    private Label lblDescripcion;
+    @FXML
+    private Label lblTituloEmpleados;
+    @FXML
+    private Label lblDescripcionEmpleados;
+    @FXML
+    private Label lblFormatoEmpleados;
+    @FXML
+    private Label lblTituloMarcas;
+    @FXML
+    private Label lblDescripcionMarcas;
+    @FXML
+    private Label lblFechaInicio;
+    @FXML
+    private Label lblFechaFin;
+    @FXML
+    private Label lblFolio;
+    @FXML
+    private Label lblNota;
 
     @Override
     public void initialize() {
@@ -49,25 +75,23 @@ public class ReporteController extends Controller {
         Respuesta respuesta = reporteService.obtenerReporteEmpleados();
         if (!respuesta.getEstado()) {
             LOG.severe("Error reporte empleados: " + respuesta.getMensajeInterno());
-            mostrarError(respuesta.getMensaje() + "\n\nDetalle:\n" + respuesta.getMensajeInterno());
+            mostrarError(traducirMensaje(respuesta.getMensaje()));
             return;
         }
 
         Object resultado = respuesta.getResultado("Archivo");
         if (!(resultado instanceof ArchivoDTO archivo)) {
-            mostrarError("No se recibió el reporte de empleados.");
+            mostrarError(bundle.getString("reporte.error.sinreporteempleados"));
             return;
         }
 
         if (archivo.getContenido() == null || archivo.getContenido().length == 0) {
-            mostrarError("El reporte recibido está vacío.");
+            mostrarError(bundle.getString("reporte.error.reportevacio"));
             return;
         }
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Guardar reporte de empleados");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Documento PDF (*.pdf)", "*.pdf")
-        );
+        fileChooser.setTitle(bundle.getString("reporte.file.empleados"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(bundle.getString("reporte.file.pdf"), "*.pdf"));
         String nombreArchivo = archivo.getNombreArchivo();
 
         if (nombreArchivo == null || nombreArchivo.isBlank()) {
@@ -83,10 +107,10 @@ public class ReporteController extends Controller {
         }
         try {
             Files.write(destino.toPath(), archivo.getContenido());
-            mostrarInformacion("Reporte de empleados generado correctamente.");
+            mostrarInformacion(bundle.getString("reporte.msg.empleadosgenerado"));
         } catch (IOException ex) {
             LOG.log(Level.SEVERE, "Error al guardar el reporte de empleados", ex);
-            mostrarError("No se pudo guardar el reporte.");
+            mostrarError(bundle.getString("reporte.error.guardar"));
         }
     }
 
@@ -96,39 +120,39 @@ public class ReporteController extends Controller {
         LocalDate hasta = dpFechaFin.getValue();
         String folio = txtFolio.getText();
         if (desde == null || hasta == null) {
-            mostrarError("Debe indicar ambas fechas.");
+            mostrarError(bundle.getString("reporte.error.fechasrequeridas"));
             return;
         }
         if (hasta.isBefore(desde)) {
-            mostrarError("La fecha final no puede ser anterior " + "a la fecha inicial.");
+            mostrarError(bundle.getString("reporte.error.rangofechas"));
             return;
         }
 
         Respuesta respuesta = reporteService.obtenerReporteMarcas(desde, hasta, folio);
         if (!respuesta.getEstado()) {
             LOG.severe("Error reporte marcas: " + respuesta.getMensajeInterno());
-            mostrarError(respuesta.getMensaje() + "\n\nDetalle:\n" + respuesta.getMensajeInterno());
+            mostrarError(traducirMensaje(respuesta.getMensaje()));
             return;
         }
 
         Object resultado = respuesta.getResultado("Archivo");
         if (!(resultado instanceof ArchivoDTO archivo)) {
-            mostrarError("No se recibió el reporte de marcas.");
+            mostrarError(bundle.getString("reporte.error.sinreportemarcas"));
             return;
         }
         if (archivo.getContenido() == null || archivo.getContenido().length == 0) {
-            mostrarError("El reporte recibido está vacío.");
+            mostrarError(bundle.getString("reporte.error.reportevacio"));
             return;
         }
-        
+
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Guardar reporte de marcas");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Documento PDF (*.pdf)", "*.pdf"));
+        fileChooser.setTitle(bundle.getString("reporte.file.marcas"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(bundle.getString("reporte.file.pdf"), "*.pdf"));
         String nombreArchivo = archivo.getNombreArchivo();
         if (nombreArchivo == null || nombreArchivo.isBlank()) {
             nombreArchivo = "ReporteMarcas_" + desde + "_" + hasta + ".pdf";
         }
-        
+
         fileChooser.setInitialFileName(nombreArchivo);
         File destino = fileChooser.showSaveDialog(root.getScene().getWindow());
         if (destino == null) {
@@ -140,24 +164,24 @@ public class ReporteController extends Controller {
         }
         try {
             Files.write(destino.toPath(), archivo.getContenido());
-            mostrarInformacion("Reporte de marcas generado correctamente.");
+            mostrarInformacion(bundle.getString("reporte.msg.marcasgenerado"));
         } catch (IOException ex) {
             LOG.log(Level.SEVERE, "Error al guardar el reporte de marcas", ex);
-            mostrarError("No se pudo guardar el reporte.");
+            mostrarError(bundle.getString("reporte.error.guardar"));
         }
     }
 
     private void mostrarError(String mensaje) {
         Alert alerta = new Alert(Alert.AlertType.ERROR);
-        alerta.setTitle("Reportes");
-        alerta.setHeaderText("No se puede generar el reporte");
+        alerta.setTitle(bundle.getString("reporte.alert.titulo"));
+        alerta.setHeaderText(bundle.getString("reporte.alert.error"));
         alerta.setContentText(mensaje);
         alerta.showAndWait();
     }
 
     private void mostrarInformacion(String mensaje) {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle("Reportes");
+        alerta.setTitle(bundle.getString("reporte.alert.titulo"));
         alerta.setHeaderText(null);
         alerta.setContentText(mensaje);
         alerta.showAndWait();
@@ -170,6 +194,41 @@ public class ReporteController extends Controller {
 
     @Override
     protected void updateLanguageTexts(ResourceBundle bundle) {
-        // Se pueden agregar las traducciones posteriormente.
+        try {
+            lblTitulo.setText(bundle.getString("reporte.lbl.titulo"));
+            lblDescripcion.setText(bundle.getString("reporte.lbl.descripcion"));
+            lblTituloEmpleados.setText(bundle.getString("reporte.lbl.tituloempleados"));
+            lblDescripcionEmpleados.setText(bundle.getString("reporte.lbl.descripcionempleados"));
+            lblFormatoEmpleados.setText(bundle.getString("reporte.lbl.formatoempleados"));
+            lblTituloMarcas.setText(bundle.getString("reporte.lbl.titulomarcas"));
+            lblDescripcionMarcas.setText(bundle.getString("reporte.lbl.descripcionmarcas"));
+            lblFechaInicio.setText(bundle.getString("reporte.lbl.fechainicio"));
+            lblFechaFin.setText(bundle.getString("reporte.lbl.fechafin"));
+            lblFolio.setText(bundle.getString("reporte.lbl.folio"));
+            txtFolio.setPromptText(bundle.getString("reporte.txt.todos"));
+            btnReporteEmpleados.setText(bundle.getString("reporte.btn.empleados"));
+            btnReporteMarcas.setText(bundle.getString("reporte.btn.marcas"));
+            lblNota.setText(bundle.getString("reporte.lbl.nota"));
+
+        } catch (MissingResourceException ex) {
+            LOG.log(Level.SEVERE, "Exception configuring view language at " + "ReporteController.updateLanguageTexts", ex);
+            UIRouter.getInstance().notify(
+                    UIRouter.NotificationPosition.BOTTOM_RIGHT,
+                    NotificationColor.WARNING,
+                    bundle.getString("general.notification.language.errortitle"),
+                    bundle.getString("general.notification.language.errormsg")
+            );
+        }
+    }
+
+    private String traducirMensaje(String clave) {
+        if (clave == null || clave.isBlank()) {
+            return "";
+        }
+        try {
+            return bundle.getString(clave);
+        } catch (MissingResourceException ex) {
+            return clave;
+        }
     }
 }

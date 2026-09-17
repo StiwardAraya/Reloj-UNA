@@ -93,6 +93,8 @@ public class MarcaService {
                     .filter(marcaEnRango(desde, hasta))
                     .collect(Collectors.groupingBy(Marca::getEmpleado));
 
+            String folioNormalizado = normalizarFolio(folio);
+
             List<MarcaDTO> marcasDTO = porEmpleado.values().stream()
                     .flatMap(marcasDelEmpleado -> {
                         List<Marca> ordenadas = marcasDelEmpleado.stream()
@@ -103,15 +105,12 @@ public class MarcaService {
                     .sorted(Comparator.comparing(MarcaDTO::getFechaHora))
                     .toList();
 
-            MarcaListDTO dtoList;
-            List<MarcaDTO> marcasFiltradas;
+            List<MarcaDTO> marcasFiltradas = marcasDTO.stream()
+                    .filter(m -> folioNormalizado == null
+                            || m.getFolioEmpleado().equalsIgnoreCase(folioNormalizado))
+                    .toList();
 
-            if (!folio.isBlank()) {
-                marcasFiltradas = marcasDTO.stream().filter(m -> m.getFolioEmpleado().equals(folio)).toList();
-                dtoList = new MarcaListDTO(marcasFiltradas);
-            } else {
-                dtoList = new MarcaListDTO(marcasDTO);
-            }
+            MarcaListDTO dtoList = new MarcaListDTO(marcasFiltradas);
             return new Respuesta(true, "", "", dtoList);
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "Ocurrió un error en obtenerPorFechas", ex);

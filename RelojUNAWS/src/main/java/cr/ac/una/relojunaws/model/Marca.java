@@ -30,7 +30,7 @@ public class Marca {
     @Id
     @SequenceGenerator(name = "MRC_ID_GENERATOR", sequenceName = "relojUNA.MRC_SEQ_01", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MRC_ID_GENERATOR")
-    @Basic(optional = false)
+    @Basic(optional = true)
     @Column(name = "id")
     private Long id;
 

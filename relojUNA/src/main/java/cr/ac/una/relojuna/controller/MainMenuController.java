@@ -157,7 +157,7 @@ public class MainMenuController extends Controller {
         if (vistaActual != Vista.PLANILLAS) {
             cambiarBoton(btnPlanillas);
             vistaActual = Vista.PLANILLAS;
-            // TODO: Abrir ventana de planillas
+            UIRouter.getInstance().show("PlanillasView", UIRouter.Position.CENTER);
         }
     }
 

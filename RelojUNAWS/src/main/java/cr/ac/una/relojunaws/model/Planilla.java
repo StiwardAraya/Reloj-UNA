@@ -4,16 +4,19 @@ import cr.ac.una.relojunaws.model.dto.PlanillaDTO;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -51,6 +54,9 @@ public class Planilla {
     @Basic(optional = false)
     @Column(name = "version_planilla")
     private Long version;
+
+    @OneToMany(mappedBy = "planilla", fetch = FetchType.LAZY)
+    private List<DetallePlanilla> detallesPlanilla;
 
     public Planilla() {
     }
@@ -117,6 +123,14 @@ public class Planilla {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    public List<DetallePlanilla> getDetallesPlanilla() {
+        return detallesPlanilla;
+    }
+
+    public void setDetallesPlanilla(List<DetallePlanilla> detallesPlanilla) {
+        this.detallesPlanilla = detallesPlanilla;
     }
 
     @Override

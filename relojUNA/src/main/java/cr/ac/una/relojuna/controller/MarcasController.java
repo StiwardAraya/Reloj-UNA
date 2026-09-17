@@ -3,6 +3,8 @@ package cr.ac.una.relojuna.controller;
 import cr.ac.una.relojuna.model.MarcaViewModel;
 import cr.ac.una.relojuna.service.MarcaService;
 import cr.ac.una.relojuna.util.FXAnimator;
+import cr.ac.una.relojuna.util.FieldFormat;
+import cr.ac.una.relojuna.util.Mensaje;
 import cr.ac.una.relojuna.util.NotificationColor;
 import cr.ac.una.relojuna.util.Respuesta;
 import cr.ac.una.relojuna.util.TipoMarca;
@@ -15,6 +17,7 @@ import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.MissingResourceException;
@@ -67,8 +70,6 @@ public class MarcasController extends Controller {
     @FXML
     private MFXCheckbox chkVerInconsistencias;
     @FXML
-    private MFXButton btnRevalidar;
-    @FXML
     private TableColumn<MarcaViewModel, LocalTime> clHora;
     @FXML
     private TableColumn<MarcaViewModel, TipoMarca> clTipo;
@@ -91,6 +92,7 @@ public class MarcasController extends Controller {
         configurarFechasIniciales();
         configurarTabla();
         cargarMarcas();
+        txtFolio.delegateTextFormatterProperty().set(FieldFormat.formatoAlfanumerico(6));
     }
 
     @Override
@@ -114,7 +116,6 @@ public class MarcasController extends Controller {
             clTipo.setText(bundle.getString("marcas.col.tipo"));
             clControles.setText(bundle.getString("marcas.col.controles"));
             chkVerInconsistencias.setText(bundle.getString("marcas.chk.inconsistencia"));
-            btnRevalidar.setText(bundle.getString("marcas.btn.validar"));
         } catch (MissingResourceException ex) {
             LOG.log(Level.SEVERE, "Exception configuring view language at MarcasController.updateLanguageTexts", ex);
             UIRouter.getInstance().notify(
@@ -127,47 +128,119 @@ public class MarcasController extends Controller {
 
     // Main
     private void cargarMarcas() {
-        LocalDate desde = dtpDesde.getValue();
-        LocalDate hasta = dtpHasta.getValue();
-
-        Respuesta respuesta = service.obtenerPorFechas(desde, hasta);
-        manejarRespuesta(respuesta, () -> {
-            @SuppressWarnings("unchecked")
-            List<MarcaDTO> dtos = ((MarcaListDTO) respuesta.getResultado("Marcas")).getMarcas();
-            refrescarDatos(dtos);
-        });
+        ejecutarBusqueda();
     }
 
     private void buscarMarcas() {
-        // TODO
+        ejecutarBusqueda();
     }
 
     private void agregarMarca() {
-        // TODO
+        if (marcaEnEdicion != null) {
+            UIRouter.getInstance().notify(
+                    UIRouter.NotificationPosition.BOTTOM_RIGHT,
+                    NotificationColor.WARNING,
+                    bundle.getString("marcas.notification.edicionpendiente.titulo"),
+                    bundle.getString("marcas.notification.edicionpendiente.msg"));
+            return;
+        }
+
+        MarcaViewModel nueva = new MarcaViewModel(null);
+        nueva.editandoProperty().set(true);
+        marcaEnEdicion = nueva;
+
+        marcas.add(0, nueva);
+        tbMarcas.scrollTo(nueva);
     }
 
     private void guardarFila(MarcaViewModel row) {
-        // TODO
+        if (!validarFila(row)) {
+            UIRouter.getInstance().notify(
+                    UIRouter.NotificationPosition.BOTTOM_RIGHT,
+                    NotificationColor.WARNING,
+                    bundle.getString("marcas.notification.datosincompletos.titulo"),
+                    bundle.getString("marcas.notification.datosincompletos.msg"));
+            return;
+        }
+
+        MarcaDTO dto = new MarcaDTO();
+        if (!row.isNueva()) {
+            dto.setId(row.getOriginal().getId());
+            dto.setVersion(row.getVersion());
+        }
+
+        dto.setFolioEmpleado(row.folioProperty().get());
+        dto.setFechaHora(LocalDateTime.of(row.fechaProperty().get(), row.horaProperty().get()).toString());
+        dto.setTipo(row.tipoProperty().get().getCodigo());
+
+        Respuesta respuesta = service.guardarMarca(dto);
+        manejarRespuesta(respuesta, () -> {
+            marcaEnEdicion = null;
+            cargarMarcas();
+        });
     }
 
     private void cancelarEdicionFila(MarcaViewModel row) {
-        // TODO
+        if (row == null) {
+            return;
+        }
+
+        if (row.isNueva()) {
+            marcas.remove(row);
+        } else {
+            MarcaDTO original = row.getOriginal();
+            LocalDateTime fechaHoraOriginal = LocalDateTime.parse(original.getFechaHora());
+
+            row.folioProperty().set(original.getFolioEmpleado());
+            row.fechaProperty().set(fechaHoraOriginal.toLocalDate());
+            row.horaProperty().set(fechaHoraOriginal.toLocalTime());
+            row.tipoProperty().set(TipoMarca.fromCodigo(original.getTipo()));
+            row.editandoProperty().set(false);
+        }
+
+        marcaEnEdicion = null;
+        tbMarcas.refresh();
     }
 
     private void editarMarca(MarcaViewModel row) {
-        // TODO
+        if (row == null) {
+            return;
+        }
+
+        if (marcaEnEdicion != null) {
+            UIRouter.getInstance().notify(
+                    UIRouter.NotificationPosition.BOTTOM_RIGHT,
+                    NotificationColor.WARNING,
+                    bundle.getString("marcas.notification.edicionpendiente.titulo"),
+                    bundle.getString("marcas.notification.edicionpendiente.msg"));
+            return;
+        }
+
+        row.editandoProperty().set(true);
+        marcaEnEdicion = row;
+        tbMarcas.refresh();
     }
 
     private void eliminarMarca(MarcaViewModel row) {
-        // TODO
-    }
+        if (row == null || row.isNueva()) {
+            return;
+        }
 
-    private void revalidarMarcas() {
-        // TODO
+        if (!new Mensaje().showConfirmation(bundle.getString("marcas.eliminar.confirm.titulo"), getStage(), bundle.getString("marcas.eliminar.confirm.msg"))) {
+            return;
+        }
+
+        Respuesta respuesta = service.eliminarMarca(row.getOriginal().getId());
+        manejarRespuesta(respuesta, () -> {
+            if (row == marcaEnEdicion) {
+                marcaEnEdicion = null;
+            }
+            marcas.remove(row);
+        });
     }
 
     private void filtrarInconsistencias(boolean soloInconsistentes) {
-        // TODO
+        ejecutarBusqueda();
     }
 
     // Helpers
@@ -237,8 +310,8 @@ public class MarcasController extends Controller {
             UIRouter.getInstance().notify(
                     UIRouter.NotificationPosition.BOTTOM_RIGHT,
                     NotificationColor.ERROR,
-                    bundle.getString("general.notification.error.titulo"),
-                    respuesta.getMensaje());
+                    bundle.getString("general.notification.language.errortitle"),
+                    bundle.getString(respuesta.getMensaje()));
         }
     }
 
@@ -284,7 +357,9 @@ public class MarcasController extends Controller {
                 }
 
                 if (esEditable(row)) {
-                    campo.setText(value);
+                    if (!campo.getText().equals(value == null ? "" : value)) {
+                        campo.setText(value);
+                    }
                     setGraphic(campo);
                     setText(null);
                 } else {
@@ -341,6 +416,7 @@ public class MarcasController extends Controller {
 
             {
                 setAlignment(Pos.CENTER);
+                contenedor.setAlignment(Pos.CENTER_LEFT);
                 spnHora.valueProperty().addListener((obs, old, val) -> notificarCambioHora());
                 spnMinuto.valueProperty().addListener((obs, old, val) -> notificarCambioHora());
             }
@@ -516,6 +592,41 @@ public class MarcasController extends Controller {
         dtpHasta.setValue(hasta);
     }
 
+    private void ejecutarBusqueda() {
+        LocalDate desde = dtpDesde.getValue();
+        LocalDate hasta = dtpHasta.getValue();
+
+        if (desde == null || hasta == null) {
+            UIRouter.getInstance().notify(
+                    UIRouter.NotificationPosition.BOTTOM_RIGHT,
+                    NotificationColor.WARNING,
+                    bundle.getString("marcas.notification.fechasrequeridas.titulo"),
+                    bundle.getString("marcas.notification.fechasrequeridas.msg"));
+            return;
+        }
+
+        if (desde.isAfter(hasta)) {
+            UIRouter.getInstance().notify(
+                    UIRouter.NotificationPosition.BOTTOM_RIGHT,
+                    NotificationColor.WARNING,
+                    bundle.getString("marcas.notification.rangoinvalido.titulo"),
+                    bundle.getString("marcas.notification.rangoinvalido.msg"));
+            return;
+        }
+
+        String folio = txtFolio.getText() == null ? "" : txtFolio.getText().trim();
+        boolean soloInconsistentes = chkVerInconsistencias.isSelected();
+
+        Respuesta respuesta = soloInconsistentes
+                ? service.obtenerMarcasInconsistentes(desde, hasta, folio)
+                : service.obtenerPorFechas(desde, hasta, folio);
+
+        manejarRespuesta(respuesta, () -> {
+            List<MarcaDTO> dtos = ((MarcaListDTO) respuesta.getResultado("Marcas")).getMarcas();
+            refrescarDatos(dtos);
+        });
+    }
+
     @FXML
     private void onActionBtnBuscar(ActionEvent event) {
         buscarMarcas();
@@ -527,12 +638,8 @@ public class MarcasController extends Controller {
     }
 
     @FXML
-    private void onActionBtnRevalidar(ActionEvent event) {
-        revalidarMarcas();
-    }
-
-    @FXML
     private void onActionChkVerInconsistencias(ActionEvent event) {
         filtrarInconsistencias(chkVerInconsistencias.isSelected());
     }
+
 }

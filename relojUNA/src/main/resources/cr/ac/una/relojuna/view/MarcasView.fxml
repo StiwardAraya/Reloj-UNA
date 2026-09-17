@@ -5,6 +5,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -40,7 +41,7 @@
                   <String fx:value="text-gray-500" />
                </styleClass>
             </Label>
-            <VBox maxHeight="1.7976931348623157E308" stylesheets="@css/MFXOverrides.css" VBox.vgrow="ALWAYS">
+            <VBox maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                <children>
                   <HBox>
                      <styleClass>
@@ -100,19 +101,7 @@
                   <HBox styleClass="align-left">
                      <children>
                         <MFXCheckbox fx:id="chkVerInconsistencias" onAction="#onActionChkVerInconsistencias" styleClass="md" text="Ver solo inconsistencias" />
-                        <HBox styleClass="align-right" HBox.hgrow="ALWAYS">
-                           <children>
-                              <MFXButton fx:id="btnRevalidar" onAction="#onActionBtnRevalidar" styleClass="primary" text="Revalidar inconsistencias">
-                                 <graphic>
-                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/refresh-icon-24.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </MFXButton>
-                           </children>
-                        </HBox>
+                        <HBox styleClass="align-right" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                </children>
@@ -124,6 +113,10 @@
                   <String fx:value="rad-md" />
                   <String fx:value="shadow-md" />
                </styleClass>
+               <stylesheets>
+                  <URL value="@css/MFXOverrides.css" />
+                  <URL value="@css/Styles.css" />
+               </stylesheets>
             </VBox>
          </children>
       </VBox>

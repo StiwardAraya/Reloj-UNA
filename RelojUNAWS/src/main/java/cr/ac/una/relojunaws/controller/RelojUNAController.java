@@ -22,7 +22,6 @@ import cr.ac.una.relojunaws.model.dto.ArchivoDTO;
 import cr.ac.una.relojunaws.service.ReporteService;
 import cr.ac.una.relojunaws.util.ArchivoResponse;
 
-
 @WebService(
         endpointInterface = "cr.ac.una.relojunaws.controller.RelojUNASOAP",
         serviceName = "RelojUNASOAPService",
@@ -102,8 +101,8 @@ public class RelojUNAController implements RelojUNASOAP {
     }
 
     @Override
-    public SOAPResponse<MarcaListDTO> obtenerPorFechas(LocalDate desde, LocalDate hasta) {
-        return ejecutar("obtenerPorFechas", () -> marcaService.obtenerPorFechas(desde, hasta),
+    public SOAPResponse<MarcaListDTO> obtenerPorFechas(LocalDate desde, LocalDate hasta, String folio) {
+        return ejecutar("obtenerPorFechas", () -> marcaService.obtenerPorFechas(desde, hasta, folio),
                 respuesta -> (MarcaListDTO) respuesta.getResultado());
     }
 
@@ -121,8 +120,8 @@ public class RelojUNAController implements RelojUNASOAP {
     }
 
     @Override
-    public SOAPResponse<MarcaListDTO> obtenerMarcasInconsistentes(LocalDate desde, LocalDate hasta) {
-        return ejecutar("obtenerMarcasInconsistentes", () -> marcaService.obtenerMarcasInconsistentes(desde, hasta), respuesta -> (MarcaListDTO) respuesta.getResultado());
+    public SOAPResponse<MarcaListDTO> obtenerMarcasInconsistentes(LocalDate desde, LocalDate hasta, String folio) {
+        return ejecutar("obtenerMarcasInconsistentes", () -> marcaService.obtenerMarcasInconsistentes(desde, hasta, folio), respuesta -> (MarcaListDTO) respuesta.getResultado());
     }
 
     @Override
@@ -171,27 +170,28 @@ public class RelojUNAController implements RelojUNASOAP {
         try {
             Respuesta respuesta = reporteService.generarReporteEmpleados();
             if (!respuesta.getEstado()) {
-                return ArchivoResponse.error( respuesta.getMensaje(), respuesta.getMensajeInterno() );
-            } 
+                return ArchivoResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
+            }
             ArchivoDTO archivo = (ArchivoDTO) respuesta.getResultado("Archivo");
-            return ArchivoResponse.exito( archivo, respuesta.getMensaje(), respuesta.getMensajeInterno() );
+            return ArchivoResponse.exito(archivo, respuesta.getMensaje(), respuesta.getMensajeInterno());
         } catch (Exception ex) {
-            LOG.log( Level.SEVERE, "Error en generarReporteEmpleados", ex );
-            return ArchivoResponse.error( "reporte.empleados.error", ex.getMessage() );
+            LOG.log(Level.SEVERE, "Error en generarReporteEmpleados", ex);
+            return ArchivoResponse.error("reporte.empleados.error", ex.getMessage());
         }
     }
 
     @Override
     public ArchivoResponse generarReporteMarcas(LocalDate desde, LocalDate hasta, String folioEmpleado) {
-        try{
+        try {
             Respuesta respuesta = reporteService.generarReporteMarcas(desde, hasta, folioEmpleado);
-            if(!respuesta.getEstado())
-                return ArchivoResponse.error(respuesta.getMensaje(),respuesta.getMensajeInterno());
+            if (!respuesta.getEstado()) {
+                return ArchivoResponse.error(respuesta.getMensaje(), respuesta.getMensajeInterno());
+            }
             ArchivoDTO archivo = (ArchivoDTO) respuesta.getResultado("Archivo");
-            return ArchivoResponse.exito( archivo, respuesta.getMensaje(), respuesta.getMensajeInterno() ); 
-        }catch (Exception ex) {
-            LOG.log( Level.SEVERE, "Error en generarReporteMarcas", ex );
-            return ArchivoResponse.error( "reporte.marcas.error", ex.getMessage() );
+            return ArchivoResponse.exito(archivo, respuesta.getMensaje(), respuesta.getMensajeInterno());
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Error en generarReporteMarcas", ex);
+            return ArchivoResponse.error("reporte.marcas.error", ex.getMessage());
         }
     }
 

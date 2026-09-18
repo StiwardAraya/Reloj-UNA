@@ -320,7 +320,7 @@ public class ConsultasController extends Controller {
             tblJornadas.refresh(); 
 
         } catch (MissingResourceException ex) {
-            LOG.log(Level.SEVERE, "Exception configuring view language at " + "ConsultasViewController.updateLanguageTexts", ex);
+            LOG.log(Level.SEVERE, "Exception configuring view language at " + "ConsultasController.updateLanguageTexts", ex);
             UIRouter.getInstance().notify(
                     UIRouter.NotificationPosition.BOTTOM_RIGHT,
                     NotificationColor.WARNING,

@@ -51,7 +51,8 @@ public class RelojUNAController implements RelojUNASOAP {
 
     @Override
     public SOAPResponse<EmpleadoDTO> getEmpleado(String id) {
-        return ejecutar("getEmpleado", () -> empleadoService.getEmpleado(Long.valueOf(id)), respuesta -> (EmpleadoDTO) respuesta.getResultado("Empleado"));
+        return ejecutar("getEmpleado", () -> 
+                empleadoService.getEmpleado(Long.valueOf(id)), respuesta -> (EmpleadoDTO) respuesta.getResultado("Empleado"));
     }
 
     @Override
@@ -64,7 +65,8 @@ public class RelojUNAController implements RelojUNASOAP {
 
     @Override
     public SOAPResponse<EmpleadoListDTO> getEmpleados() {
-        return ejecutar("getEmpleados", () -> empleadoService.getEmpleados(), respuesta -> (EmpleadoListDTO) respuesta.getResultado());
+        return ejecutar("getEmpleados", () -> 
+                empleadoService.getEmpleados(), respuesta -> (EmpleadoListDTO) respuesta.getResultado());
     }
 
     @Override
@@ -75,7 +77,8 @@ public class RelojUNAController implements RelojUNASOAP {
 
     @Override
     public SOAPResponse<EmpleadoListDTO> getEmpleadosActivos() {
-        return ejecutar("getEmpleadosActivos", () -> empleadoService.getEmpleadosActivos(), respuesta -> (EmpleadoListDTO) respuesta.getResultado());
+        return ejecutar("getEmpleadosActivos", () -> 
+                empleadoService.getEmpleadosActivos(), respuesta -> (EmpleadoListDTO) respuesta.getResultado());
     }
 
     @Override
@@ -121,7 +124,8 @@ public class RelojUNAController implements RelojUNASOAP {
 
     @Override
     public SOAPResponse<MarcaListDTO> obtenerMarcasInconsistentes(LocalDate desde, LocalDate hasta, String folio) {
-        return ejecutar("obtenerMarcasInconsistentes", () -> marcaService.obtenerMarcasInconsistentes(desde, hasta, folio), respuesta -> (MarcaListDTO) respuesta.getResultado());
+        return ejecutar("obtenerMarcasInconsistentes", () -> marcaService.obtenerMarcasInconsistentes(desde, hasta, folio),
+                respuesta -> (MarcaListDTO) respuesta.getResultado());
     }
 
     @Override

@@ -14,7 +14,8 @@ import java.util.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DetallePlanillaDTO", propOrder = {
     "id", "totalHorasOrdinarias", "totalHorasExtras",
-    "totalAPagar", "version", "empleadoId", "planillaId"
+    "totalAPagar", "totalHorasDobles", "totalHorasNocturnas",
+    "version", "empleadoId", "planillaId"
 })
 public class DetallePlanillaDTO implements Serializable {
 
@@ -22,13 +23,19 @@ public class DetallePlanillaDTO implements Serializable {
     private Long id;
 
     @XmlElement(name = "totalHorasOrdinarias")
-    private Integer totalHorasOrdinarias;
+    private Double totalHorasOrdinarias;
 
     @XmlElement(name = "totalHorasExtras")
-    private Integer totalHorasExtras;
+    private Double totalHorasExtras;
 
     @XmlElement(name = "totalAPagar")
     private BigDecimal totalAPagar;
+
+    @XmlElement(name = "totalHorasDobles")
+    private Double totalHorasDobles;
+
+    @XmlElement(name = "totalHorasNocturnas")
+    private Double totalHorasNocturnas;
 
     @XmlElement(name = "version")
     private Long version;
@@ -52,6 +59,8 @@ public class DetallePlanillaDTO implements Serializable {
         this.totalHorasOrdinarias = dp.getTotalHorasOrdinarias();
         this.totalHorasExtras = dp.getTotalHorasExtras();
         this.totalAPagar = dp.getTotalAPagar();
+        this.totalHorasDobles = dp.getTotalHorasDobles();
+        this.totalHorasNocturnas = dp.getTotalHorasNocturnas();
         this.version = dp.getVersion();
         this.empleadoId = dp.getEmpleado().getId();
         this.planillaId = dp.getPlanilla().getId();
@@ -65,19 +74,19 @@ public class DetallePlanillaDTO implements Serializable {
         this.id = id;
     }
 
-    public Integer getTotalHorasOrdinarias() {
+    public Double getTotalHorasOrdinarias() {
         return totalHorasOrdinarias;
     }
 
-    public void setTotalHorasOrdinarias(Integer totalHorasOrdinarias) {
+    public void setTotalHorasOrdinarias(Double totalHorasOrdinarias) {
         this.totalHorasOrdinarias = totalHorasOrdinarias;
     }
 
-    public Integer getTotalHorasExtras() {
+    public Double getTotalHorasExtras() {
         return totalHorasExtras;
     }
 
-    public void setTotalHorasExtras(Integer totalHorasExtras) {
+    public void setTotalHorasExtras(Double totalHorasExtras) {
         this.totalHorasExtras = totalHorasExtras;
     }
 
@@ -87,6 +96,22 @@ public class DetallePlanillaDTO implements Serializable {
 
     public void setTotalAPagar(BigDecimal totalAPagar) {
         this.totalAPagar = totalAPagar;
+    }
+
+    public Double getTotalHorasDobles() {
+        return totalHorasDobles;
+    }
+
+    public void setTotalHorasDobles(Double totalHorasDobles) {
+        this.totalHorasDobles = totalHorasDobles;
+    }
+
+    public Double getTotalHorasNocturnas() {
+        return totalHorasNocturnas;
+    }
+
+    public void setTotalHorasNocturnas(Double totalHorasNocturnas) {
+        this.totalHorasNocturnas = totalHorasNocturnas;
     }
 
     public Long getVersion() {
@@ -137,7 +162,7 @@ public class DetallePlanillaDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "DetallePlanillaDTO{" + "id=" + id + ", totalHorasOrdinarias=" + totalHorasOrdinarias + ", totalHorasExtras=" + totalHorasExtras + ", totalAPagar=" + totalAPagar + ", empleadoId=" + empleadoId + ", planillaId=" + planillaId + '}';
+        return "DetallePlanillaDTO{" + "id=" + id + ", totalHorasOrdinarias=" + totalHorasOrdinarias + ", totalHorasExtras=" + totalHorasExtras + ", totalAPagar=" + totalAPagar + ", totalHorasDobles=" + totalHorasDobles + ", version=" + version + ", empleadoId=" + empleadoId + ", planillaId=" + planillaId + '}';
     }
 
 }

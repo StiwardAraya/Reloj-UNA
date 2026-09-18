@@ -5,18 +5,18 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="root" prefHeight="700.0" prefWidth="900.0" styleClass="root" xmlns="http://javafx.com/javafx/26" 
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.DetallePlanillaResumenController">
+<BorderPane fx:id="root" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.DetallePlanillaResumenController">
     <center>
         <VBox alignment="TOP_CENTER" spacing="7">
             <padding>
@@ -29,7 +29,7 @@
                     <String fx:value="text-4xl" />
                 </styleClass>
             </Label>
-            <VBox maxWidth="850" prefWidth="820" spacing="5" styleClass="card">
+            <VBox maxWidth="850" prefWidth="820" spacing="5">
                 <padding>
                     <Insets bottom="8" left="15" right="15" top="8" />
                 </padding>
@@ -42,90 +42,76 @@
                 </Label>
                 <Separator />
                 <HBox alignment="CENTER_LEFT" spacing="20">
-                    <StackPane maxHeight="130" maxWidth="130" prefHeight="130" prefWidth="130" style="-fx-background-color: #eef5ff; -fx-background-radius: 15; -fx-border-color: #dbe4f0; -fx-border-radius: 15; -fx-border-width: 1;">
+                    <StackPane maxHeight="130" maxWidth="130" prefHeight="130" prefWidth="130">
                         <ImageView fx:id="imgEmpleado" fitHeight="120" fitWidth="120" preserveRatio="true" smooth="true" />
+                  <styleClass>
+                     <String fx:value="bg-blue-100" />
+                     <String fx:value="rad-md" />
+                     <String fx:value="shadow-md" />
+                  </styleClass>
                     </StackPane>
-                    <VBox spacing="8" HBox.hgrow="ALWAYS">
-                        <Label fx:id="lblNombreEmpleado">
+                    <VBox spacing="8" styleClass="align-left" HBox.hgrow="ALWAYS">
+                        <Label fx:id="lblNombreEmpleado" text="Empleado Apellido1 Apellido2">
                             <styleClass>
                                 <String fx:value="text-blue-900" />
                                 <String fx:value="text-xl" />
                                 <String fx:value="font-bold" />
                             </styleClass>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
                         </Label>
-                        <HBox spacing="35">
-                            <HBox spacing="5" HBox.hgrow="ALWAYS">
+                        <HBox styleClass="gap-4">
+                            <HBox styleClass="gap-2" HBox.hgrow="NEVER">
                                 <Label fx:id="lblTextoFolio" text="Folio:">
                                     <styleClass>
                                         <String fx:value="font-bold" />
                                         <String fx:value="text-gray-600" />
                                     </styleClass>
                                 </Label>
-                                <Label fx:id="lblFolio" />
+                                <Label fx:id="lblFolio" text="A12345" />
                             </HBox>
-                            <HBox spacing="5" HBox.hgrow="ALWAYS">
+                     <Separator orientation="VERTICAL" />
+                            <HBox styleClass="gap-2" HBox.hgrow="NEVER">
                                 <Label fx:id="lblTextoSalarioHora" text="Salario por hora:">
                                     <styleClass>
                                         <String fx:value="font-bold" />
                                         <String fx:value="text-gray-600" />
                                     </styleClass>
                                 </Label>
-                                <Label fx:id="lblSalarioHora" />
+                                <Label fx:id="lblSalarioHora" text="00000.00" />
                             </HBox>
                         </HBox>
-                        <HBox spacing="35">
-                            <HBox spacing="5" HBox.hgrow="ALWAYS">
+                        <HBox styleClass="gap-4">
+                            <HBox styleClass="gap-2" HBox.hgrow="NEVER">
                                 <Label fx:id="lblTextoAdministrador" text="Administrador:">
                                     <styleClass>
                                         <String fx:value="font-bold" />
                                         <String fx:value="text-gray-600" />
                                     </styleClass>
                                 </Label>
-                                <Label fx:id="lblAdministrador" />
+                                <Label fx:id="lblAdministrador" text="Sí" />
                             </HBox>
-                            <HBox spacing="5" HBox.hgrow="ALWAYS">
-                                <Label fx:id="lblTextoEstado" text="Estado:">
+                     <Separator orientation="VERTICAL" />
+                            <HBox styleClass="gap-2" HBox.hgrow="NEVER">
+                                <Label fx:id="lblTextoPeriodo" text="Periodo:  ">
                                     <styleClass>
                                         <String fx:value="font-bold" />
                                         <String fx:value="text-gray-600" />
                                     </styleClass>
                                 </Label>
-                                <Label fx:id="lblEstadoEmpleado" />
-                            </HBox>
-                        </HBox>
-                        <HBox spacing="35">
-                            <HBox spacing="5" HBox.hgrow="ALWAYS">
-                                <Label fx:id="lblTextoFechaInicio" text="Fecha inicial:">
-                                    <styleClass>
-                                        <String fx:value="font-bold" />
-                                        <String fx:value="text-gray-600" />
-                                    </styleClass>
-                                </Label>
-                                <Label fx:id="lblFechaInicio" />
-                            </HBox>
-                            <HBox spacing="5" HBox.hgrow="ALWAYS">
-                                <Label fx:id="lblTextoFechaFin" text="Fecha final:">
-                                    <styleClass>
-                                        <String fx:value="font-bold" />
-                                        <String fx:value="text-gray-600" />
-                                    </styleClass>
-                                </Label>
-                                <Label fx:id="lblFechaFin" />
-                            </HBox>
-                            <HBox spacing="5" HBox.hgrow="ALWAYS">
-                                <Label fx:id="lblTextoPeriodo" text="Período:">
-                                    <styleClass>
-                                        <String fx:value="font-bold" />
-                                        <String fx:value="text-gray-600" />
-                                    </styleClass>
-                                </Label>
-                                <Label fx:id="lblPeriodo" />
+                                <Label fx:id="lblPeriodo" text="Septiembre, 2026" />
                             </HBox>
                         </HBox>
                     </VBox>
                 </HBox>
+            <styleClass>
+               <String fx:value="bg-white" />
+               <String fx:value="rad-md" />
+               <String fx:value="shadow-md" />
+            </styleClass>
             </VBox>
-            <VBox maxWidth="850" prefWidth="820" spacing="4" styleClass="card">
+            <VBox maxWidth="850" prefWidth="820" spacing="4" VBox.vgrow="ALWAYS">
                 <padding>
                     <Insets bottom="8" left="12" right="12" top="8" />
                 </padding>
@@ -138,23 +124,36 @@
                 </Label>
                 <Label fx:id="lblDescripcionMarcas" text="Jornadas registradas durante el período seleccionado." wrapText="true">
                     <styleClass>
-                        <String fx:value="text-blue-900" />
+                        <String fx:value="text-gray-500" />
                         <String fx:value="text-lg" />
                         <String fx:value="font-bold" />
                     </styleClass>
                 </Label>
-                <TableView fx:id="tablaJornadas" prefHeight="170" styleClass="bg-gray-100">
-                    <columns>
-                        <TableColumn fx:id="colFecha" prefWidth="135.20000171661377" text="Fecha" />
-                        <TableColumn fx:id="colEntrada" prefWidth="130.3999786376953" text="Entrada" />
-                        <TableColumn fx:id="colSalida" prefWidth="145.59991455078125" text="Salida" />
-                        <TableColumn fx:id="colHoras" prefWidth="132.80007934570312" text="Horas trabajadas" />
-                        <TableColumn fx:id="colDiaLibre" prefWidth="131.20001220703125" text="Día libre" />
-                        <TableColumn fx:id="colEstado" prefWidth="155.20001220703125" text="Estado" />
-                    </columns>
-                </TableView>
+            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER">
+               <content>
+                  <VBox>
+                     <children>
+                            <TableView fx:id="tablaJornadas" maxHeight="1.7976931348623157E308" styleClass="table-modern" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="colFecha" prefWidth="135.20000171661377" text="Fecha" />
+                                    <TableColumn fx:id="colEntrada" prefWidth="130.3999786376953" text="Entrada" />
+                                    <TableColumn fx:id="colSalida" prefWidth="145.59991455078125" text="Salida" />
+                                    <TableColumn fx:id="colHoras" prefWidth="132.80007934570312" text="Horas trabajadas" />
+                                    <TableColumn fx:id="colDiaLibre" prefWidth="131.20001220703125" text="Día libre" />
+                                    <TableColumn fx:id="colEstado" prefWidth="155.20001220703125" text="Estado" />
+                                </columns>
+                            </TableView>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+            <styleClass>
+               <String fx:value="bg-white" />
+               <String fx:value="shadow-md" />
+               <String fx:value="rad-md" />
+            </styleClass>
             </VBox>
-            <VBox maxWidth="850" prefWidth="820" spacing="5" styleClass="card">
+            <VBox maxWidth="850" prefWidth="820" spacing="5">
                 <padding>
                     <Insets bottom="8" left="15" right="15" top="8" />
                 </padding>
@@ -167,102 +166,159 @@
                 </Label>
                 <Separator />
                 <HBox spacing="35">
-                    <VBox spacing="4" HBox.hgrow="ALWAYS">
-                        <HBox>
-                            <Label fx:id="lblTextoTotalJornadas" text="Total de jornadas:">
+                    <VBox HBox.hgrow="ALWAYS">
+                        <HBox styleClass="align-left">
+                            <Label fx:id="lblTextoHorasOrdinarias" text="Horas ordinarias">
                                 <styleClass>
                                     <String fx:value="font-bold" />
                                     <String fx:value="text-gray-600" />
                                 </styleClass>
                             </Label>
-                            <Region HBox.hgrow="ALWAYS" />
-                            <Label fx:id="lblTotalJornadas" styleClass="field-label" />
+                            <Label fx:id="lblTotalHorasOrdinarias" maxWidth="1.7976931348623157E308" text="0.0" HBox.hgrow="ALWAYS">
+                        <styleClass>
+                           <String fx:value="align-right" />
+                           <String fx:value="text-xl" />
+                           <String fx:value="font-bold" />
+                        </styleClass></Label>
                         </HBox>
-                        <HBox>
-                            <Label fx:id="lblTextoJornadasCompletas" text="Jornadas completas:">
+                        <HBox styleClass="align-left">
+                            <Label fx:id="lblTextoHorasExtras" text="Horas extras">
                                 <styleClass>
                                     <String fx:value="font-bold" />
                                     <String fx:value="text-gray-600" />
                                 </styleClass>
                             </Label>
-                            <Region HBox.hgrow="ALWAYS" />
-                            <Label fx:id="lblJornadasCompletas" styleClass="field-label" />
+                     <Label fx:id="lblTotalHorasExtras" maxWidth="1.7976931348623157E308" text="0.0" HBox.hgrow="ALWAYS">
+                        <styleClass>
+                           <String fx:value="align-right" />
+                           <String fx:value="text-xl" />
+                           <String fx:value="font-bold" />
+                        </styleClass>
+                     </Label>
                         </HBox>
-                        <HBox>
-                            <Label fx:id="lblTextoJornadasIncompletas" text="Jornadas incompletas:">
+                        <HBox styleClass="align-left">
+                            <Label fx:id="lblTextoHorasDobles" text="Horas dobles">
                                 <styleClass>
                                     <String fx:value="font-bold" />
                                     <String fx:value="text-gray-600" />
                                 </styleClass>
                             </Label>
-                            <Region HBox.hgrow="ALWAYS" />
-                            <Label fx:id="lblJornadasIncompletas" styleClass="field-label" />
+                     <Label fx:id="lblTotalHorasDobles" maxWidth="1.7976931348623157E308" text="0.0" HBox.hgrow="ALWAYS">
+                        <styleClass>
+                           <String fx:value="align-right" />
+                           <String fx:value="text-xl" />
+                           <String fx:value="font-bold" />
+                        </styleClass>
+                     </Label>
                         </HBox>
-                        <HBox>
-                            <Label fx:id="lblTextoDiasLibres" text="Días libres:">
+                        <HBox styleClass="align-left">
+                            <Label fx:id="lblTextoHorasNocturnas" text="Horas nocturnas">
                                 <styleClass>
                                     <String fx:value="font-bold" />
                                     <String fx:value="text-gray-600" />
                                 </styleClass>
                             </Label>
-                            <Region HBox.hgrow="ALWAYS" />
-                            <Label fx:id="lblDiasLibres" styleClass="field-label" />
+                     <Label fx:id="lblTotalHorasNocturnas" maxWidth="1.7976931348623157E308" text="0.0" HBox.hgrow="ALWAYS">
+                        <styleClass>
+                           <String fx:value="align-right" />
+                           <String fx:value="text-xl" />
+                           <String fx:value="font-bold" />
+                        </styleClass>
+                     </Label>
                         </HBox>
+                  <styleClass>
+                     <String fx:value="align-left" />
+                     <String fx:value="gap-2" />
+                  </styleClass>
                     </VBox>
                     <Separator orientation="VERTICAL" />
-                    <VBox spacing="4" HBox.hgrow="ALWAYS">
-                        <HBox>
+                    <VBox HBox.hgrow="ALWAYS">
+                        <HBox styleClass="align-left">
                             <Label fx:id="lblTextoTotalHoras" text="Total de horas:">
                                 <styleClass>
                                     <String fx:value="font-bold" />
                                     <String fx:value="text-gray-600" />
                                 </styleClass>
                             </Label>
-                            <Region HBox.hgrow="ALWAYS" />
-                            <Label fx:id="lblTotalHoras" styleClass="field-label" />
+                     <Label fx:id="lblTotalHoras" maxWidth="1.7976931348623157E308" text="0.0" HBox.hgrow="ALWAYS">
+                        <styleClass>
+                           <String fx:value="align-right" />
+                           <String fx:value="text-xl" />
+                           <String fx:value="font-bold" />
+                        </styleClass>
+                     </Label>
                         </HBox>
-                        <HBox>
-                            <Label fx:id="lblTextoTotalMinutos" text="Minutos adicionales:">
-                                <styleClass>
-                                    <String fx:value="font-bold" />
-                                    <String fx:value="text-gray-600" />
-                                </styleClass>
-                            </Label>
-                            <Region HBox.hgrow="ALWAYS" />
-                            <Label fx:id="lblTotalMinutos" styleClass="field-label" />
-                        </HBox>
-                        <HBox>
+                        <HBox styleClass="align-left">
                             <Label fx:id="lblTextoResumenSalarioHora" text="Salario por hora:">
                                 <styleClass>
                                     <String fx:value="font-bold" />
                                     <String fx:value="text-gray-600" />
                                 </styleClass>
                             </Label>
-                            <Region HBox.hgrow="ALWAYS" />
-                            <Label fx:id="lblResumenSalarioHora" styleClass="field-label" />
+                     <Label fx:id="lblSalarioHora" maxWidth="1.7976931348623157E308" text="0.0" HBox.hgrow="ALWAYS">
+                        <styleClass>
+                           <String fx:value="align-right" />
+                           <String fx:value="text-xl" />
+                           <String fx:value="font-bold" />
+                        </styleClass>
+                     </Label>
                         </HBox>
+                       <HBox alignment="CENTER" maxWidth="250.0">
+                           <Label fx:id="lblTextoTotalPagar" text="Total a pagar:">
+                        <styleClass>
+                           <String fx:value="font-bold" />
+                           <String fx:value="text-xl" />
+                        </styleClass>
+                     </Label>
+                           <Label fx:id="lblTotalPagar" maxWidth="1.7976931348623157E308" text="0000.00" HBox.hgrow="ALWAYS">
+                        <styleClass>
+                           <String fx:value="text-blue-700" />
+                           <String fx:value="text-3xl" />
+                           <String fx:value="font-bold" />
+                           <String fx:value="align-right" />
+                        </styleClass>
+                        <font>
+                           <Font size="40.0" />
+                        </font>
+                     </Label>
+                     <styleClass>
+                        <String fx:value="align-left" />
+                        <String fx:value="p-2" />
+                        <String fx:value="bg-blue-100" />
+                        <String fx:value="rad-sm" />
+                        <String fx:value="gap-2" />
+                     </styleClass>
+                       </HBox>
+                  <styleClass>
+                     <String fx:value="align-left" />
+                     <String fx:value="gap-1" />
+                  </styleClass>
                     </VBox>
                 </HBox>
-                <Separator />
-                <HBox alignment="CENTER_RIGHT">
-                    <HBox alignment="CENTER" spacing="12" style="-fx-background-color: #EFF6FF; -fx-background-radius: 10; -fx-border-color: #BFDBFE; -fx-border-radius: 10; -fx-border-width: 1; -fx-padding: 8 15 8 15;">
-                        <Label fx:id="lblTextoTotalPagar" style="-fx-text-fill: #475569; -fx-font-size: 14px; -fx-font-weight: bold;" text="Total a pagar:" />
-                        <Label fx:id="lblTotalPagar" style="-fx-text-fill: #1D4ED8; -fx-font-size: 24px; -fx-font-weight: bold;" />
-                    </HBox>
-                </HBox>
+            <styleClass>
+               <String fx:value="bg-white" />
+               <String fx:value="shadow-md" />
+               <String fx:value="rad-md" />
+            </styleClass>
             </VBox>
-            <HBox alignment="CENTER_RIGHT" maxWidth="850" prefWidth="820">
-                <MFXButton fx:id="btnCerrar" prefHeight="35" prefWidth="110" styleClass="danger" text="Cerrar" />
-            </HBox>
         </VBox>
     </center>
     <bottom>
-        <HBox styleClass="footer">
-            <Label text="© 2026 Universidad Nacional de Costa Rica.">
+        <HBox>
+            <Label fx:id="lblResumenFooter" text="© 2026 Universidad Nacional de Costa Rica.">
             <styleClass>
                <String fx:value="font-bold" />
                <String fx:value="text-gray-500" />
             </styleClass></Label>
+         <HBox styleClass="align-right" HBox.hgrow="ALWAYS">
+            <children>
+                   <MFXButton fx:id="btnCerrar" onAction="#onActionBtnCerrar" prefHeight="35" prefWidth="110" styleClass="danger" text="Cerrar" />
+            </children>
+         </HBox>
+         <styleClass>
+            <String fx:value="p-2" />
+            <String fx:value="align-left" />
+         </styleClass>
         </HBox>
     </bottom>
     <stylesheets>
@@ -272,4 +328,8 @@
         <URL value="@css/TabPane.css" />
         <URL value="@css/UtilStyles.css" />
     </stylesheets>
+   <styleClass>
+      <String fx:value="root" />
+      <String fx:value="rad-md" />
+   </styleClass>
 </BorderPane>

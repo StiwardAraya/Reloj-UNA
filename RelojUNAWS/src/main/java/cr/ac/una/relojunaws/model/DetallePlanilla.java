@@ -22,7 +22,8 @@ import java.util.Objects;
 @Table(name = "DETALLE_PLANILLA", schema = "relojUNA")
 @NamedQueries({
     @NamedQuery(name = "DetallePlanilla.findAll", query = "SELECT dp FROM DetallePlanilla dp"),
-    @NamedQuery(name = "DetallePlanilla.findById", query = "SELECT dp FROM DetallePlanilla dp WHERE dp.id = :id")
+    @NamedQuery(name = "DetallePlanilla.findById", query = "SELECT dp FROM DetallePlanilla dp WHERE dp.id = :id"),
+    @NamedQuery(name = "DetallePlanilla.findByPlanilla", query = "SELECT d FROM DetallePlanilla d WHERE d.planilla.id = :idPlanilla")
 })
 public class DetallePlanilla {
 
@@ -35,15 +36,23 @@ public class DetallePlanilla {
 
     @Basic(optional = false)
     @Column(name = "total_horas_ordinarias")
-    private Integer totalHorasOrdinarias;
+    private Double totalHorasOrdinarias;
 
     @Basic(optional = false)
     @Column(name = "total_horas_extras")
-    private Integer totalHorasExtras;
+    private Double totalHorasExtras;
 
     @Basic(optional = false)
     @Column(name = "total_a_pagar")
     private BigDecimal totalAPagar;
+
+    @Basic(optional = false)
+    @Column(name = "total_horas_dobles")
+    private Double totalHorasDobles;
+
+    @Basic(optional = false)
+    @Column(name = "total_horas_nocturnas")
+    private Double totalHorasNocturnas;
 
     @Version
     @Basic(optional = false)
@@ -74,6 +83,8 @@ public class DetallePlanilla {
     public final void actualizar(DetallePlanillaDTO dto) {
         this.totalHorasOrdinarias = dto.getTotalHorasOrdinarias();
         this.totalHorasExtras = dto.getTotalHorasExtras();
+        this.totalHorasDobles = dto.getTotalHorasDobles();
+        this.totalHorasNocturnas = dto.getTotalHorasNocturnas();
         this.totalAPagar = dto.getTotalAPagar();
         this.version = dto.getVersion();
     }
@@ -86,19 +97,19 @@ public class DetallePlanilla {
         this.id = id;
     }
 
-    public Integer getTotalHorasOrdinarias() {
+    public Double getTotalHorasOrdinarias() {
         return totalHorasOrdinarias;
     }
 
-    public void setTotalHorasOrdinarias(Integer totalHorasOrdinarias) {
+    public void setTotalHorasOrdinarias(Double totalHorasOrdinarias) {
         this.totalHorasOrdinarias = totalHorasOrdinarias;
     }
 
-    public Integer getTotalHorasExtras() {
+    public Double getTotalHorasExtras() {
         return totalHorasExtras;
     }
 
-    public void setTotalHorasExtras(Integer totalHorasExtras) {
+    public void setTotalHorasExtras(Double totalHorasExtras) {
         this.totalHorasExtras = totalHorasExtras;
     }
 
@@ -108,6 +119,22 @@ public class DetallePlanilla {
 
     public void setTotalAPagar(BigDecimal totalAPagar) {
         this.totalAPagar = totalAPagar;
+    }
+
+    public Double getTotalHorasDobles() {
+        return totalHorasDobles;
+    }
+
+    public void setTotalHorasDobles(Double totalHorasDobles) {
+        this.totalHorasDobles = totalHorasDobles;
+    }
+
+    public Double getTotalHorasNocturnas() {
+        return totalHorasNocturnas;
+    }
+
+    public void setTotalHorasNocturnas(Double totalHorasNocturnas) {
+        this.totalHorasNocturnas = totalHorasNocturnas;
     }
 
     public Long getVersion() {
@@ -137,7 +164,7 @@ public class DetallePlanilla {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 61 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + Objects.hashCode(this.id);
         return hash;
     }
 

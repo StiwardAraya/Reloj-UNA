@@ -1,5 +1,6 @@
 package cr.ac.una.relojuna.controller;
 
+import cr.ac.una.relojuna.util.FXAnimator;
 import cr.ac.una.relojuna.util.NotificationColor;
 import cr.ac.una.relojuna.util.UIRouter;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -7,6 +8,8 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -32,12 +35,6 @@ public class DetallePlanillaResumenController extends Controller {
     @FXML
     private Label lblAdministrador;
     @FXML
-    private Label lblEstadoEmpleado;
-    @FXML
-    private Label lblFechaInicio;
-    @FXML
-    private Label lblFechaFin;
-    @FXML
     private Label lblPeriodo;
     @FXML
     private TableView<?> tablaJornadas;
@@ -54,19 +51,7 @@ public class DetallePlanillaResumenController extends Controller {
     @FXML
     private TableColumn<?, ?> colEstado;
     @FXML
-    private Label lblTotalJornadas;
-    @FXML
-    private Label lblJornadasCompletas;
-    @FXML
-    private Label lblJornadasIncompletas;
-    @FXML
-    private Label lblDiasLibres;
-    @FXML
     private Label lblTotalHoras;
-    @FXML
-    private Label lblTotalMinutos;
-    @FXML
-    private Label lblResumenSalarioHora;
     @FXML
     private Label lblTotalPagar;
     @FXML
@@ -82,12 +67,6 @@ public class DetallePlanillaResumenController extends Controller {
     @FXML
     private Label lblTextoAdministrador;
     @FXML
-    private Label lblTextoEstado;
-    @FXML
-    private Label lblTextoFechaInicio;
-    @FXML
-    private Label lblTextoFechaFin;
-    @FXML
     private Label lblTextoPeriodo;
     @FXML
     private Label lblTituloMarcas;
@@ -96,25 +75,36 @@ public class DetallePlanillaResumenController extends Controller {
     @FXML
     private Label lblTituloResumen;
     @FXML
-    private Label lblTextoTotalJornadas;
-    @FXML
-    private Label lblTextoJornadasCompletas;
-    @FXML
-    private Label lblTextoJornadasIncompletas;
-    @FXML
-    private Label lblTextoDiasLibres;
-    @FXML
     private Label lblTextoTotalHoras;
-    @FXML
-    private Label lblTextoTotalMinutos;
     @FXML
     private Label lblTextoResumenSalarioHora;
     @FXML
     private Label lblTextoTotalPagar;
+    @FXML
+    private Label lblResumenFooter;
+    @FXML
+    private Label lblTextoHorasOrdinarias;
+    @FXML
+    private Label lblTotalHorasOrdinarias;
+    @FXML
+    private Label lblTextoHorasExtras;
+    @FXML
+    private Label lblTotalHorasExtras;
+    @FXML
+    private Label lblTextoHorasDobles;
+    @FXML
+    private Label lblTotalHorasDobles;
+    @FXML
+    private Label lblTextoHorasNocturnas;
+    @FXML
+    private Label lblTotalHorasNocturnas;
 
     @Override
     public void initialize() {
-
+        FXAnimator.fadeSlideInFromBottom(root, 100);
+        Platform.runLater(() -> {
+            updateLanguageTexts(bundle);
+        });
     }
 
     @Override
@@ -122,38 +112,24 @@ public class DetallePlanillaResumenController extends Controller {
         try {
             lblTituloDetallePlanilla.setText(bundle.getString("detalleplanilla.lbl.titulo"));
             lblTituloDatosEmpleado.setText(bundle.getString("detalleplanilla.lbl.datosEmpleado"));
-
             lblTextoFolio.setText(bundle.getString("detalleplanilla.lbl.folio"));
             lblTextoSalarioHora.setText(bundle.getString("detalleplanilla.lbl.salarioHora"));
             lblTextoAdministrador.setText(bundle.getString("detalleplanilla.lbl.administrador"));
-            lblTextoEstado.setText(bundle.getString("detalleplanilla.lbl.estado"));
-            lblTextoFechaInicio.setText(bundle.getString("detalleplanilla.lbl.fechaInicio"));
-            lblTextoFechaFin.setText(bundle.getString("detalleplanilla.lbl.fechaFin"));
             lblTextoPeriodo.setText(bundle.getString("detalleplanilla.lbl.periodo"));
-
             lblTituloMarcas.setText(bundle.getString("detalleplanilla.lbl.detalleMarcas"));
             lblDescripcionMarcas.setText(bundle.getString("detalleplanilla.lbl.descripcionMarcas"));
-
             lblTituloResumen.setText(bundle.getString("detalleplanilla.lbl.resumen"));
-            lblTextoTotalJornadas.setText(bundle.getString("detalleplanilla.lbl.totalJornadas"));
-            lblTextoJornadasCompletas.setText(bundle.getString("detalleplanilla.lbl.jornadasCompletas"));
-            lblTextoJornadasIncompletas.setText(bundle.getString("detalleplanilla.lbl.jornadasIncompletas"));
-            lblTextoDiasLibres.setText(bundle.getString("detalleplanilla.lbl.diasLibres"));
-
             lblTextoTotalHoras.setText(bundle.getString("detalleplanilla.lbl.totalHoras"));
-            lblTextoTotalMinutos.setText(bundle.getString("detalleplanilla.lbl.totalMinutos"));
             lblTextoResumenSalarioHora.setText(bundle.getString("detalleplanilla.lbl.salarioHora"));
             lblTextoTotalPagar.setText(bundle.getString("detalleplanilla.lbl.totalPagar"));
-
             btnCerrar.setText(bundle.getString("detalleplanilla.btn.cerrar"));
-
             colFecha.setText(bundle.getString("detalleplanilla.col.fecha"));
             colEntrada.setText(bundle.getString("detalleplanilla.col.entrada"));
             colSalida.setText(bundle.getString("detalleplanilla.col.salida"));
             colHoras.setText(bundle.getString("detalleplanilla.col.horas"));
             colDiaLibre.setText(bundle.getString("detalleplanilla.col.diaLibre"));
             colEstado.setText(bundle.getString("detalleplanilla.col.estado"));
-
+            //TODO: Traducir etiquetas nuevas
             tablaJornadas.refresh();
 
         } catch (MissingResourceException ex) {
@@ -162,7 +138,6 @@ public class DetallePlanillaResumenController extends Controller {
                     "Exception configuring view language at DetallePlanillaResumenController.updateLanguageTexts",
                     ex
             );
-
             UIRouter.getInstance().notify(
                     UIRouter.NotificationPosition.BOTTOM_RIGHT,
                     NotificationColor.WARNING,
@@ -187,5 +162,10 @@ public class DetallePlanillaResumenController extends Controller {
     @Override
     public Node getRoot() {
         return root;
+    }
+
+    @FXML
+    private void onActionBtnCerrar(ActionEvent event) {
+        UIRouter.getInstance().hideModal();
     }
 }

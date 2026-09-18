@@ -23,7 +23,8 @@ import java.util.Objects;
 @Table(name = "PLANILLA", schema = "relojUNA")
 @NamedQueries({
     @NamedQuery(name = "Planilla.findAll", query = "SELECT p FROM Planilla p"),
-    @NamedQuery(name = "Planilla.findById", query = "SELECT p FROM Planilla p WHERE p.id = :id")
+    @NamedQuery(name = "Planilla.findById", query = "SELECT p FROM Planilla p WHERE p.id = :id"),
+    @NamedQuery(name = "Planilla.findByMesAnio", query = "SELECT p FROM Planilla p WHERE p.mes = :mes AND p.anio = :anio")
 })
 public class Planilla {
 

@@ -127,4 +127,7 @@ public interface RelojUNASOAP {
             @WebParam(name = "hasta") @XmlJavaTypeAdapter(LocalDateAdapter.class) LocalDate hasta,
             @WebParam(name = "folioEmpleado") String folioEmpleado);
 
+    // PLANILLAS ------------------------------------------------
+    // TODO: Calcular planilla
+    // TODO: Generar planilla
 }

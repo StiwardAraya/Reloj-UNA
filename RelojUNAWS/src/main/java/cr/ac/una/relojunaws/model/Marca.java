@@ -23,7 +23,8 @@ import java.util.Objects;
 @NamedQueries({
     @NamedQuery(name = "Marca.findAll", query = "SELECT m FROM Marca m"),
     @NamedQuery(name = "Marca.findById", query = "SELECT m FROM Marca m WHERE m.id = :id"),
-    @NamedQuery(name = "Marca.findByEmpleado", query = "SELECT m FROM Marca m WHERE m.empleado.folio = :folio ORDER BY m.fechaHora DESC")
+    @NamedQuery(name = "Marca.findByEmpleado", query = "SELECT m FROM Marca m WHERE m.empleado.folio = :folio ORDER BY m.fechaHora DESC"),
+    @NamedQuery(name = "Marca.findByRangoFechas", query = "SELECT m FROM Marca m WHERE m.fechaHora BETWEEN :desde AND :hasta ORDER BY m.fechaHora")
 })
 public class Marca {
 

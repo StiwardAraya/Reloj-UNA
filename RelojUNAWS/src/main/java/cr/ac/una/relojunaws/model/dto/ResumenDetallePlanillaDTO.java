@@ -7,10 +7,10 @@ public class ResumenDetallePlanillaDTO {
     private String folioEmpleado;
     private String nombreCompletoEmpleado;
     private BigDecimal salarioHoraEmpleado;
-    private Integer horasOrdinarias;
-    private Integer horasExtras;
-    private Integer horasDobles;
-    private Integer totalHoras;
+    private Double horasOrdinarias;
+    private Double horasExtras;
+    private Double horasDobles;
+    private Double totalHoras;
     private BigDecimal totalAPagar;
 
     public ResumenDetallePlanillaDTO() {
@@ -26,7 +26,7 @@ public class ResumenDetallePlanillaDTO {
         this.salarioHoraEmpleado = eDTO.getSalarioHora();
         this.horasOrdinarias = dpDTO.getTotalHorasOrdinarias();
         this.horasExtras = dpDTO.getTotalHorasExtras();
-        // this.horasDobles = dpDTO.getTotalHorasDobles();
+        this.horasDobles = dpDTO.getTotalHorasDobles();
         this.totalHoras = this.horasOrdinarias + this.horasDobles + this.horasExtras;
         this.totalAPagar = dpDTO.getTotalAPagar();
     }
@@ -55,35 +55,35 @@ public class ResumenDetallePlanillaDTO {
         this.salarioHoraEmpleado = salarioHoraEmpleado;
     }
 
-    public Integer getHorasOrdinarias() {
+    public Double getHorasOrdinarias() {
         return horasOrdinarias;
     }
 
-    public void setHorasOrdinarias(Integer horasOrdinarias) {
+    public void setHorasOrdinarias(Double horasOrdinarias) {
         this.horasOrdinarias = horasOrdinarias;
     }
 
-    public Integer getHorasExtras() {
+    public Double getHorasExtras() {
         return horasExtras;
     }
 
-    public void setHorasExtras(Integer horasExtras) {
+    public void setHorasExtras(Double horasExtras) {
         this.horasExtras = horasExtras;
     }
 
-    public Integer getHorasDobles() {
+    public Double getHorasDobles() {
         return horasDobles;
     }
 
-    public void setHorasDobles(Integer horasDobles) {
+    public void setHorasDobles(Double horasDobles) {
         this.horasDobles = horasDobles;
     }
 
-    public Integer getTotalHoras() {
+    public Double getTotalHoras() {
         return totalHoras;
     }
 
-    public void setTotalHoras(Integer totalHoras) {
+    public void setTotalHoras(Double totalHoras) {
         this.totalHoras = totalHoras;
     }
 

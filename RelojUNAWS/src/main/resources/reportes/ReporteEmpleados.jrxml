@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ReporteEmpleados corregido para Jaspersoft Studio 7 / JasperReports 7 -->
+<!-- Created with Jaspersoft Studio version 7.0.8.final using JasperReports Library version 7.0.8-6f896111  -->
 
 <jasperReport
     name="ReporteEmpleados"
@@ -180,7 +180,6 @@
                     )
                 ]]></expression>
             </element>
-
             <element kind="textField" x="695" y="1" width="65" height="25"
                      fontSize="9" bold="true"
                      hTextAlign="Center" vTextAlign="Middle">
@@ -188,15 +187,12 @@
                     $F{activo} == null
                     ? ""
                     : (
-                        "S".equalsIgnoreCase($F{activo})
-                        || "1".equals($F{activo})
-                        || "true".equalsIgnoreCase($F{activo})
+                        "A".equalsIgnoreCase($F{activo})
                         ? "Activo"
                         : "Inactivo"
                     )
                 ]]></expression>
             </element>
-
             <element kind="textField" x="760" y="1" width="42" height="25"
                      fontSize="7" hTextAlign="Center" vTextAlign="Middle">
                 <expression><![CDATA[

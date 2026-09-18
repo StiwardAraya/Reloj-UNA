@@ -20,6 +20,8 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import cr.ac.una.relojunaws.util.ArchivoResponse;
 import cr.ac.una.relojunaws.model.dto.ArchivoDTO;
+import cr.ac.una.relojunaws.model.dto.ResumenDetallePlanillaDTO;
+import cr.ac.una.relojunaws.model.dto.ResumenPlanillaDTO;
 
 @WebService(
         name = "RelojUNASOAP",
@@ -29,7 +31,8 @@ import cr.ac.una.relojunaws.model.dto.ArchivoDTO;
 @XmlSeeAlso({
     EmpleadoDTO.class, EmpleadoListDTO.class, LoginRequestDTO.class,
     MarcaDTO.class, MarcaListDTO.class, JornadaDTO.class, JornadaListDTO.class,
-    ResumenMarcasDTO.class, ArchivoDTO.class, ArchivoResponse.class
+    ResumenMarcasDTO.class, ArchivoDTO.class, ArchivoResponse.class,
+    ResumenDetallePlanillaDTO.class, ResumenPlanillaDTO.class
 })
 public interface RelojUNASOAP {
 

@@ -16,8 +16,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane id="AnchorPane" fx:id="root" stylesheets="@css/UtilStyles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="cr.ac.una.relojuna.controller.PlanillasController">
+<AnchorPane id="AnchorPane" fx:id="root" stylesheets="@css/UtilStyles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.PlanillasController">
    <children>
       <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <styleClass>
@@ -278,14 +277,14 @@
                                  <children>
                                     <TableView fx:id="tbDetallesPlanilla" maxHeight="1.7976931348623157E308" styleClass="table-modern" stylesheets="@css/Table.css" VBox.vgrow="ALWAYS">
                                       <columns>
-                                        <TableColumn fx:id="clFolio" minWidth="125.0" prefWidth="-1.0" text="Folio" />
-                                        <TableColumn fx:id="clEmpleado" minWidth="175.0" prefWidth="-1.0" text="Empleado" />
-                                          <TableColumn fx:id="clSalarioHora" minWidth="125.0" prefWidth="-1.0" text="Salario/Hora" />
-                                          <TableColumn fx:id="clHorasOrd" minWidth="100.0" prefWidth="-1.0" text="Horas ordinarias" />
+                                        <TableColumn fx:id="clFolio" minWidth="83.1999785900116" prefWidth="83.1999785900116" text="Folio" />
+                                        <TableColumn fx:id="clEmpleado" minWidth="137.60000610351562" prefWidth="150.39999389648438" text="Empleado" />
+                                          <TableColumn fx:id="clSalarioHora" minWidth="71.20002746582031" prefWidth="104.80000305175781" text="Salario/Hora" />
+                                          <TableColumn fx:id="clHorasOrd" minWidth="96.79998779296875" prefWidth="96.79998779296875" text="Horas ordinarias" />
                                           <TableColumn fx:id="clHorasExtras" minWidth="100.0" prefWidth="-1.0" text="Horas extras" />
-                                          <TableColumn fx:id="clHorasDobles" minWidth="100.0" prefWidth="-1.0" text="Horas dobles" />
-                                          <TableColumn fx:id="clTotalHoras" minWidth="100.0" prefWidth="-1.0" text="Total horas" />
-                                          <TableColumn minWidth="125.0" prefWidth="-1.0" text="Total a pagar" />
+                                          <TableColumn fx:id="clHorasDobles" minWidth="64.79998779296875" prefWidth="109.60003662109375" text="Horas dobles" />
+                                          <TableColumn fx:id="clTotalHoras" minWidth="97.5999755859375" prefWidth="97.5999755859375" text="Total horas" />
+                                          <TableColumn fx:id="clTotalAPagar" minWidth="100.0" prefWidth="100.0" text="Total a pagar" />
                                       </columns>
                                        <columnResizePolicy>
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

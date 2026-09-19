@@ -10,6 +10,7 @@ public class ResumenDetallePlanillaDTO {
     private Double horasOrdinarias;
     private Double horasExtras;
     private Double horasDobles;
+    private Double horasNocturnas;
     private Double totalHoras;
     private BigDecimal totalAPagar;
 
@@ -27,6 +28,7 @@ public class ResumenDetallePlanillaDTO {
         this.horasOrdinarias = dpDTO.getTotalHorasOrdinarias();
         this.horasExtras = dpDTO.getTotalHorasExtras();
         this.horasDobles = dpDTO.getTotalHorasDobles();
+        this.horasNocturnas = dpDTO.getTotalHorasNocturnas();
         this.totalHoras = this.horasOrdinarias + this.horasDobles + this.horasExtras;
         this.totalAPagar = dpDTO.getTotalAPagar();
     }
@@ -93,6 +95,14 @@ public class ResumenDetallePlanillaDTO {
 
     public void setTotalAPagar(BigDecimal totalAPagar) {
         this.totalAPagar = totalAPagar;
+    }
+
+    public Double getHorasNocturnas() {
+        return horasNocturnas;
+    }
+
+    public void setHorasNocturnas(Double horasNocturnas) {
+        this.horasNocturnas = horasNocturnas;
     }
 
     @Override

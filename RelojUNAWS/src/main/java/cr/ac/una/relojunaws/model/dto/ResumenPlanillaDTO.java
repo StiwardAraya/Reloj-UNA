@@ -12,7 +12,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResumenPlanillaDTO", propOrder = {
     "mes", "ano", "cantEmpleados", "cantHorasOrdinarias", "cantHorasExtras",
-    "cantHorasNocturnas", "totalAPagar", "detallesPlanilla"
+    "cantHorasNocturnas", "totalAPagar", "generada", "detallesPlanilla"
 })
 public class ResumenPlanillaDTO {
 
@@ -37,13 +37,16 @@ public class ResumenPlanillaDTO {
     @XmlElement(name = "totalAPagar")
     private BigDecimal totalAPagar;
 
+    @XmlElement(name = "generada")
+    private Boolean generada;
+
     @XmlElement(name = "detallesPlanilla")
     private List<ResumenDetallePlanillaDTO> detallesPlanilla;
 
     public ResumenPlanillaDTO() {
     }
 
-    public ResumenPlanillaDTO(Integer mes, Integer ano, Integer cantEmpleados, Double cantHorasOrdinarias, Double cantHorasExtras, Double cantHorasNocturnas, BigDecimal totalAPagar) {
+    public ResumenPlanillaDTO(Integer mes, Integer ano, Integer cantEmpleados, Double cantHorasOrdinarias, Double cantHorasExtras, Double cantHorasNocturnas, BigDecimal totalAPagar, Boolean generada) {
         this.mes = mes;
         this.ano = ano;
         this.cantEmpleados = cantEmpleados;
@@ -51,6 +54,7 @@ public class ResumenPlanillaDTO {
         this.cantHorasExtras = cantHorasExtras;
         this.cantHorasNocturnas = cantHorasNocturnas;
         this.totalAPagar = totalAPagar;
+        this.generada = generada;
     }
 
     public Integer getMes() {
@@ -109,6 +113,14 @@ public class ResumenPlanillaDTO {
         this.totalAPagar = totalAPagar;
     }
 
+    public Boolean getGenerada() {
+        return generada;
+    }
+
+    public void setGenerada(Boolean generada) {
+        this.generada = generada;
+    }
+
     public List<ResumenDetallePlanillaDTO> getDetallesPlanilla() {
         return detallesPlanilla;
     }
@@ -119,7 +131,7 @@ public class ResumenPlanillaDTO {
 
     @Override
     public String toString() {
-        return "ResumenPlanillaDTO{" + "cantEmpleados=" + cantEmpleados + ", cantHorasOrdinarias=" + cantHorasOrdinarias + ", cantHorasExtras=" + cantHorasExtras + ", cantHorasNocturnas=" + cantHorasNocturnas + ", totalAPagar=" + totalAPagar + ", detallesPlanilla=" + detallesPlanilla + '}';
+        return "ResumenPlanillaDTO{" + "mes=" + mes + ", ano=" + ano + ", cantEmpleados=" + cantEmpleados + ", cantHorasOrdinarias=" + cantHorasOrdinarias + ", cantHorasExtras=" + cantHorasExtras + ", cantHorasNocturnas=" + cantHorasNocturnas + ", totalAPagar=" + totalAPagar + ", generada=" + generada + ", detallesPlanilla=" + detallesPlanilla + '}';
     }
 
 }

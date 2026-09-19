@@ -92,8 +92,6 @@ public class PlanillasController extends Controller {
     private TableColumn<ResumenDetallePlanillaViewModel, String> clTotalAPagar;
     @FXML
     private MFXButton btnGenerarPlanilla;
-    @FXML
-    private MFXCheckbox chkEnviarCorreo;
 
     private final static Logger LOG = Logger.getLogger(PlanillasController.class.getName());
 
@@ -107,6 +105,7 @@ public class PlanillasController extends Controller {
             updateLanguageTexts(bundle);
         });
         cargarValoresPorDefecto();
+        limpiarResumen();
         configurarTabla();
     }
 
@@ -138,7 +137,6 @@ public class PlanillasController extends Controller {
             clHorasDobles.setText(bundle.getString("planillas.cl.horasdobles"));
             clTotalHoras.setText(bundle.getString("planillas.cl.total.horas"));
             btnGenerarPlanilla.setText(bundle.getString("planillas.btn.generar.planilla"));
-            chkEnviarCorreo.setText(bundle.getString("planillas.chk.enviar.correo"));
         } catch (MissingResourceException ex) {
             LOG.log(Level.SEVERE, "Exception configuring view language at PlanillasController.updateLanguageTexts", ex);
             UIRouter.getInstance().notify(
@@ -179,7 +177,35 @@ public class PlanillasController extends Controller {
     }
 
     private void generarPlanilla() {
-        // TODO: Enviar al servidor el resumen de la planilla para generarla y procesar cualquier error
+        if (resumenActual == null) {
+            UIRouter.getInstance().notify(
+                    UIRouter.NotificationPosition.BOTTOM_RIGHT,
+                    NotificationColor.WARNING,
+                    bundle.getString("general.notification.warning.resumen.title"),
+                    bundle.getString("planillas.notification.calcular.primero"));
+            return;
+        }
+
+        Respuesta respuesta = planillaService.generarPlanilla(resumenActual);
+
+        if (!respuesta.getEstado()) {
+            UIRouter.getInstance().notify(
+                    UIRouter.NotificationPosition.BOTTOM_RIGHT,
+                    NotificationColor.ERROR,
+                    bundle.getString("general.notification.error.titulo"),
+                    bundle.getString(respuesta.getMensaje()));
+            return;
+        }
+
+        ResumenPlanillaDTO resumenGuardado = (ResumenPlanillaDTO) respuesta.getResultado("ResumenPlanilla");
+//        mostrarResumen(resumenGuardado);
+
+        UIRouter.getInstance().notify(
+                UIRouter.NotificationPosition.BOTTOM_RIGHT,
+                NotificationColor.SUCCESS,
+                bundle.getString("general.notification.success.title"),
+                bundle.getString("planillas.notification.generar.exito"));
+        btnGenerarPlanilla.setDisable(true);
     }
 
     // Helpers
@@ -197,7 +223,6 @@ public class PlanillasController extends Controller {
     private void cargarValoresPorDefecto() {
         mcbAnno.getItems().clear();
         mcbMes.getItems().clear();
-        tbDetallesPlanilla.getItems().clear();
         configurarComboMes();
 
         LocalDate mesAnterior = LocalDate.now().minusMonths(1);
@@ -206,7 +231,6 @@ public class PlanillasController extends Controller {
 
         chkGenerada.setDisable(true);
         btnGenerarPlanilla.setDisable(true);
-        chkEnviarCorreo.setDisable(true);
     }
 
     private void configurarComboMes() {
@@ -254,9 +278,9 @@ public class PlanillasController extends Controller {
         lblMontoTotalPagar.setText(resumen.getTotalAPagar().setScale(2, RoundingMode.HALF_UP).toString());
 
         boolean generada = Boolean.TRUE.equals(resumen.isGenerada());
+
         chkGenerada.setSelected(generada);
         btnGenerarPlanilla.setDisable(generada);
-        chkEnviarCorreo.setDisable(generada);
 
         tbDetallesPlanilla.setItems(convertirDetalles(resumen.getDetallesPlanilla()));
     }
@@ -276,7 +300,6 @@ public class PlanillasController extends Controller {
 
         chkGenerada.setSelected(false);
         btnGenerarPlanilla.setDisable(true);
-        chkEnviarCorreo.setDisable(true);
 
         tbDetallesPlanilla.getItems().clear();
     }

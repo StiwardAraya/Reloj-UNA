@@ -15,6 +15,7 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -25,7 +26,7 @@ import java.util.Objects;
     @NamedQuery(name = "DetallePlanilla.findById", query = "SELECT dp FROM DetallePlanilla dp WHERE dp.id = :id"),
     @NamedQuery(name = "DetallePlanilla.findByPlanilla", query = "SELECT d FROM DetallePlanilla d WHERE d.planilla.id = :idPlanilla")
 })
-public class DetallePlanilla {
+public class DetallePlanilla implements Serializable {
 
     @Id
     @SequenceGenerator(name = "DPL_ID_GENERATOR", sequenceName = "relojUNA.DPL_SEQ_01", allocationSize = 1)
@@ -59,9 +60,8 @@ public class DetallePlanilla {
     @Column(name = "version_detalle_planilla")
     private Long version;
 
-    @Basic(optional = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_empleado")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_empleado", nullable = false)
     private Empleado empleado;
 
     @ManyToOne(fetch = FetchType.LAZY)

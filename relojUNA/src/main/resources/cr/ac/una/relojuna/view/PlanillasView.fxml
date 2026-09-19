@@ -316,11 +316,7 @@
                         </ImageView>
                      </graphic>
                   </MFXButton>
-                  <HBox styleClass="align-right" HBox.hgrow="ALWAYS">
-                     <children>
-                        <MFXCheckbox fx:id="chkEnviarCorreo" styleClass="md" text="Enviar resumen a mi correo" />
-                     </children>
-                  </HBox>
+                  <HBox styleClass="align-right" HBox.hgrow="ALWAYS" />
                </children>
                <VBox.margin>
                   <Insets top="10.0" />

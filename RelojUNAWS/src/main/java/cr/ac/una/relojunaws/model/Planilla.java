@@ -14,6 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.Objects;
     @NamedQuery(name = "Planilla.findById", query = "SELECT p FROM Planilla p WHERE p.id = :id"),
     @NamedQuery(name = "Planilla.findByMesAnio", query = "SELECT p FROM Planilla p WHERE p.mes = :mes AND p.anio = :anio")
 })
-public class Planilla {
+public class Planilla implements Serializable {
 
     @Id
     @SequenceGenerator(name = "PLN_ID_GENERATOR", sequenceName = "relojUNA.PLN_SEQ_01", allocationSize = 1)

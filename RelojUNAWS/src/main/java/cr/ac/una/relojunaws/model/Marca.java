@@ -15,6 +15,7 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -26,7 +27,7 @@ import java.util.Objects;
     @NamedQuery(name = "Marca.findByEmpleado", query = "SELECT m FROM Marca m WHERE m.empleado.folio = :folio ORDER BY m.fechaHora DESC"),
     @NamedQuery(name = "Marca.findByRangoFechas", query = "SELECT m FROM Marca m WHERE m.fechaHora BETWEEN :desde AND :hasta ORDER BY m.fechaHora")
 })
-public class Marca {
+public class Marca implements Serializable {
 
     @Id
     @SequenceGenerator(name = "MRC_ID_GENERATOR", sequenceName = "relojUNA.MRC_SEQ_01", allocationSize = 1)

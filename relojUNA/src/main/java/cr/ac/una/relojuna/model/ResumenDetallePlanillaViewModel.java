@@ -64,10 +64,10 @@ public class ResumenDetallePlanillaViewModel {
         dto.setFolioEmpleado(this.folioEmpleado.get());
         dto.setNombreCompletoEmpleado(this.nombreCompletoEmpleado.get());
         dto.setSalarioHoraEmpleado(new BigDecimal(this.salarioHoraEmpleado.get()));
-        dto.setHorasOrdinarias(Integer.valueOf(this.horasOrdinarias.get()));
-        dto.setHorasExtras(Integer.valueOf(this.horasExtras.get()));
-        dto.setHorasDobles(Integer.valueOf(this.horasDobles.get()));
-        dto.setTotalHoras(Integer.valueOf(this.totalHoras.get()));
+        dto.setHorasOrdinarias(Double.valueOf(this.horasOrdinarias.get()));
+        dto.setHorasExtras(Double.valueOf(this.horasExtras.get()));
+        dto.setHorasDobles(Double.valueOf(this.horasDobles.get()));
+        dto.setTotalHoras(Double.valueOf(this.totalHoras.get()));
         dto.setTotalAPagar(new BigDecimal(this.totalAPagar.get()));
         return dto;
     }

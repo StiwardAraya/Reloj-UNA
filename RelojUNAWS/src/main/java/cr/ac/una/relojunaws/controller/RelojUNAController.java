@@ -19,6 +19,8 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import cr.ac.una.relojunaws.model.dto.ArchivoDTO;
+import cr.ac.una.relojunaws.model.dto.ResumenPlanillaDTO;
+import cr.ac.una.relojunaws.service.PlanillaService;
 import cr.ac.una.relojunaws.service.ReporteService;
 import cr.ac.una.relojunaws.util.ArchivoResponse;
 
@@ -36,6 +38,8 @@ public class RelojUNAController implements RelojUNASOAP {
     private MarcaService marcaService;
     @EJB
     private ReporteService reporteService;
+    @EJB
+    private PlanillaService planillaService;
 
     private static final Logger LOG = Logger.getLogger(RelojUNAController.class.getName());
 
@@ -200,4 +204,21 @@ public class RelojUNAController implements RelojUNASOAP {
     }
 
     // PLANILLAS ----------------------------------------------
+    
+    @Override
+    public SOAPResponse<ResumenPlanillaDTO> calcularPlanilla(int anio, int mes) {
+        return ejecutar("calcularPlanilla",
+                () -> planillaService.calcularPlanilla(anio, mes),
+                respuesta -> (ResumenPlanillaDTO) respuesta.getResultado("ResumenPlanilla"));
+    }
+
+    @Override
+    public SOAPResponse<ResumenPlanillaDTO> generarPlanilla(ResumenPlanillaDTO resumenPlanilla) {
+        if (resumenPlanilla == null) {
+            return SOAPResponse.error("Debe indicar los datos de la planilla.", "generarPlanilla: resumen nulo");
+        }
+        return ejecutar("generarPlanilla",
+                () -> planillaService.generarPlanilla(resumenPlanilla),
+                respuesta -> (ResumenPlanillaDTO) respuesta.getResultado("ResumenPlanilla"));
+    }
 }

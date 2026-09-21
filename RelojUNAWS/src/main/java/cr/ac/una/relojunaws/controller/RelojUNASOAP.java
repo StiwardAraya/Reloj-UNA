@@ -20,6 +20,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import cr.ac.una.relojunaws.util.ArchivoResponse;
 import cr.ac.una.relojunaws.model.dto.ArchivoDTO;
+import cr.ac.una.relojunaws.model.dto.DashboardDTO;
 import cr.ac.una.relojunaws.model.dto.ResumenDetallePlanillaDTO;
 import cr.ac.una.relojunaws.model.dto.ResumenPlanillaDTO;
 
@@ -32,7 +33,7 @@ import cr.ac.una.relojunaws.model.dto.ResumenPlanillaDTO;
     EmpleadoDTO.class, EmpleadoListDTO.class, LoginRequestDTO.class,
     MarcaDTO.class, MarcaListDTO.class, JornadaDTO.class, JornadaListDTO.class,
     ResumenMarcasDTO.class, ArchivoDTO.class, ArchivoResponse.class,
-    ResumenDetallePlanillaDTO.class, ResumenPlanillaDTO.class
+    ResumenDetallePlanillaDTO.class, ResumenPlanillaDTO.class, DashboardDTO.class
 })
 public interface RelojUNASOAP {
 
@@ -137,4 +138,8 @@ public interface RelojUNASOAP {
     @WebResult(name = "SOAPResponse")
     SOAPResponse<ResumenPlanillaDTO> generarPlanilla(
             @WebParam(name = "resumenPlanilla") ResumenPlanillaDTO resumenPlanilla);
+
+    @WebMethod(operationName = "getDashboard")
+    @WebResult(name = "SOAPResponse")
+    SOAPResponse<DashboardDTO> getDashboard();
 }

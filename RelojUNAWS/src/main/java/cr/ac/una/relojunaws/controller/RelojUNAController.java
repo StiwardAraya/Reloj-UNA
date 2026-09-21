@@ -19,6 +19,7 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import cr.ac.una.relojunaws.model.dto.ArchivoDTO;
+import cr.ac.una.relojunaws.model.dto.DashboardDTO;
 import cr.ac.una.relojunaws.model.dto.ResumenPlanillaDTO;
 import cr.ac.una.relojunaws.service.PlanillaService;
 import cr.ac.una.relojunaws.service.ReporteService;
@@ -204,7 +205,6 @@ public class RelojUNAController implements RelojUNASOAP {
     }
 
     // PLANILLAS ----------------------------------------------
-    
     @Override
     public SOAPResponse<ResumenPlanillaDTO> calcularPlanilla(int anio, int mes) {
         return ejecutar("calcularPlanilla",
@@ -220,5 +220,13 @@ public class RelojUNAController implements RelojUNASOAP {
         return ejecutar("generarPlanilla",
                 () -> planillaService.generarPlanilla(resumenPlanilla),
                 respuesta -> (ResumenPlanillaDTO) respuesta.getResultado("ResumenPlanilla"));
+    }
+
+    @Override
+    public SOAPResponse<DashboardDTO> getDashboard() {
+        return ejecutar("getDashboard",
+                () -> marcaService.getDashboard(),
+                respuesta -> (DashboardDTO) respuesta.getResultado("Dashboard")
+        );
     }
 }

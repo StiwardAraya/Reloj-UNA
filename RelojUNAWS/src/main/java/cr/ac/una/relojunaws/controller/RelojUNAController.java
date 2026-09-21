@@ -204,7 +204,6 @@ public class RelojUNAController implements RelojUNASOAP {
     }
 
     // PLANILLAS ----------------------------------------------
-    
     @Override
     public SOAPResponse<ResumenPlanillaDTO> calcularPlanilla(int anio, int mes) {
         return ejecutar("calcularPlanilla",

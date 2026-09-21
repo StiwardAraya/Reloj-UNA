@@ -9,6 +9,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -18,7 +20,7 @@
 
 <AnchorPane fx:id="root" prefHeight="720.0" prefWidth="1000.0" styleClass="bg-gray-100" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.ConsultasController">
     <children>
-        <VBox spacing="16.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox spacing="16.0" styleClass="bg-gray-100" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <padding>
                 <Insets bottom="20.0" left="24.0" right="24.0" top="20.0" />
             </padding>
@@ -39,11 +41,12 @@
             </VBox>
             <VBox spacing="14.0">
                 <Label fx:id="lblTituloFiltros" text="Filtros de consulta">
-               <styleClass>
-                  <String fx:value="text-3xl" />
-                  <String fx:value="font-bold" />
-                  <String fx:value="text-blue-900" />
-               </styleClass></Label>
+                    <styleClass>
+                        <String fx:value="text-3xl" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-blue-900" />
+                    </styleClass>
+                </Label>
                 <GridPane hgap="14.0" vgap="8.0">
 
                     <columnConstraints>
@@ -59,25 +62,28 @@
                     </rowConstraints>
 
                     <Label fx:id="lblFechaInicio" text="Fecha inicial" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                  <styleClass>
-                     <String fx:value="text-blue-900" />
-                     <String fx:value="font-bold" />
-                     <String fx:value="text-lg" />
-                  </styleClass></Label>
+                        <styleClass>
+                            <String fx:value="text-blue-900" />
+                            <String fx:value="font-bold" />
+                            <String fx:value="text-lg" />
+                        </styleClass>
+                    </Label>
 
                     <Label fx:id="lblFechaFin" text="Fecha final" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                  <styleClass>
-                     <String fx:value="text-lg" />
-                     <String fx:value="font-bold" />
-                     <String fx:value="text-blue-900" />
-                  </styleClass></Label>
+                        <styleClass>
+                            <String fx:value="text-lg" />
+                            <String fx:value="font-bold" />
+                            <String fx:value="text-blue-900" />
+                        </styleClass>
+                    </Label>
 
                     <Label fx:id="lblFolio" text="Folio" GridPane.columnIndex="2" GridPane.rowIndex="0">
-                  <styleClass>
-                     <String fx:value="text-lg" />
-                     <String fx:value="font-bold" />
-                     <String fx:value="text-blue-900" />
-                  </styleClass></Label>
+                        <styleClass>
+                            <String fx:value="text-lg" />
+                            <String fx:value="font-bold" />
+                            <String fx:value="text-blue-900" />
+                        </styleClass>
+                    </Label>
 
                     <MFXDatePicker fx:id="dpFechaInicio" maxWidth="Infinity" promptText="Fecha inicial" styleClass="outlined" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
@@ -85,71 +91,100 @@
 
                     <MFXTextField fx:id="txtFolio" floatingText="Folio del empleado" maxWidth="Infinity" promptText="Vacío para todos" styleClass="outlined" GridPane.columnIndex="2" GridPane.rowIndex="1" />
 
-                    <MFXButton fx:id="btnConsultar" maxWidth="Infinity" onAction="#consultar" styleClass="primary" text="Consultar" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                    <MFXButton fx:id="btnConsultar" maxWidth="Infinity" onAction="#consultar" styleClass="primary" text="Consultar" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                        <graphic>
+                            <ImageView fitHeight="18.0" fitWidth="18.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@../images/search-icon-24.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+
+                    </MFXButton>
                 </GridPane>
-            <styleClass>
-               <String fx:value="bg-white" />
-               <String fx:value="rad-md" />
-               <String fx:value="p-4" />
-               <String fx:value="shadow-md" />
-            </styleClass>
+                <styleClass>
+                    <String fx:value="bg-white" />
+                    <String fx:value="rad-md" />
+                    <String fx:value="p-4" />
+                    <String fx:value="shadow-md" />
+                </styleClass>
             </VBox>
             <HBox spacing="14.0">
                 <VBox spacing="5.0" HBox.hgrow="ALWAYS">
                     <Label fx:id="lblTextoCantidadEmpleados" text="Empleados que marcaron">
-                  <styleClass>
-                     <String fx:value="font-bold" />
-                     <String fx:value="text-gray-600" />
-                     <String fx:value="text-lg" />
-                  </styleClass></Label>
-                    <Label fx:id="lblCantidadEmpleados" styleClass="text-2xl, font-bold, text-blue-700" text="0" />
-               <styleClass>
-                  <String fx:value="bg-white" />
-                  <String fx:value="rad-md" />
-                  <String fx:value="p-4" />
-                  <String fx:value="shadow-md" />
-               </styleClass>
+                        <styleClass>
+                            <String fx:value="font-bold" />
+                            <String fx:value="text-gray-600" />
+                            <String fx:value="text-lg" />
+                        </styleClass>
+                    </Label>
+                    <Label fx:id="lblCantidadEmpleados" text="0">
+                        <styleClass>
+                            <String fx:value="text-2xl" />
+                            <String fx:value="font-bold" />
+                            <String fx:value="text-blue-700" />
+                        </styleClass>
+                    </Label>
+                    <styleClass>
+                        <String fx:value="bg-white" />
+                        <String fx:value="rad-md" />
+                        <String fx:value="p-4" />
+                        <String fx:value="shadow-md" />
+                    </styleClass>
                 </VBox>
                 <VBox spacing="5.0" HBox.hgrow="ALWAYS">
                     <Label fx:id="lblTextoTotalMarcas" text="Total de marcas">
-                  <styleClass>
-                     <String fx:value="font-bold" />
-                     <String fx:value="text-gray-600" />
-                     <String fx:value="text-lg" />
-                  </styleClass></Label>
-                    <Label fx:id="lblTotalMarcas" styleClass="text-2xl, font-bold, text-blue-700" text="0" />
-               <styleClass>
-                  <String fx:value="bg-white" />
-                  <String fx:value="rad-md" />
-                  <String fx:value="p-4" />
-                  <String fx:value="shadow-md" />
-               </styleClass>
+                        <styleClass>
+                            <String fx:value="font-bold" />
+                            <String fx:value="text-gray-600" />
+                            <String fx:value="text-lg" />
+                        </styleClass>
+                    </Label>
+                    <Label fx:id="lblTotalMarcas" text="0">
+                        <styleClass>
+                            <String fx:value="text-2xl" />
+                            <String fx:value="font-bold" />
+                            <String fx:value="text-blue-700" />
+                        </styleClass>
+                    </Label>
+                    <styleClass>
+                        <String fx:value="bg-white" />
+                        <String fx:value="rad-md" />
+                        <String fx:value="p-4" />
+                        <String fx:value="shadow-md" />
+                    </styleClass>
                 </VBox>
                 <VBox spacing="5.0" HBox.hgrow="ALWAYS">
                     <Label fx:id="lblTextoTotalHoras" text="Total de horas trabajadas">
-                  <styleClass>
-                     <String fx:value="font-bold" />
-                     <String fx:value="text-gray-600" />
-                     <String fx:value="text-lg" />
-                  </styleClass></Label>
-                    <Label fx:id="lblTotalHoras" styleClass="text-2xl, font-bold, text-blue-700" text="0 h 0 min" />
-               <styleClass>
-                  <String fx:value="bg-white" />
-                  <String fx:value="rad-md" />
-                  <String fx:value="p-4" />
-                  <String fx:value="shadow-md" />
-               </styleClass>
+                        <styleClass>
+                            <String fx:value="font-bold" />
+                            <String fx:value="text-gray-600" />
+                            <String fx:value="text-lg" />
+                        </styleClass>
+                    </Label>
+                    <Label fx:id="lblTotalHoras" text="0 h 0 min">
+                        <styleClass>
+                            <String fx:value="text-2xl" />
+                            <String fx:value="font-bold" />
+                            <String fx:value="text-blue-700" />
+                        </styleClass>
+                    </Label>
+                    <styleClass>
+                        <String fx:value="bg-white" />
+                        <String fx:value="rad-md" />
+                        <String fx:value="p-4" />
+                        <String fx:value="shadow-md" />
+                    </styleClass>
                 </VBox>
             </HBox>
-
-            <!-- Detalle de jornadas -->
             <VBox spacing="10.0" VBox.vgrow="ALWAYS">
                 <Label fx:id="lblTituloDetalle" text="Detalle de jornadas">
-               <styleClass>
-                  <String fx:value="text-3xl" />
-                  <String fx:value="font-bold" />
-                  <String fx:value="text-blue-900" />
-               </styleClass></Label>
+                    <styleClass>
+                        <String fx:value="text-3xl" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-blue-900" />
+                    </styleClass>
+                </Label>
                 <TableView fx:id="tblJornadas" styleClass="table-modern" VBox.vgrow="ALWAYS">
                     <placeholder>
                         <Label fx:id="lblSinJornadas" styleClass="text-gray-500" text="No se encontraron jornadas." />
@@ -157,22 +192,30 @@
                     <columns>
                         <TableColumn fx:id="colFecha" prefWidth="110.0" text="Fecha" />
                         <TableColumn fx:id="colFolio" prefWidth="100.0" text="Folio" />
-                        <TableColumn fx:id="colEmpleado" prefWidth="210.0" text="Empleado" />
-                        <TableColumn fx:id="colEntrada" prefWidth="100.0" text="Entrada" />
-                        <TableColumn fx:id="colSalida" prefWidth="100.0" text="Salida" />
-                        <TableColumn fx:id="colHoras" prefWidth="100.0" text="Horas" />
-                        <TableColumn fx:id="colEstado" prefWidth="110.0" text="Estado" />
+                        <TableColumn fx:id="colEmpleado" prefWidth="235.199951171875" text="Empleado" />
+                        <TableColumn fx:id="colEntrada" prefWidth="121.60000610351562" text="Entrada" />
+                        <TableColumn fx:id="colSalida" prefWidth="120.79998779296875" text="Salida" />
+                        <TableColumn fx:id="colHoras" prefWidth="112.800048828125" text="Horas" />
+                        <TableColumn fx:id="colEstado" prefWidth="119.2000732421875" text="Estado" />
                     </columns>
                 </TableView>
-            <styleClass>
-               <String fx:value="bg-white" />
-               <String fx:value="rad-md" />
-               <String fx:value="p-4" />
-               <String fx:value="shadow-md" />
-            </styleClass>
+                <styleClass>
+                    <String fx:value="bg-white" />
+                    <String fx:value="rad-md" />
+                    <String fx:value="p-4" />
+                    <String fx:value="shadow-md" />
+                </styleClass>
             </VBox>
             <HBox styleClass="align-right">
-                <MFXButton fx:id="btnExportarExcel" disable="true" maxWidth="180.0" onAction="#exportarExcel" styleClass="success" text="Exportar a Excel" HBox.hgrow="ALWAYS" />
+                <MFXButton fx:id="btnExportarExcel" disable="true" maxWidth="180.0" onAction="#exportarExcel" styleClass="success" text="Exportar a Excel" HBox.hgrow="ALWAYS">
+                    <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/Excel-icon.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </MFXButton>
             </HBox>
         </VBox>
     </children>
@@ -180,7 +223,6 @@
         <URL value="@css/MFXOverrides.css" />
         <URL value="@css/Styles.css" />
         <URL value="@css/Table.css" />
-        <URL value="@css/TabPane.css" />
         <URL value="@css/UtilStyles.css" />
     </stylesheets>
 </AnchorPane>

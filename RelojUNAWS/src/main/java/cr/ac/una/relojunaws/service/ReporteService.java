@@ -21,6 +21,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import cr.ac.una.relojunaws.model.dto.ArchivoDTO;
 import cr.ac.una.relojunaws.model.dto.EmpleadoListDTO;
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -39,6 +41,7 @@ public class ReporteService {
     private MarcaService marcaService;//necesito reutilizar metodos de marca
     @EJB
     private EmpleadoService empleadoService;
+
     private static final Logger LOG = Logger.getLogger(ReporteService.class.getName());
 
     public Respuesta generarExcelMarcas(LocalDate desde, LocalDate hasta, String folioEmpleado) {
@@ -107,8 +110,7 @@ public class ReporteService {
 
             Row filaFolio = hoja.createRow(filaActual++);
             filaFolio.createCell(0).setCellValue("Folio");
-            filaFolio.createCell(1).setCellValue(folioEmpleado == null || folioEmpleado.isBlank()
-                    ? "Todos" : folioEmpleado.trim());
+            filaFolio.createCell(1).setCellValue(folioEmpleado == null || folioEmpleado.isBlank() ? "Todos" : folioEmpleado.trim());
             filaActual++;
 
             Row filaEmpleados = hoja.createRow(filaActual++);
@@ -121,8 +123,7 @@ public class ReporteService {
 
             Row filaHoras = hoja.createRow(filaActual++);
             filaHoras.createCell(0).setCellValue("Total de horas trabajadas");
-            filaHoras.createCell(1).setCellValue(resumen.getTotalHorasTrabajadas() + " h "
-                    + resumen.getTotalMinutosTrabajados() + " min");
+            filaHoras.createCell(1).setCellValue(resumen.getTotalHorasTrabajadas() + " h " + resumen.getTotalMinutosTrabajados() + " min");
             filaActual++;
             Row encabezado = hoja.createRow(filaActual++);
 
@@ -215,7 +216,9 @@ public class ReporteService {
 
             byte[] contenido = JasperExportManager.exportReportToPdf(impresion);
 
-            ArchivoDTO archivo = new ArchivoDTO("ReporteEmpleados.pdf", "application/pdf", contenido);
+            String fechaHora = LocalDateTime.now() .format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"));
+            String nombreArchivo = "ReporteEmpleados_" + fechaHora + ".pdf";
+            ArchivoDTO archivo = new ArchivoDTO(nombreArchivo, "application/pdf", contenido);
             return new Respuesta(true, "reporte.empleados.exito", "", "Archivo", archivo);
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "Ocurrió un error al generar " + "el reporte de empleados", ex);
@@ -238,10 +241,10 @@ public class ReporteService {
             List<JornadaDTO> jornadas = new ArrayList<>(jornadasDTO.getJornadas());
             Comparator<LocalDate> ordenarFecha = Comparator.nullsLast(Comparator.naturalOrder());
             Comparator<String> ordenarFolio = Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER);
-            jornadas.sort(Comparator.comparing(JornadaDTO::getFolioEmpleado,ordenarFolio).thenComparing(JornadaDTO::getFecha,ordenarFecha));
-            
+            jornadas.sort(Comparator.comparing(JornadaDTO::getFolioEmpleado, ordenarFolio).thenComparing(JornadaDTO::getFecha, ordenarFecha));
+
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(jornadas);
-            
+
             InputStream archivoJrxml = ReporteService.class.getResourceAsStream("/reportes/ReporteMarcas.jrxml");
             if (archivoJrxml == null) {
                 return new Respuesta(false, "reporte.marcas.error", "No se encontró ReporteMarcas.jrxml");

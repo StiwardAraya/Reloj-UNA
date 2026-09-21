@@ -257,8 +257,7 @@ public class ConsultasController extends Controller {
     }
 
     private String extraerHora(String fechaHora) {
-        if (fechaHora == null
-                || fechaHora.isBlank()) {
+        if (fechaHora == null || fechaHora.isBlank()) {
             return "-";
         }
         if (fechaHora.length() >= 16 && fechaHora.contains("T")) {

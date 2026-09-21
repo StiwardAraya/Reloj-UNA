@@ -7,13 +7,15 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="root" prefHeight="720.0" prefWidth="1000.0" styleClass="bg-gray-50" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.ReporteController">
     <children>
-        <VBox layoutY="6.0" spacing="18.0" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+        <VBox layoutY="6.0" spacing="18.0" styleClass="bg-gray-100" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
             <padding>
                 <Insets bottom="20.0" left="24.0" right="24.0" top="20.0" />
             </padding> 
@@ -32,7 +34,15 @@
                     </styleClass>
                 </Label>
             </VBox>
-            <VBox spacing="14.0" styleClass="bg-white, border, border-gray-200, rad-md, p-4">
+            <VBox spacing="14.0">
+                <styleClass>
+                    <String fx:value="bg-white" />
+                    <String fx:value="border" />
+                    <String fx:value="border-gray-200" />
+                    <String fx:value="rad-md" />
+                    <String fx:value="p-4" />
+                    <String fx:value="shadow-md" />
+                </styleClass>
                 <Label fx:id="lblTituloEmpleados" text="Reporte de empleados">
                     <styleClass>
                         <String fx:value="text-3xl" />
@@ -52,11 +62,28 @@
                         <String fx:value="text-gray-500" />
                     </styleClass>
                 </Label>
-                <HBox alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="btnReporteEmpleados" onAction="#generarReporteEmpleados" prefHeight="36.0" prefWidth="250.0" styleClass="primary" text="Generar reporte de empleados" />
+                <HBox alignment="CENTER_RIGHT"> 
+                    <MFXButton fx:id="btnReporteEmpleados" onAction="#generarReporteEmpleados" prefHeight="40.0" prefWidth="270.0" styleClass="primary" text="Generar reporte de empleados">
+                        <graphic>
+                            <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@../images/PDF.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </MFXButton>
+
                 </HBox>
             </VBox>
-            <VBox spacing="14.0" styleClass="bg-white, border, border-gray-200, rad-md, p-4">
+            <VBox spacing="14.0">
+                <styleClass>
+                    <String fx:value="bg-white" />
+                    <String fx:value="border" />
+                    <String fx:value="border-gray-200" />
+                    <String fx:value="rad-md" />
+                    <String fx:value="p-4" />
+                    <String fx:value="shadow-md" />
+                </styleClass>
                 <Label fx:id="lblTituloMarcas" text="Reporte de marcas">
                     <styleClass>
                         <String fx:value="text-3xl" />
@@ -100,7 +127,15 @@
                     </VBox>
                 </HBox>
                 <HBox alignment="CENTER_RIGHT">
-                    <MFXButton fx:id="btnReporteMarcas" onAction="#generarReporteMarcas" prefWidth="230.0" styleClass="primary" text="Generar reporte de marcas" />
+                    <MFXButton fx:id="btnReporteMarcas" onAction="#generarReporteMarcas" prefHeight="40.0" prefWidth="270.0" styleClass="success" text="Generar reporte de marcas">
+                        <graphic>
+                            <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@../images/PDF.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </MFXButton>
                 </HBox>
             </VBox>
             <Label fx:id="lblNota" text="Los reportes son generados mediante JasperReports y se guardan en formato PDF." wrapText="true">
@@ -114,8 +149,6 @@
     <stylesheets>
         <URL value="@css/MFXOverrides.css" />
         <URL value="@css/Styles.css" />
-        <URL value="@css/Table.css" />
-        <URL value="@css/TabPane.css" />
         <URL value="@css/UtilStyles.css" />
     </stylesheets>
 </AnchorPane>

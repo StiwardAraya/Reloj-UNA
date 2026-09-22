@@ -4,7 +4,10 @@ import cr.ac.una.relojunaws.model.DetallePlanilla;
 import cr.ac.una.relojunaws.model.Empleado;
 import cr.ac.una.relojunaws.model.Marca;
 import cr.ac.una.relojunaws.model.Planilla;
+import cr.ac.una.relojunaws.model.dto.EmpleadoDTO;
 import cr.ac.una.relojunaws.model.dto.ResumenDetallePlanillaDTO;
+import cr.ac.una.relojunaws.model.dto.ResumenDetallesEmpleadoDTO;
+import cr.ac.una.relojunaws.model.dto.ResumenJornadaDTO;
 import cr.ac.una.relojunaws.model.dto.ResumenPlanillaDTO;
 import cr.ac.una.relojunaws.util.Respuesta;
 import jakarta.ejb.EJB;
@@ -127,6 +130,50 @@ public class PlanillaService {
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "Ocurrió un error en generarPlanilla", ex);
             return new Respuesta(false, "planilla.generar.error", "generarPlanilla Exception " + ex.getMessage());
+        }
+    }
+
+    public Respuesta getDetallesEmpleadoResumen(String folio, Integer anio, Integer mes) {
+        try {
+            if (folio == null || folio.isBlank()) {
+                return new Respuesta(false, "planilla.detalleempleado.foliorequerido",
+                        "getDetallesEmpleadoResumen folio nulo o vacío");
+            }
+
+            if (anio == null || mes == null) {
+                return new Respuesta(false, "planilla.detalleempleado.datosrequeridos",
+                        "getDetallesEmpleadoResumen anio o mes nulos");
+            }
+
+            if (mes < 1 || mes > 12) {
+                return new Respuesta(false, "planilla.detalleempleado.mesinvalido",
+                        "getDetallesEmpleadoResumen mes fuera de rango: " + mes);
+            }
+
+            Empleado empleado = obtenerEmpleadoPorFolio(folio);
+
+            LocalDate[] rango = obtenerRangoDelMes(anio, mes);
+
+            List<Marca> marcasEmpleado = obtenerMarcasDelMes(rango[0], rango[1]).stream()
+                    .filter(marca -> marca.getEmpleado().getFolio().equals(empleado.getFolio()))
+                    .sorted(Comparator.comparing(Marca::getFechaHora))
+                    .toList();
+
+            ResumenDetallePlanillaDTO resumenDetalle = calcularDetalleEmpleado(empleado, marcasEmpleado);
+            List<ResumenJornadaDTO> jornadas = construirJornadasEmpleado(marcasEmpleado);
+            EmpleadoDTO empleadoDto = new EmpleadoDTO(empleado);
+
+            ResumenDetallesEmpleadoDTO resumen
+                    = new ResumenDetallesEmpleadoDTO(empleadoDto, resumenDetalle, jornadas);
+
+            return new Respuesta(true, "", "", "ResumenDetallesEmpleado", resumen);
+        } catch (NoResultException ex) {
+            return new Respuesta(false, "planilla.detalleempleado.empleadonotfound",
+                    "getDetallesEmpleadoResumen empleado no encontrado para folio: " + folio);
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Ocurrió un error en getDetallesEmpleadoResumen", ex);
+            return new Respuesta(false, "planilla.detalleempleado.error",
+                    "getDetallesEmpleadoResumen Exception " + ex.getMessage());
         }
     }
 
@@ -335,5 +382,35 @@ public class PlanillaService {
         detalle.setTotalHorasNocturnas(detalleDTO.getHorasNocturnas());
         detalle.setTotalAPagar(detalleDTO.getTotalAPagar());
         return detalle;
+    }
+
+    private Empleado obtenerEmpleadoPorFolio(String folio) {
+        Query qry = em.createNamedQuery("Empleado.findByFolio", Empleado.class);
+        qry.setParameter("folio", folio);
+        return (Empleado) qry.getSingleResult();
+    }
+
+    private List<ResumenJornadaDTO> construirJornadasEmpleado(List<Marca> marcasOrdenadas) {
+        List<Marca[]> pares = construirParesEntradaSalida(marcasOrdenadas);
+
+        return pares.stream()
+                .map(this::construirJornadaDesdePar)
+                .sorted(Comparator.comparing(ResumenJornadaDTO::getFecha))
+                .toList();
+    }
+
+    private ResumenJornadaDTO construirJornadaDesdePar(Marca[] par) {
+        Marca entrada = par[0];
+        Marca salida = par[1];
+
+        LocalDateTime horaEntrada = (entrada != null) ? entrada.getFechaHora() : null;
+        LocalDateTime horaSalida = (salida != null) ? salida.getFechaHora() : null;
+
+        LocalDate fecha = (horaEntrada != null) ? horaEntrada.toLocalDate() : horaSalida.toLocalDate();
+        Boolean estado = (horaEntrada != null && horaSalida != null);
+        Boolean esDiaLibre = fecha.getDayOfWeek() == DayOfWeek.SUNDAY;
+        Double horasTrabajadas = estado ? Duration.between(horaEntrada, horaSalida).toMinutes() / 60.0 : 0.0;
+
+        return new ResumenJornadaDTO(fecha, horaEntrada, horaSalida, horasTrabajadas, esDiaLibre, estado);
     }
 }

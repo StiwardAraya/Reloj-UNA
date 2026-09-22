@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import cr.ac.una.relojunaws.model.dto.ArchivoDTO;
 import cr.ac.una.relojunaws.model.dto.DashboardDTO;
+import cr.ac.una.relojunaws.model.dto.ResumenDetallesEmpleadoDTO;
 import cr.ac.una.relojunaws.model.dto.ResumenPlanillaDTO;
 import cr.ac.una.relojunaws.service.PlanillaService;
 import cr.ac.una.relojunaws.service.ReporteService;
@@ -227,6 +228,15 @@ public class RelojUNAController implements RelojUNASOAP {
         return ejecutar("getDashboard",
                 () -> marcaService.getDashboard(),
                 respuesta -> (DashboardDTO) respuesta.getResultado("Dashboard")
+        );
+    }
+
+    @Override
+    public SOAPResponse<ResumenDetallesEmpleadoDTO> getDetallesEmpleadoResumen(String folio, Integer anio, Integer mes) {
+        return ejecutar(
+                "getDetallesEmpleadoResumen",
+                () -> planillaService.getDetallesEmpleadoResumen(folio, anio, mes),
+                respuesta -> (ResumenDetallesEmpleadoDTO) respuesta.getResultado("ResumenDetallesEmpleado")
         );
     }
 }

@@ -7,6 +7,7 @@ import cr.ac.una.relojuna.util.NotificationColor;
 import cr.ac.una.relojuna.util.UIRouter;
 import cr.ac.una.relojuna.ws.EmpleadoDTO;
 import cr.ac.una.relojuna.ws.MarcaDTO;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.MissingResourceException;
@@ -54,8 +55,14 @@ public class MarcaRegistradaController extends Controller {
         empleadoDto = (EmpleadoDTO) AppContext.getInstance().get("empleadoRegistrado");
         Platform.runLater(() -> {
             updateLanguageTexts(bundle);
+            FXAnimator.fadeSlideInFromBottom(root, 50);
+            LocalDate fechaNacimientoParsed = LocalDate.parse(empleadoDto.getFechaNacimiento());
+            if (fechaNacimientoParsed.getDayOfMonth() == LocalDate.now().getDayOfMonth()
+                    && fechaNacimientoParsed.getMonth() == LocalDate.now().getMonth()
+                    && marcaDto.getTipo().equalsIgnoreCase("E")) {
+                FXAnimator.felizCumpleanos(root, 300, 110);
+            }
         });
-        FXAnimator.fadeSlideInFromBottom(root, 50);
         cargarDatos();
         PauseTransition pausa = new PauseTransition(Duration.seconds(6));
         pausa.setOnFinished(event -> UIRouter.getInstance().hideModal());

@@ -20,7 +20,10 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import cr.ac.una.relojunaws.util.ArchivoResponse;
 import cr.ac.una.relojunaws.model.dto.ArchivoDTO;
+import cr.ac.una.relojunaws.model.dto.DashboardDTO;
 import cr.ac.una.relojunaws.model.dto.ResumenDetallePlanillaDTO;
+import cr.ac.una.relojunaws.model.dto.ResumenDetallesEmpleadoDTO;
+import cr.ac.una.relojunaws.model.dto.ResumenJornadaDTO;
 import cr.ac.una.relojunaws.model.dto.ResumenPlanillaDTO;
 
 @WebService(
@@ -32,7 +35,8 @@ import cr.ac.una.relojunaws.model.dto.ResumenPlanillaDTO;
     EmpleadoDTO.class, EmpleadoListDTO.class, LoginRequestDTO.class,
     MarcaDTO.class, MarcaListDTO.class, JornadaDTO.class, JornadaListDTO.class,
     ResumenMarcasDTO.class, ArchivoDTO.class, ArchivoResponse.class,
-    ResumenDetallePlanillaDTO.class, ResumenPlanillaDTO.class
+    ResumenDetallePlanillaDTO.class, ResumenPlanillaDTO.class, DashboardDTO.class,
+    ResumenDetallesEmpleadoDTO.class, ResumenJornadaDTO.class
 })
 public interface RelojUNASOAP {
 
@@ -137,4 +141,16 @@ public interface RelojUNASOAP {
     @WebResult(name = "SOAPResponse")
     SOAPResponse<ResumenPlanillaDTO> generarPlanilla(
             @WebParam(name = "resumenPlanilla") ResumenPlanillaDTO resumenPlanilla);
+
+    @WebMethod(operationName = "getDashboard")
+    @WebResult(name = "SOAPResponse")
+    SOAPResponse<DashboardDTO> getDashboard();
+
+    @WebMethod(operationName = "getDetallesEmpleadoResumen")
+    @WebResult(name = "SOAPResponse")
+    SOAPResponse<ResumenDetallesEmpleadoDTO> getDetallesEmpleadoResumen(
+            @WebParam(name = "folio") String folio,
+            @WebParam(name = "anio") Integer anio,
+            @WebParam(name = "mes") Integer mes
+    );
 }

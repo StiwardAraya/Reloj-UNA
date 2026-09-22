@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="root" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.DetallePlanillaResumenController">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.DetallePlanillaResumenController">
     <center>
         <VBox alignment="TOP_CENTER" spacing="7">
             <padding>
@@ -43,7 +43,7 @@
                 <Separator />
                 <HBox alignment="CENTER_LEFT" spacing="20">
                     <StackPane maxHeight="130" maxWidth="130" prefHeight="130" prefWidth="130">
-                        <ImageView fx:id="imgEmpleado" fitHeight="120" fitWidth="120" preserveRatio="true" smooth="true" />
+                        <ImageView fx:id="imgEmpleado" fitHeight="120" fitWidth="120" smooth="true" />
                   <styleClass>
                      <String fx:value="bg-blue-100" />
                      <String fx:value="rad-md" />

@@ -3,6 +3,7 @@ package cr.ac.una.relojunaws.service;
 import cr.ac.una.relojunaws.model.Empleado;
 import cr.ac.una.relojunaws.model.JornadaPOJO;
 import cr.ac.una.relojunaws.model.Marca;
+import cr.ac.una.relojunaws.model.dto.DashboardDTO;
 import cr.ac.una.relojunaws.model.dto.JornadaDTO;
 import cr.ac.una.relojunaws.model.dto.JornadaListDTO;
 import cr.ac.una.relojunaws.model.dto.MarcaDTO;
@@ -15,10 +16,13 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -321,6 +325,57 @@ public class MarcaService {
         }
     }
 
+    public Respuesta getDashboard() {
+        try {
+            LocalDate hoy = LocalDate.now();
+            LocalDate inicioMes = hoy.withDayOfMonth(1);
+            LocalDate lunesActual = hoy.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+            LocalDate lunesAnterior = lunesActual.minusWeeks(1);
+
+            LocalDateTime limite = hoy.plusDays(1).atStartOfDay();
+            LocalDateTime limiteSemanaAnterior = hoy.minusWeeks(1).plusDays(1).atStartOfDay();
+
+            LocalDate desde = inicioMes.isBefore(lunesAnterior) ? inicioMes : lunesAnterior;
+            List<Marca> todas = obtenerMarcasEnRango(desde, hoy);
+
+            List<Marca> marcasMes = filtrarPorRango(todas, inicioMes.atStartOfDay(), limite);
+            List<Marca> semanaActual = filtrarPorRango(todas, lunesActual.atStartOfDay(), limite);
+            List<Marca> semanaAnterior = filtrarPorRango(todas, lunesAnterior.atStartOfDay(), limiteSemanaAnterior);
+
+            int entradasSemana = contarPorTipo(semanaActual, "E");
+            int salidasSemana = contarPorTipo(semanaActual, "S");
+            int totalMovimientos = entradasSemana + salidasSemana;
+
+            int entradasAnterior = contarPorTipo(semanaAnterior, "E");
+            int salidasAnterior = contarPorTipo(semanaAnterior, "S");
+
+            double variacionEntradas = calcularVariacionPorcentual(entradasSemana, entradasAnterior);
+            double variacionSalidas = calcularVariacionPorcentual(salidasSemana, salidasAnterior);
+
+            int entradasMes = contarPorTipo(marcasMes, "E");
+            double porcentajeEntradasMes = marcasMes.isEmpty()
+                    ? 0.0
+                    : redondear(entradasMes * 100.0 / marcasMes.size());
+
+            Map<Empleado, List<Marca>> porEmpleado = marcasMes.stream()
+                    .collect(Collectors.groupingBy(Marca::getEmpleado));
+
+            int inconsistencias = contarInconsistencias(porEmpleado);
+            List<String> topEmpleados = obtenerTopEmpleados(porEmpleado, 5);
+
+            DashboardDTO dashboard = new DashboardDTO(
+                    entradasSemana, variacionEntradas,
+                    salidasSemana, variacionSalidas,
+                    totalMovimientos, inconsistencias,
+                    porcentajeEntradasMes, topEmpleados);
+
+            return new Respuesta(true, "", "", "Dashboard", dashboard);
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Ocurrió un error en getDashboard", ex);
+            return new Respuesta(false, "dashboard.obtener.error", "getDashboard Exception " + ex.getMessage());
+        }
+    }
+
     // Helpers
     private Marca obtenerUltimaMarca(String folio) {
         try {
@@ -462,4 +517,60 @@ public class MarcaService {
         }
         return resultado;
     }
+
+    private List<Marca> obtenerMarcasEnRango(LocalDate desde, LocalDate hasta) {
+        Query qry = em.createNamedQuery("Marca.findByRangoFechas", Marca.class);
+        qry.setParameter("desde", desde.atStartOfDay());
+        qry.setParameter("hasta", hasta.atTime(23, 59, 59));
+        return (List<Marca>) qry.getResultList();
+    }
+
+    private List<Marca> filtrarPorRango(List<Marca> marcas, LocalDateTime desde, LocalDateTime hastaExclusivo) {
+        return marcas.stream()
+                .filter(m -> !m.getFechaHora().isBefore(desde) && m.getFechaHora().isBefore(hastaExclusivo))
+                .toList();
+    }
+
+    private int contarPorTipo(List<Marca> marcas, String tipo) {
+        return (int) marcas.stream().filter(m -> m.getTipo().equalsIgnoreCase(tipo)).count();
+    }
+
+    private double calcularVariacionPorcentual(int actual, int anterior) {
+        if (anterior == 0) {
+            return actual == 0 ? 0.0 : 100.0;
+        }
+        return redondear((actual - anterior) * 100.0 / anterior);
+    }
+
+    private double redondear(double valor) {
+        return BigDecimal.valueOf(valor).setScale(2, RoundingMode.HALF_UP).doubleValue();
+    }
+
+    private int contarInconsistencias(Map<Empleado, List<Marca>> porEmpleado) {
+        return porEmpleado.values().stream()
+                .mapToInt(marcasEmpleado -> {
+                    List<Marca> ordenadas = marcasEmpleado.stream()
+                            .sorted(Comparator.comparing(Marca::getFechaHora))
+                            .toList();
+                    return marcarInconsistentesDeUnEmpleado(ordenadas).size();
+                })
+                .sum();
+    }
+
+    private List<String> obtenerTopEmpleados(Map<Empleado, List<Marca>> porEmpleado, int limite) {
+        return porEmpleado.entrySet().stream()
+                .map(e -> {
+                    List<Marca> ordenadas = e.getValue().stream()
+                            .sorted(Comparator.comparing(Marca::getFechaHora))
+                            .toList();
+                    Duration total = sumarHorasTrabajadas(construirJornadas(ordenadas));
+                    return Map.entry(e.getKey(), total);
+                })
+                .sorted(Map.Entry.<Empleado, Duration>comparingByValue().reversed())
+                .limit(limite)
+                .map(e -> e.getKey().getNombre() + " " + e.getKey().getPrimerApellido()
+                        + " " + e.getKey().getSegundoApellido())
+                .toList();
+    }
+
 }

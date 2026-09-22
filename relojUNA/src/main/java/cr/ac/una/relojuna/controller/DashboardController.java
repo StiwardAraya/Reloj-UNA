@@ -18,6 +18,11 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import cr.ac.una.relojuna.service.DashboardService;
+import cr.ac.una.relojuna.util.Respuesta;
+import cr.ac.una.relojuna.ws.DashboardDTO;
+import java.util.List;
+import javafx.scene.chart.PieChart;
 
 public class DashboardController extends Controller {
 
@@ -64,6 +69,8 @@ public class DashboardController extends Controller {
     @FXML
     private Label lblGraficoSalidas;
     @FXML
+    private PieChart chartGraficoCircular;
+    @FXML
     private Label lblTopTitulo;
     @FXML
     private Label lblEmpleado1;
@@ -77,20 +84,96 @@ public class DashboardController extends Controller {
     private Label lblEmpleado5;
 
     private Logger LOG;
+    private DashboardService dashboardService;
+    private DashboardDTO dashboardActual;
 
     @Override
     public void initialize() {
+        LOG = Logger.getLogger(DashboardController.class.getName());
+        dashboardService = new DashboardService();
         FXAnimator.slideInFromRight(root, 20);
         Platform.runLater(() -> {
             updateLanguageTexts(bundle);
             configurarComboIdiomas();
+            cargarDashboard();
         });
-        LOG = Logger.getLogger(DashboardController.class.getName());
     }
 
     @Override
     public Node getRoot() {
         return root;
+    }
+
+    private void cargarDashboard() {
+
+        try {
+            Respuesta respuesta = dashboardService.getDashboard();
+            if (!respuesta.getEstado()) {
+                UIRouter.getInstance().notify(
+                        UIRouter.NotificationPosition.BOTTOM_RIGHT, NotificationColor.WARNING, "Dashboard", respuesta.getMensaje());
+                return;
+            }
+            DashboardDTO dashboard = (DashboardDTO) respuesta.getResultado("Dashboard");
+            if (dashboard == null) {
+                return;
+            }
+
+            dashboardActual = dashboard;
+            mostrarDatosDashboard(dashboard);
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Error cargando los datos del Dashboard", ex);
+            UIRouter.getInstance().notify(UIRouter.NotificationPosition.BOTTOM_RIGHT, NotificationColor.WARNING, "Dashboard", "No se pudieron cargar los datos del Dashboard.");
+        }
+    }
+
+    private void mostrarDatosDashboard(DashboardDTO dashboard) {
+        lblEntradas.setText(String.valueOf(valorSeguro(dashboard.getTotalEntradas())));
+        lblSalidas.setText(String.valueOf(valorSeguro(dashboard.getTotalSalidas())));
+        lblMovimientos.setText(String.valueOf(valorSeguro(dashboard.getTotalMovimientos())));
+        lblErrores.setText(String.valueOf(valorSeguro(dashboard.getTotalInconsistencias())));
+        lblPorcientoEntradas.setText(formatearPorcentaje(dashboard.getAsocieEntradasSemanaAnterior()));
+        lblPorcientoSalidas.setText(formatearPorcentaje(dashboard.getAsocieSalidasSemanaAnterior()));
+
+        cargarGrafico(dashboard);
+        cargarTopEmpleados(dashboard.getTopEmpleados());
+    }
+
+    private int valorSeguro(Integer valor) {
+        return valor != null ? valor : 0;
+    }
+
+    private String formatearPorcentaje(Double valor) {
+        if (valor == null) {
+            return "0%";
+        }
+        return String.format(Locale.US, "%+.1f%%", valor);
+    }
+
+    private void cargarGrafico(DashboardDTO dashboard) {
+
+        chartGraficoCircular.getData().clear();
+
+        double porcentajeEntradas = dashboard.getAsocieEntreMarcas() != null
+                ? dashboard.getAsocieEntreMarcas() : 0.0;
+        double porcentajeSalidas = 100.0 - porcentajeEntradas;
+        PieChart.Data dataEntradas = new PieChart.Data(
+                bundle.getString("dashboard.lbl.graficoentradas") + String.format(Locale.US, " %.1f%%", porcentajeEntradas), porcentajeEntradas
+        );
+        PieChart.Data dataSalidas = new PieChart.Data(
+                bundle.getString("dashboard.lbl.graficosalidas") + String.format(Locale.US, " %.1f%%", porcentajeSalidas), porcentajeSalidas
+        );
+        chartGraficoCircular.getData().addAll(dataEntradas, dataSalidas);
+    }
+
+    private void cargarTopEmpleados(List<String> empleados) {
+        Label[] labels = {lblEmpleado1, lblEmpleado2, lblEmpleado3, lblEmpleado4, lblEmpleado5};
+        for (int i = 0; i < labels.length; i++) {
+            if (empleados != null && i < empleados.size()) {
+                labels[i].setText(empleados.get(i));
+            } else {
+                labels[i].setText("-");
+            }
+        }
     }
 
     @Override
@@ -109,6 +192,9 @@ public class DashboardController extends Controller {
             lblGraficoEntradas.setText(bundle.getString("dashboard.lbl.graficoentradas"));
             lblGraficoSalidas.setText(bundle.getString("dashboard.lbl.graficosalidas"));
             lblTopTitulo.setText(bundle.getString("dashboard.lbl.toptitulo"));
+            if (dashboardActual != null) {
+                cargarGrafico(dashboardActual);
+            }
         } catch (MissingResourceException ex) {
             LOG.log(Level.SEVERE, "Exception configuring view language at DashboardController.updateLanguageTexts", ex);
             UIRouter.getInstance().notify(
@@ -146,5 +232,4 @@ public class DashboardController extends Controller {
     private void cambiarIdioma(Locale locale) {
         LanguagesManager.setLocale(locale);
     }
-
 }

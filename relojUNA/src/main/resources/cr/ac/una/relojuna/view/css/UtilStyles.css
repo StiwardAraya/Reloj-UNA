@@ -1041,3 +1041,46 @@
     -fx-faint-focus-color: transparent;
 }
 
+.dashboard-pie-chart .data0.chart-pie {
+    -fx-pie-color: #16A34A;
+}
+
+.dashboard-pie-chart .data1.chart-pie {
+    -fx-pie-color: #DC2626;
+}
+
+.top-empleado-item {
+    -fx-background-color: #EFF6FF;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px 14px;
+    -fx-spacing: 12px;
+    -fx-alignment: center-left;
+}
+
+.top-empleado-item:hover {
+    -fx-background-color: #DBEAFE;
+}
+
+.top-empleado-posicion {
+    -fx-background-color: #2563EB;
+    -fx-background-radius: 100px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-pref-width: 30px;
+    -fx-pref-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+
+    -fx-alignment: center;
+}
+
+.top-empleado-nombre {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E293B;
+}
+

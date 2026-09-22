@@ -14,388 +14,315 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane id="AnchorPane" fx:id="root" stylesheets="@css/UtilStyles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.relojuna.controller.DashboardController">
-   <children>
-      <VBox stylesheets="@css/MFXOverrides.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <styleClass>
-            <String fx:value="p-4" />
-            <String fx:value="gap-4" />
-            <String fx:value="bg-gray-100" />
-         </styleClass>
-         <children>
-            <HBox VBox.vgrow="NEVER">
-               <children>
-                  <VBox styleClass="align-left" HBox.hgrow="NEVER">
-                     <children>
-                        <Label fx:id="lblDashboard" text="Dashboard">
-                           <styleClass>
-                              <String fx:value="h1" />
-                              <String fx:value="text-blue-900" />
-                           </styleClass>
-                        </Label>
-                        <Label fx:id="lblResumen" text="Resumen general del sistema">
-                           <styleClass>
-                              <String fx:value="text-2xl" />
-                              <String fx:value="text-gray-500" />
-                           </styleClass>
-                        </Label>
-                     </children>
-                  </VBox>
-                  <HBox styleClass="align-right" HBox.hgrow="ALWAYS">
-                     <children>
-                        <MFXComboBox fx:id="cmbIdioma" floatingText="Idioma" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" styleClass="outlined" />
-                     </children>
-                  </HBox>
-               </children>
-               <styleClass>
-                  <String fx:value="gap-2" />
-                  <String fx:value="align-left" />
-               </styleClass>
-            </HBox>
-            <HBox VBox.vgrow="NEVER">
-               <children>
-                  <VBox minWidth="245.0" prefWidth="225.0" HBox.hgrow="NEVER">
-                     <styleClass>
-                        <String fx:value="bg-white" />
-                        <String fx:value="shadow-md" />
-                        <String fx:value="rad-md" />
-                        <String fx:value="p-3" />
+    <children>
+        <VBox stylesheets="@css/MFXOverrides.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <styleClass>
+                <String fx:value="p-4" />
+                <String fx:value="gap-4" />
+                <String fx:value="bg-gray-100" />
+            </styleClass>
+            <children>
+                <HBox VBox.vgrow="NEVER">
+                    <children>
+                        <VBox styleClass="align-left" HBox.hgrow="NEVER">
+                            <children>
+                                <Label fx:id="lblDashboard" text="Dashboard">
+                                    <styleClass>
+                                        <String fx:value="h1" />
+                                        <String fx:value="text-blue-900" />
+                                    </styleClass>
+                                </Label>
+                                <Label fx:id="lblResumen" text="Resumen general del sistema">
+                                    <styleClass>
+                                        <String fx:value="text-2xl" />
+                                        <String fx:value="text-gray-500" />
+                                    </styleClass>
+                                </Label>
+                            </children>
+                        </VBox>
+                        <HBox styleClass="align-right" HBox.hgrow="ALWAYS">
+                            <children>
+                                <MFXComboBox fx:id="cmbIdioma" floatingText="Idioma" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" styleClass="outlined" />
+                            </children>
+                        </HBox>
+                    </children>
+                    <styleClass>
                         <String fx:value="gap-2" />
                         <String fx:value="align-left" />
-                     </styleClass>
-                     <children>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/down-icon-green-24.png" />
-                           </image>
-                        </ImageView>
-                        <Label fx:id="lblTotalEntradas" text="Total de entradas">
-                           <styleClass>
-                              <String fx:value="font-bold" />
-                              <String fx:value="text-gray-600" />
-                              <String fx:value="text-lg" />
-                           </styleClass>
-                        </Label>
-                        <Label fx:id="lblEntradas" layoutX="22.0" layoutY="91.0" text="0">
-                           <styleClass>
-                              <String fx:value="text-3xl" />
-                              <String fx:value="font-bold" />
-                              <String fx:value="text-blue-900" />
-                           </styleClass>
-                        </Label>
-                        <HBox styleClass="gap-1" VBox.vgrow="NEVER">
-                           <children>
-                              <Label fx:id="lblPorcientoEntradas" styleClass="text-green-700" text="+12%" />
-                              <Label fx:id="lblEntradasSAnterior" styleClass="text-green-700" text="Respecto a la semana anterior" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <VBox layoutX="10.0" layoutY="10.0" minWidth="245.0" prefWidth="225.0" HBox.hgrow="NEVER">
-                     <styleClass>
-                        <String fx:value="bg-white" />
-                        <String fx:value="shadow-md" />
-                        <String fx:value="rad-md" />
-                        <String fx:value="p-3" />
-                        <String fx:value="gap-2" />
+                    </styleClass>
+                </HBox>
+                <HBox VBox.vgrow="NEVER">
+                    <children>
+                        <VBox minWidth="245.0" prefWidth="225.0" HBox.hgrow="NEVER">
+                            <styleClass>
+                                <String fx:value="bg-white" />
+                                <String fx:value="shadow-md" />
+                                <String fx:value="rad-md" />
+                                <String fx:value="p-3" />
+                                <String fx:value="gap-2" />
+                                <String fx:value="align-left" />
+                            </styleClass>
+                            <children>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/down-icon-green-24.png" />
+                                    </image>
+                                </ImageView>
+                                <Label fx:id="lblTotalEntradas" text="Total de entradas">
+                                    <styleClass>
+                                        <String fx:value="font-bold" />
+                                        <String fx:value="text-gray-600" />
+                                        <String fx:value="text-lg" />
+                                    </styleClass>
+                                </Label>
+                                <Label fx:id="lblEntradas" layoutX="22.0" layoutY="91.0" text="0">
+                                    <styleClass>
+                                        <String fx:value="text-3xl" />
+                                        <String fx:value="font-bold" />
+                                        <String fx:value="text-blue-900" />
+                                    </styleClass>
+                                </Label>
+                                <HBox styleClass="gap-1" VBox.vgrow="NEVER">
+                                    <children>
+                                        <Label fx:id="lblPorcientoEntradas" styleClass="text-green-700" text="+12%" />
+                                        <Label fx:id="lblEntradasSAnterior" styleClass="text-green-700" text="Respecto a la semana anterior" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <VBox layoutX="10.0" layoutY="10.0" minWidth="245.0" prefWidth="225.0" HBox.hgrow="NEVER">
+                            <styleClass>
+                                <String fx:value="bg-white" />
+                                <String fx:value="shadow-md" />
+                                <String fx:value="rad-md" />
+                                <String fx:value="p-3" />
+                                <String fx:value="gap-2" />
+                                <String fx:value="align-left" />
+                            </styleClass>
+                            <children>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/up-icon-red-24.png" />
+                                    </image>
+                                </ImageView>
+                                <Label fx:id="lblTotalSalidas" text="Total de salidas">
+                                    <styleClass>
+                                        <String fx:value="font-bold" />
+                                        <String fx:value="text-gray-600" />
+                                        <String fx:value="text-lg" />
+                                    </styleClass>
+                                </Label>
+                                <Label fx:id="lblSalidas" layoutX="22.0" layoutY="91.0" text="0">
+                                    <styleClass>
+                                        <String fx:value="text-3xl" />
+                                        <String fx:value="font-bold" />
+                                        <String fx:value="text-blue-900" />
+                                    </styleClass>
+                                </Label>
+                                <HBox styleClass="gap-1" VBox.vgrow="NEVER">
+                                    <children>
+                                        <Label fx:id="lblPorcientoSalidas" styleClass="text-red-700" text="+12%" />
+                                        <Label fx:id="lblSalidasSAnterior" styleClass="text-red-700" text="Respecto a la semana anterior" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <VBox layoutX="487.0" layoutY="10.0" minWidth="245.0" prefWidth="225.0" HBox.hgrow="NEVER">
+                            <styleClass>
+                                <String fx:value="bg-white" />
+                                <String fx:value="shadow-md" />
+                                <String fx:value="rad-md" />
+                                <String fx:value="p-3" />
+                                <String fx:value="gap-2" />
+                                <String fx:value="align-left" />
+                            </styleClass>
+                            <children>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/left-right-icon-blue-24.png" />
+                                    </image>
+                                </ImageView>
+                                <Label fx:id="lblTotalMovimientos" text="Movimientos">
+                                    <styleClass>
+                                        <String fx:value="font-bold" />
+                                        <String fx:value="text-gray-600" />
+                                        <String fx:value="text-lg" />
+                                    </styleClass>
+                                </Label>
+                                <Label fx:id="lblMovimientos" layoutX="22.0" layoutY="91.0" text="0">
+                                    <styleClass>
+                                        <String fx:value="text-3xl" />
+                                        <String fx:value="font-bold" />
+                                        <String fx:value="text-blue-900" />
+                                    </styleClass>
+                                </Label>
+                                <HBox styleClass="gap-1" VBox.vgrow="NEVER">
+                                    <children>
+                                        <Label fx:id="lblEntradasSalidas" styleClass="text-blue-700" text="Entradas + Salidas" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <VBox layoutX="248.0" layoutY="10.0" minWidth="245.0" prefWidth="225.0">
+                            <styleClass>
+                                <String fx:value="bg-white" />
+                                <String fx:value="shadow-md" />
+                                <String fx:value="rad-md" />
+                                <String fx:value="p-3" />
+                                <String fx:value="gap-2" />
+                                <String fx:value="align-left" />
+                            </styleClass>
+                            <children>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/inconsistent-icon-yellow-24.png" />
+                                    </image>
+                                </ImageView>
+                                <Label fx:id="lblTotalErrores" text="Errores">
+                                    <styleClass>
+                                        <String fx:value="font-bold" />
+                                        <String fx:value="text-gray-600" />
+                                        <String fx:value="text-lg" />
+                                    </styleClass>
+                                </Label>
+                                <Label fx:id="lblErrores" layoutX="22.0" layoutY="91.0" text="0">
+                                    <styleClass>
+                                        <String fx:value="text-3xl" />
+                                        <String fx:value="font-bold" />
+                                        <String fx:value="text-blue-900" />
+                                    </styleClass>
+                                </Label>
+                                <HBox styleClass="gap-1" VBox.vgrow="NEVER">
+                                    <children>
+                                        <Label fx:id="lblErroresSistema" styleClass="text-yellow-700" text="Inconsistencias en el sistema" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                    <styleClass>
+                        <String fx:value="gap-5" />
                         <String fx:value="align-left" />
-                     </styleClass>
-                     <children>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/up-icon-red-24.png" />
-                           </image>
-                        </ImageView>
-                        <Label fx:id="lblTotalSalidas" text="Total de salidas">
-                           <styleClass>
-                              <String fx:value="font-bold" />
-                              <String fx:value="text-gray-600" />
-                              <String fx:value="text-lg" />
-                           </styleClass>
-                        </Label>
-                        <Label fx:id="lblSalidas" layoutX="22.0" layoutY="91.0" text="0">
-                           <styleClass>
-                              <String fx:value="text-3xl" />
-                              <String fx:value="font-bold" />
-                              <String fx:value="text-blue-900" />
-                           </styleClass>
-                        </Label>
-                        <HBox styleClass="gap-1" VBox.vgrow="NEVER">
-                           <children>
-                              <Label fx:id="lblPorcientoSalidas" styleClass="text-red-700" text="+12%" />
-                              <Label fx:id="lblSalidasSAnterior" styleClass="text-red-700" text="Respecto a la semana anterior" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <VBox layoutX="487.0" layoutY="10.0" minWidth="245.0" prefWidth="225.0" HBox.hgrow="NEVER">
-                     <styleClass>
-                        <String fx:value="bg-white" />
-                        <String fx:value="shadow-md" />
-                        <String fx:value="rad-md" />
-                        <String fx:value="p-3" />
-                        <String fx:value="gap-2" />
-                        <String fx:value="align-left" />
-                     </styleClass>
-                     <children>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/left-right-icon-blue-24.png" />
-                           </image>
-                        </ImageView>
-                        <Label fx:id="lblTotalMovimientos" text="Movimientos">
-                           <styleClass>
-                              <String fx:value="font-bold" />
-                              <String fx:value="text-gray-600" />
-                              <String fx:value="text-lg" />
-                           </styleClass>
-                        </Label>
-                        <Label fx:id="lblMovimientos" layoutX="22.0" layoutY="91.0" text="0">
-                           <styleClass>
-                              <String fx:value="text-3xl" />
-                              <String fx:value="font-bold" />
-                              <String fx:value="text-blue-900" />
-                           </styleClass>
-                        </Label>
-                        <HBox styleClass="gap-1" VBox.vgrow="NEVER">
-                           <children>
-                              <Label fx:id="lblEntradasSalidas" styleClass="text-blue-700" text="Entradas + Salidas" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <VBox layoutX="248.0" layoutY="10.0" minWidth="245.0" prefWidth="225.0">
-                     <styleClass>
-                        <String fx:value="bg-white" />
-                        <String fx:value="shadow-md" />
-                        <String fx:value="rad-md" />
-                        <String fx:value="p-3" />
-                        <String fx:value="gap-2" />
-                        <String fx:value="align-left" />
-                     </styleClass>
-                     <children>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/inconsistent-icon-yellow-24.png" />
-                           </image>
-                        </ImageView>
-                        <Label fx:id="lblTotalErrores" text="Errores">
-                           <styleClass>
-                              <String fx:value="font-bold" />
-                              <String fx:value="text-gray-600" />
-                              <String fx:value="text-lg" />
-                           </styleClass>
-                        </Label>
-                        <Label fx:id="lblErrores" layoutX="22.0" layoutY="91.0" text="0">
-                           <styleClass>
-                              <String fx:value="text-3xl" />
-                              <String fx:value="font-bold" />
-                              <String fx:value="text-blue-900" />
-                           </styleClass>
-                        </Label>
-                        <HBox styleClass="gap-1" VBox.vgrow="NEVER">
-                           <children>
-                              <Label fx:id="lblErroresSistema" styleClass="text-yellow-700" text="Inconsistencias en el sistema" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-               </children>
-               <styleClass>
-                  <String fx:value="gap-5" />
-                  <String fx:value="align-left" />
-               </styleClass>
-            </HBox>
-            <HBox styleClass="gap-3" VBox.vgrow="ALWAYS">
-               <children>
-                  <VBox HBox.hgrow="SOMETIMES">
-                     <styleClass>
-                        <String fx:value="p-3" />
-                        <String fx:value="gap-4" />
-                        <String fx:value="bg-white" />
-                        <String fx:value="rad-md" />
-                        <String fx:value="shadow-md" />
-                     </styleClass>
-                     <children>
-                        <HBox layoutX="22.0" layoutY="22.0">
-                           <children>
-                              <Label fx:id="lblTituloGrafico" text="Entradas y salidas por día">
-                                 <styleClass>
-                                    <String fx:value="text-3xl" />
-                                    <String fx:value="text-blue-900" />
-                                    <String fx:value="font-bold" />
-                                 </styleClass>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <Separator prefWidth="200.0" />
-                        <HBox VBox.vgrow="NEVER">
-                           <children>
-                              <Pane prefHeight="16.0" prefWidth="16.0" styleClass="bg-green-700" />
-                              <Label fx:id="lblGraficoEntradas" text="Entradas">
-                                 <styleClass>
-                                    <String fx:value="text-lg" />
-                                    <String fx:value="font-bold" />
-                                 </styleClass>
-                                 <HBox.margin>
-                                    <Insets right="15.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <Pane layoutX="472.0" layoutY="10.0" prefHeight="16.0" prefWidth="16.0" styleClass="bg-red-700" />
-                              <Label fx:id="lblGraficoSalidas" text="Salidas">
-                                 <styleClass>
-                                    <String fx:value="text-lg" />
-                                    <String fx:value="font-bold" />
-                                 </styleClass>
-                              </Label>
-                           </children>
-                           <styleClass>
-                              <String fx:value="align-center" />
-                              <String fx:value="gap-2" />
-                           </styleClass>
-                        </HBox>
-                        <AnchorPane VBox.vgrow="ALWAYS">
-                           <styleClass>
-                              <String fx:value="bg-gray-100" />
-                              <String fx:value="rad-sm" />
-                           </styleClass>
-                           <children>
-                              <PieChart fx:id="chartGraficoCircular" layoutX="68.0" layoutY="61.0" prefHeight="300.0" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                           </children>
-                        </AnchorPane>
-                     </children>
-                  </VBox>
-                  <VBox HBox.hgrow="NEVER">
-                     <styleClass>
-                        <String fx:value="bg-white" />
-                        <String fx:value="shadow-md" />
-                        <String fx:value="rad-md" />
-                        <String fx:value="p-3" />
-                        <String fx:value="gap-3" />
-                     </styleClass>
-                     <children>
-                        <Label fx:id="lblTopTitulo" text="Empleados con más movimientos">
-                           <styleClass>
-                              <String fx:value="text-3xl" />
-                              <String fx:value="font-bold" />
-                              <String fx:value="text-blue-900" />
-                           </styleClass>
-                        </Label>
-                        <Separator prefWidth="200.0" />
-                        <HBox VBox.vgrow="NEVER">
-                           <children>
-                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/circle-icon-blue-24.png" />
-                                 </image>
-                              </ImageView>
-                              <Label fx:id="lblEmpleado1" text="Empleado 1">
-                                 <styleClass>
-                                    <String fx:value="font-bold" />
-                                    <String fx:value="text-lg" />
-                                 </styleClass>
-                              </Label>
-                           </children>
-                           <styleClass>
-                              <String fx:value="gap-2" />
-                              <String fx:value="align-left" />
-                              <String fx:value="p-3" />
-                              <String fx:value="bg-blue-50" />
-                              <String fx:value="rad-md" />
-                           </styleClass>
-                        </HBox>
-                        <HBox>
-                           <children>
-                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/circle-icon-blue-24.png" />
-                                 </image>
-                              </ImageView>
-                              <Label fx:id="lblEmpleado2" text="Empleado 2">
-                                 <styleClass>
-                                    <String fx:value="font-bold" />
-                                    <String fx:value="text-lg" />
-                                 </styleClass>
-                              </Label>
-                           </children>
-                           <styleClass>
-                              <String fx:value="gap-2" />
-                              <String fx:value="align-left" />
-                              <String fx:value="p-3" />
-                              <String fx:value="bg-blue-50" />
-                              <String fx:value="rad-md" />
-                           </styleClass>
-                        </HBox>
-                        <HBox>
-                           <children>
-                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/circle-icon-blue-24.png" />
-                                 </image>
-                              </ImageView>
-                              <Label fx:id="lblEmpleado3" text="Empleado 3">
-                                 <styleClass>
-                                    <String fx:value="font-bold" />
-                                    <String fx:value="text-lg" />
-                                 </styleClass>
-                              </Label>
-                           </children>
-                           <styleClass>
-                              <String fx:value="gap-2" />
-                              <String fx:value="p-3" />
-                              <String fx:value="align-left" />
-                              <String fx:value="bg-blue-50" />
-                              <String fx:value="rad-md" />
-                           </styleClass>
-                        </HBox>
-                        <HBox>
-                           <children>
-                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/circle-icon-blue-24.png" />
-                                 </image>
-                              </ImageView>
-                              <Label fx:id="lblEmpleado4" text="Empleado 4">
-                                 <styleClass>
-                                    <String fx:value="font-bold" />
-                                    <String fx:value="text-lg" />
-                                 </styleClass>
-                              </Label>
-                           </children>
-                           <styleClass>
-                              <String fx:value="gap-2" />
-                              <String fx:value="align-left" />
-                              <String fx:value="p-3" />
-                              <String fx:value="rad-md" />
-                              <String fx:value="bg-blue-50" />
-                           </styleClass>
-                        </HBox>
-                        <HBox>
-                           <children>
-                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/circle-icon-blue-24.png" />
-                                 </image>
-                              </ImageView>
-                              <Label fx:id="lblEmpleado5" text="Empleado 5">
-                                 <styleClass>
-                                    <String fx:value="font-bold" />
-                                    <String fx:value="text-lg" />
-                                 </styleClass>
-                              </Label>
-                           </children>
-                           <styleClass>
-                              <String fx:value="gap-2" />
-                              <String fx:value="align-left" />
-                              <String fx:value="p-3" />
-                              <String fx:value="rad-md" />
-                              <String fx:value="bg-blue-50" />
-                           </styleClass>
-                        </HBox>
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </children>
+                    </styleClass>
+                </HBox>
+                <HBox styleClass="gap-3" VBox.vgrow="ALWAYS">
+                    <children>
+                        <VBox HBox.hgrow="SOMETIMES">
+                            <styleClass>
+                                <String fx:value="p-3" />
+                                <String fx:value="gap-4" />
+                                <String fx:value="bg-white" />
+                                <String fx:value="rad-md" />
+                                <String fx:value="shadow-md" />
+                            </styleClass>
+                            <children>
+                                <HBox layoutX="22.0" layoutY="22.0">
+                                    <children>
+                                        <Label fx:id="lblTituloGrafico" text="Entradas y salidas por día">
+                                            <styleClass>
+                                                <String fx:value="text-3xl" />
+                                                <String fx:value="text-blue-900" />
+                                                <String fx:value="font-bold" />
+                                            </styleClass>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <Separator prefWidth="200.0" />
+                                <HBox VBox.vgrow="NEVER">
+                                    <children>
+                                        <Pane prefHeight="16.0" prefWidth="16.0" styleClass="bg-green-700" />
+                                        <Label fx:id="lblGraficoEntradas" text="Entradas">
+                                            <styleClass>
+                                                <String fx:value="text-lg" />
+                                                <String fx:value="font-bold" />
+                                            </styleClass>
+                                            <HBox.margin>
+                                                <Insets right="15.0" />
+                                            </HBox.margin>
+                                        </Label>
+                                        <Pane layoutX="472.0" layoutY="10.0" prefHeight="16.0" prefWidth="16.0" styleClass="bg-red-700" />
+                                        <Label fx:id="lblGraficoSalidas" text="Salidas">
+                                            <styleClass>
+                                                <String fx:value="text-lg" />
+                                                <String fx:value="font-bold" />
+                                            </styleClass>
+                                        </Label>
+                                    </children>
+                                    <styleClass>
+                                        <String fx:value="align-center" />
+                                        <String fx:value="gap-2" />
+                                    </styleClass>
+                                </HBox>
+                                <AnchorPane VBox.vgrow="ALWAYS">
+                                    <styleClass>
+                                        <String fx:value="bg-gray-100" />
+                                        <String fx:value="rad-sm" />
+                                    </styleClass>
+                                    <children>
+                                        <PieChart fx:id="chartGraficoCircular" layoutX="68.0" layoutY="61.0" prefHeight="300.0" prefWidth="450.0" 
+                                                  styleClass="dashboard-pie-chart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    </children>
+                                </AnchorPane>
+                            </children>
+                        </VBox>
+                        <VBox HBox.hgrow="NEVER">
+                            <styleClass>
+                                <String fx:value="bg-white" />
+                                <String fx:value="shadow-md" />
+                                <String fx:value="rad-md" />
+                                <String fx:value="p-3" />
+                                <String fx:value="gap-3" />
+                            </styleClass>
+                            <children>
+                                <Label fx:id="lblTopTitulo" text="Empleados con más movimientos">
+                                    <styleClass>
+                                        <String fx:value="text-3xl" />
+                                        <String fx:value="font-bold" />
+                                        <String fx:value="text-blue-900" />
+                                    </styleClass>
+                                </Label>
+                                <Separator prefWidth="200.0" />
+                                <HBox alignment="CENTER_LEFT" styleClass="top-empleado-item" VBox.vgrow="NEVER">
+                                    <children>
+                                        <Label text="1" styleClass="top-empleado-posicion" />
+                                        <Label fx:id="lblEmpleado1" text="Empleado 1" styleClass="top-empleado-nombre" HBox.hgrow="ALWAYS" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" styleClass="top-empleado-item">
+                                    <children>
+                                        <Label text="2" styleClass="top-empleado-posicion" />
+                                        <Label fx:id="lblEmpleado2" text="Empleado 2" styleClass="top-empleado-nombre" HBox.hgrow="ALWAYS" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" styleClass="top-empleado-item">
+                                    <children>
+                                        <Label text="3" styleClass="top-empleado-posicion" />
+                                        <Label fx:id="lblEmpleado3" text="Empleado 3" styleClass="top-empleado-nombre"  HBox.hgrow="ALWAYS" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" styleClass="top-empleado-item">
+                                    <children>
+                                        <Label text="4" styleClass="top-empleado-posicion" />
+                                        <Label fx:id="lblEmpleado4" text="Empleado 4" styleClass="top-empleado-nombre" HBox.hgrow="ALWAYS" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT"
+                                      styleClass="top-empleado-item">
+                                    <children>
+                                        <Label text="5"
+                                               styleClass="top-empleado-posicion" />
+                                        <Label fx:id="lblEmpleado5"
+                                               text="Empleado 5"
+                                               styleClass="top-empleado-nombre"
+                                               HBox.hgrow="ALWAYS" />
+                                    </children>
+
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
 </AnchorPane>

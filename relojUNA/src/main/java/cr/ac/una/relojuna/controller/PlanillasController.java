@@ -2,6 +2,7 @@ package cr.ac.una.relojuna.controller;
 
 import cr.ac.una.relojuna.model.ResumenDetallePlanillaViewModel;
 import cr.ac.una.relojuna.service.PlanillaService;
+import cr.ac.una.relojuna.util.AppContext;
 import cr.ac.una.relojuna.util.FXAnimator;
 import cr.ac.una.relojuna.util.NotificationColor;
 import cr.ac.una.relojuna.util.Respuesta;
@@ -218,6 +219,17 @@ public class PlanillasController extends Controller {
         clHorasDobles.setCellValueFactory(cellData -> cellData.getValue().horasDoblesProperty());
         clTotalHoras.setCellValueFactory(cellData -> cellData.getValue().totalHorasProperty());
         clTotalAPagar.setCellValueFactory(cellData -> cellData.getValue().totalAPagarProperty());
+
+        tbDetallesPlanilla.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                ResumenDetallePlanillaViewModel seleccionado = tbDetallesPlanilla.getSelectionModel().getSelectedItem();
+                if (seleccionado == null) return;
+                AppContext.getInstance().set("DetallePlanillaFolio", seleccionado.folioProperty().get());
+                AppContext.getInstance().set("DetallePlanillaMes", obtenerMesSeleccionado());
+                AppContext.getInstance().set("DetallePlanillaAnio", obtenerAnioSeleccionado());
+                UIRouter.getInstance().showModalAndWait("DetallePlanillaResumenView");
+            }
+        });
     }
 
     private void cargarValoresPorDefecto() {

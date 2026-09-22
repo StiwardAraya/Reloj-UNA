@@ -30,5 +30,13 @@ public class PlanillaService {
         }
         return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "ResumenPlanilla", resultado.getResultado());
     }
-    
+
+    public Respuesta getDetallesEmpleadoResumen(String folio, int anio, int mes) {
+        SOAPResponse resultado = port.getDetallesEmpleadoResumen(folio, anio, mes);
+        if (!resultado.isExito()) {
+            return new Respuesta(false, resultado.getMensajeUsuario(), resultado.getMensajeTecnico());
+        }
+        return new Respuesta(true, resultado.getMensajeUsuario(), resultado.getMensajeTecnico(), "ResumenDetallesEmpleado", resultado.getResultado());
+    }
+
 }
